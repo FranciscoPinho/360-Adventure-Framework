@@ -14,11 +14,14 @@ AFRAME.registerComponent('navigation', {
         this.setFadeInOrOut('in',destination);
         this.el.addEventListener('click', function () {
             // Fade out image.
+            console.log(origin.components.material.material.map.image)
+            origin.components.material.material.map.image.pause();
             origin.emit('set-image-fade-out');
             // Wait for fade to complete.
             setTimeout(function () {
             // Set image.
             origin.setAttribute('visible',false)
+            destination.components.material.material.map.image.play();
             destination.setAttribute('visible',true)
             destination.emit('set-image-fade-in');
             }, data.dur);
@@ -39,6 +42,7 @@ AFRAME.registerComponent('navigation', {
             if (targetEl.dataset.setImageFadeOutSetup) { return; }
             targetEl.dataset.setImageFadeOutSetup = true;
         }
+   
         // Create animation.
         targetEl.setAttribute('animation__fade'+'__'+direction, {
         property: 'material.color',

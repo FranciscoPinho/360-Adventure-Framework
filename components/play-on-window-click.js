@@ -9,6 +9,8 @@ AFRAME.registerComponent('play-on-window-click', {
       window.removeEventListener('click', this.onClick);
     },
     onClick: function (evt) {
+      if(!this.el.getAttribute('visible'))
+        return
       var video = this.el.components.material.material.map.image;
       if (!video) { return; }
       video.play();

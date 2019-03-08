@@ -6,36 +6,38 @@
     <meta name="description" content="Framework for development of 360 video adventure games">
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="components/play-on-enter-vr.js"></script>
-    <script src="components/play-on-window-click.js"></script>
+    <script src="components/video-looper.js"></script>
     <script src="components/navigation.js"></script>
   </head>
   <body>
     <a-scene>
       <a-assets>
         <!-- No loop. -->
+        <video id="my-video2" src="videos/beachh.mp4"/>
         <video id="my-video" src="videos/botanica.mp4"/>
-        <video id="my-video2" src="videos/beach.mp4"/>
         <img id="person" src="images/person.png"/>
       </a-assets>
-      <a-videosphere play-on-window-click play-on-enter-vr id="scene1" src="#my-video">
+      <a-videosphere video-looper="muted:true" play-on-enter-vr id="scene1" src="#my-video">
           <a-sphere class="nav" navigation="origin:#scene1;destination:#scene2;" position="15 -2 1.5" radius="0.3" color="#FFFFFF"></a-sphere>
         <a-image src="#person" position="8 -1.4 -4" scale="2 2 2"> <!-- 3 -1.5 -1.5 for animation -->
         </a-image>
       </a-videosphere>
       
-      <a-videosphere play-on-window-click play-on-enter-vr id="scene2" src="#my-video2" visible="false">
+      <a-videosphere play-on-enter-vr id="scene2" src="#my-video2" visible="false">
           <a-sphere class="nav" navigation="origin:#scene2;destination:#scene1;" position="-18 1.7 1" radius="0.3" color="#FFFFFF"></a-sphere>
       </a-videosphere>
-      
+      <a-entity id="rightHand" laser-controls="hand: left" raycaster="objects: .nav" line="color: #118A7E"></a-entity>
+      <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .nav" line="color: #118A7E"></a-entity>
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .nav"></a-entity>
       <a-entity camera look-controls>
-          <a-cursor id="cursor"
-            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-            event-set__1="_event: mouseenter; color: springgreen"
-            event-set__2="_event: mouseleave; color: black"
-            fuse="true"
-            raycaster="objects: .nav"></a-cursor>
-        </a-entity>
+        <a-cursor id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          fuse="true"
+          raycaster="objects: .nav"></a-cursor>
+      </a-entity>
     </a-scene>
   </body>
 </html>

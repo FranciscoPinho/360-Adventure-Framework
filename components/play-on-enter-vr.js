@@ -12,9 +12,13 @@ AFRAME.registerComponent('play-on-enter-vr', {
       window.removeEventListener('vrdisplayactivate', this.playVideo);
     },
     playVideoNextTick: function ()  {
+      if(!this.el.getAttribute('visible'))
+        return
       setTimeout(this.playVideo);
     },
     playVideo: function ()  {
+      if(!this.el.getAttribute('visible'))
+        return
       var video = this.el.components.material.material.map.image;
       if (!video) { return; }
       video.play();
