@@ -14,7 +14,6 @@ AFRAME.registerComponent('navigation', {
         this.setFadeInOrOut('in',destination);
         this.el.addEventListener('click', function () {
             // Fade out image.
-            console.log(origin.components.material.material.map.image)
             origin.components.material.material.map.image.pause();
             origin.emit('set-image-fade-out');
             // Wait for fade to complete.
@@ -26,6 +25,9 @@ AFRAME.registerComponent('navigation', {
             destination.emit('set-image-fade-in');
             }, data.dur);
         });
+        this.el.addEventListener('mouseenter', function (){
+            console.log("hovering")
+        })
        
     },
 
