@@ -15,14 +15,17 @@
     <a-scene>
       <a-assets>
         <!-- No loop. -->
-        <video id="my-video2" src="videos/beachh.mp4"/>
+        <video id="my-video2" src="videos/beachhh.mp4"/>
         <video id="my-video" src="videos/botanica.mp4"/>
         <img id="person" src="images/person.png"/>
+        <a-asset-item id="skeleton" src="3D/scene.gltf"></a-asset-item>
       </a-assets>
       <a-videosphere video-looper="muted:true" play-on-enter-vr id="scene1" src="#my-video">
           <a-sphere class="nav" navigation="origin:#scene1;destination:#scene2;" position="15 -2 1.5" radius="0.3" color="#FFFFFF"></a-sphere>
         <a-image src="#person" position="8 -1.4 -4" scale="2 2 2"> <!-- 3 -1.5 -1.5 for animation -->
+       
         </a-image>
+        <a-entity gltf-model="3D/scene.gltf" position="53 -5.5 -12" rotation="-0.19022198798343332 110.66622517172337 0.005729577951308232"></a-entity>
       </a-videosphere>
       
       <a-videosphere play-on-enter-vr id="scene2" src="#my-video2" visible="false">
