@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
-import {PythonShell} from 'python-shell';
+import { PythonShell } from 'python-shell';
 import path from 'path';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -39,7 +39,7 @@ ipcMain.on('example', () => {
     scriptPath: path.join(__dirname, '/../python_scripts/'),
     args: [path.join(__dirname, '/../python_scripts/')],
   };
-  PythonShell.run('generate_game.py', options, (err) => { 
+  PythonShell.run('generate_game.py', options, (err) => {
     if (err) throw err;
     console.log('finished');
   });

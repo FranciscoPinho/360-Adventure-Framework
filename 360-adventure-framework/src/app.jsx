@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {ipcRenderer} from 'electron';
+import { ipcRenderer } from 'electron';
 import { Button } from 'semantic-ui-react';
 
 export default function App() {
@@ -10,8 +10,9 @@ export default function App() {
     <div>
       <p>You clicked {count} times</p>
       <Button onClick={() => {
+        setCount(count + 1);
         ipcRenderer.send('example', 'ping');
-        console.log("sent");
+        console.log('sent');
       }}
       >
         Click me
