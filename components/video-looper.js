@@ -4,14 +4,24 @@ AFRAME.registerComponent('video-looper', {
       loopEnd:{type:"number",default:-1}
     },
     init:  function () {
-      this.onTrackedVideoFrame = this.onTrackedVideoFrame.bind(this)
-      this.video = this.el.components.material.material.map.image;
+      this.onTrackedVideoFrame = this.onTrackedVideoFrame.bind(this);
+      this.loaded = this.loaded.bind(this);
     },
     play: function () {
-      this.video.ontimeupdate=this.onTrackedVideoFrame
+      this.el.addEventListener('loaded',this.loaded)
+    },
+    loaded: function () {
+      setTimeout(()=>{
+        if(!this.video)
+        if(this.el.components.material.material.map){
+          this.video = this.el.components.material.material.map.image;
+          this.video.ontimeupdate=this.onTrackedVideoFrame
+        }
+      },100)
     },
     pause: function () {
-      this.video.ontimeupdate=null
+      this.el.removeEventListener('loaded',this.loaded)
+      this.video.ontimeupdate=undefined
     },
     onTrackedVideoFrame: function (event) {
       const {loopBegin,loopEnd} = this.data

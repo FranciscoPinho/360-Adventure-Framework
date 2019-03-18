@@ -1,0 +1,32 @@
+{
+    "a-videosphere": {
+        "id": "scene2",
+        "src": "#my-video2",
+        "play-on-enter-vr": "",
+        "music-change-emitter": {
+            "src": "#music"
+        },
+        "children": [{
+            "a-sphere": {
+                "class": "nav",
+                "navigation-event-emitter": {
+                    "destination": "scenes/scene1.json"
+                },
+                "position": "-18 1.7 1",
+                "geometry": {
+                    "primitive": "sphere",
+                    "radius": "0.3"
+                },
+                "children": [{
+                    "a-entity": {
+                        "gltf-model": "#deer",
+                        "position": "20 -5.5 -12",
+                        "scale": "0.01 0.01 0.01",
+                        "rotation": "-0.19 110 0.005"
+                    }
+                }]
+            }
+
+        }]
+    }
+}
