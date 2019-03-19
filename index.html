@@ -8,7 +8,8 @@
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="components/play-on-enter-vr.js"></script>
     <script src="components/video-looper.js"></script>
-    <script src="components/audio-looper.js"></script>
+    <script src="components/music-manager.js"></script>
+    <script src="components/music-change-emitter.js"></script>
     <script src="components/navigation-manager.js"></script>
     <script src="components/navigation-event-emitter.js"></script>
     <script src="components/oculus-go-control-handlers.js"></script>
@@ -16,15 +17,14 @@
    
   </head>
   <body>
-    <a-scene sound="src:#music;" navigation-manager="initialEnv:scenes/scene1.json" audio-looper>
+    <a-scene navigation-manager="initialEnv:scenes/scene1.json" music-manager>
       <a-assets>
         <!-- No loop. -->
-        <audio id="recording" src="audio/recording.wav"/>
-        <audio id="music" src="audio/arni.flac"/>
-        <video id="my-video2" src="videos/beachlow.webm"/>
-        <video id="my-video" muted src="videos/botanica.mp4"/>
-        <image id="person" src="images/person.png" />
-        <a-asset-item id="deer" src="3D/scene.gltf" />
+        <audio id="music" src="audio/arni.flac" preload="auto"></audio>
+        <video id="my-video2" src="videos/beachlow.webm"></video>
+        <video id="my-video" muted src="videos/botanica.mp4"></video>
+        <image id="person" src="images/person.png" ></image>
+        <a-asset-item id="deer" src="3D/scene.gltf" ></a-asset-item>
       </a-assets>
   
       <a-entity id="rightHand" oculus-go-control-handlers oculus-go-controls="hand: right" laser-controls="hand: right" raycaster="objects: .nav" line="color: #118A7E"></a-entity>

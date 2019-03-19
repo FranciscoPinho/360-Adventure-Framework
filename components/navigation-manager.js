@@ -21,7 +21,7 @@ AFRAME.registerComponent('navigation-manager', {
     },
     clickNavigationListener: async function (evt) {
         evt.stopPropagation()
-        const {origin,destinationURL} = evt.detail
+        const {origin,destinationURL,cutscene} = evt.detail
         const {injectNewEnvironmentDOM} = this
         const response = await fetch(destinationURL)
         const env_json = await response.json()

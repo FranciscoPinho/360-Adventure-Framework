@@ -5,7 +5,7 @@
       "play-on-enter-vr": "",
       "video-looper": "",
       "music-change-emitter": {
-        "src": "#music"
+        "newsource": "#music"
       },
       "children": [{
           "a-sphere": {

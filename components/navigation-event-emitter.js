@@ -1,6 +1,7 @@
 AFRAME.registerComponent('navigation-event-emitter', {
     schema:{
-        destination: {type:'string'}
+        destination: {type:'string'},
+        cutscene: {type:'boolean',default:false}
     },
     init:  function () {  
         this.clickNavigation = this.clickNavigation.bind(this)
@@ -12,10 +13,13 @@ AFRAME.registerComponent('navigation-event-emitter', {
         this.el.removeEventListener('click',this.clickNavigation)
     },
     clickNavigation: function () {
-        const {destination,destinationSilent}=this.data;
+        if(!document.querySelector('.a-enter-vr.a-hidden'))
+            return;
+        const {destination,cutscene}=this.data;
         const eventDetail = {
             origin:this.el.parentNode,
-            destinationURL:destination
+            destinationURL:destination,
+            cutscene:cutscene
         }
         this.el.emit('clickNavigation',eventDetail,true)
     }
