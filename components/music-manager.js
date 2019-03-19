@@ -24,11 +24,14 @@ AFRAME.registerComponent('music-manager', {
         this.el.removeEventListener('music-resume',this.onMusicResume)
     },
     onSoundEnded: function (evt) {
+        if(!this.loop)
+            return
         evt.stopPropagation() 
         this.el.components.sound.playSound()
     },
     onMusicChange: function (evt) { 
         evt.stopPropagation()
+        this.loop = evt.detail.loop
         if(!this.el.components.sound){
             this.el.setAttribute('sound',{src:evt.detail.newsource})
             if(!document.querySelector('.a-enter-vr.a-hidden'))
