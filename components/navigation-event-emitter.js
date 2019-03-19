@@ -13,7 +13,7 @@ AFRAME.registerComponent('navigation-event-emitter', {
         this.el.removeEventListener('click',this.clickNavigation)
     },
     clickNavigation: function () {
-        if(!document.querySelector('.a-enter-vr.a-hidden'))
+        if(!this.el.sceneEl.is('vr-mode'))
             return;
         const {destination,cutscene}=this.data;
         const eventDetail = {

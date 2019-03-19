@@ -34,7 +34,7 @@ AFRAME.registerComponent('music-manager', {
         this.loop = evt.detail.loop
         if(!this.el.components.sound){
             this.el.setAttribute('sound',{src:evt.detail.newsource})
-            if(!document.querySelector('.a-enter-vr.a-hidden'))
+            if(!this.el.is('vr-mode'))
                 this.el.components.sound.playSound()
             return
         }
@@ -42,7 +42,7 @@ AFRAME.registerComponent('music-manager', {
             return
         this.el.components.sound.stopSound()
         this.el.setAttribute('sound',{src:evt.detail.newsource})
-        if(!document.querySelector('.a-enter-vr.a-hidden'))
+        if(!this.el.is('vr-mode'))
             this.el.components.sound.playSound()
     },
     onMusicResume: function (evt) { 
