@@ -1,19 +1,18 @@
 AFRAME.registerComponent('navigation-manager', {
     schema:{
-        dur: {type:'number', default: 500},
+        dur: {type:'number', default: 1000},
         initialEnv:{type:'string'}
     },
     init:  function () {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
-        this.onDestinationLoaded = this.onDestinationLoaded.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
+    }, 
+    play: function() {
         if(this.data.initialEnv){
             this.setInitialEnvironment = this.setInitialEnvironment.bind(this)
             this.setInitialEnvironment()
         } 
-    }, 
-    play: function() {
         this.el.addEventListener('clickNavigation',this.clickNavigationListener)
     },
     pause: function() {
@@ -21,23 +20,23 @@ AFRAME.registerComponent('navigation-manager', {
     },
     clickNavigationListener: async function (evt) {
         evt.stopPropagation()
-        const {origin,destinationURL,cutscene} = evt.detail
+        const {origin,destinationURL} = evt.detail
         const {injectNewEnvironmentDOM} = this
         const response = await fetch(destinationURL)
         const env_json = await response.json()
         const scene = this.el
         let newEnvironment = jsonToEntity(env_json)
-        origin.components.material.material.map.image.pause()
+        document.querySelector(origin.getAttribute('src')).pause()
         this.setFadeInOrOut('out',origin) 
         origin.emit('set-image-fade-out')
-        this.setFadeInOrOut('in',newEnvironment["parentNode"])
-        setTimeout(function () {
+        setTimeout(()=>{
             scene.removeChild(origin)
             injectNewEnvironmentDOM(scene,newEnvironment,false)
-        }, this.data.dur)
+        },this.data.dur)
     },
-    injectNewEnvironmentDOM : function (scene,newEnvironment,initialEnv) {
+    injectNewEnvironmentDOM : function (scene,newEnvironment) {
         let destination = scene.appendChild(newEnvironment["parentNode"])
+        this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
             let queue = []
             queue.push(newEnvironment)
@@ -56,15 +55,6 @@ AFRAME.registerComponent('navigation-manager', {
                 }
             }
         }
-        if(!initialEnv)
-            destination.addEventListener('loaded',this.onDestinationLoaded)
-    },
-    onDestinationLoaded: function (evt) {
-        setTimeout(()=>{
-            evt.srcElement.emit('set-image-fade-in')
-            evt.srcElement.components.material.material.map.image.play()
-            evt.srcElement.removeEventListener('loaded',this)
-        },100)
     },
     setInitialEnvironment : async function () {
         const {initialEnv} = this.data
@@ -72,7 +62,6 @@ AFRAME.registerComponent('navigation-manager', {
         const env_json = await response.json()
         const scene = this.el
         let newEnvironment = jsonToEntity(env_json)
-        this.setFadeInOrOut('in',newEnvironment["parentNode"])
         this.injectNewEnvironmentDOM(scene,newEnvironment,true)
     },
     setFadeInOrOut: function (direction,targetEl) {

@@ -3,8 +3,17 @@ AFRAME.registerComponent('play-on-enter-vr', {
       this.playVideo = this.playVideo.bind(this);
       this.playVideoNextTick = this.playVideoNextTick.bind(this);
       this.pauseVideo = this.pauseVideo.bind(this)
+      this.video = document.querySelector(this.el.getAttribute('src'))
+      this.video.load()
     },
     play: function ()  {
+      if(this.el.sceneEl.is('vr-mode')){
+        this.el.emit('set-image-fade-in')
+        if (this.video.readyState === 4 ) {
+          this.video.play()
+        }
+        else setTimeout(this.playVideo,50)
+      }
       window.addEventListener('vrdisplayactivate', this.playVideo);
       this.el.sceneEl.addEventListener('enter-vr', this.playVideoNextTick);
       this.el.sceneEl.addEventListener('exit-vr',this.pauseVideo)
@@ -18,15 +27,12 @@ AFRAME.registerComponent('play-on-enter-vr', {
       setTimeout(this.playVideo);
     },
     playVideo: function ()  {
-      if(!this.el.components.material) { return; }
-      var video = this.el.components.material.material.map.image;
-      if (!video) { return; }
-      video.play();
+      if ( this.video.readyState === 4 ) {
+        this.video.play()
+      }
+      else setTimeout(this.playVideo,50)
     },
     pauseVideo: function () {
-      if(!this.el.components.material) { return; }
-      var video = this.el.components.material.material.map.image;
-      if (!video) { return; }
-      video.pause();
+      this.video.pause()
     }
   });

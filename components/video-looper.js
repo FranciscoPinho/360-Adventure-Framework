@@ -8,7 +8,9 @@ AFRAME.registerComponent('video-looper', {
       this.loaded = this.loaded.bind(this);
     },
     play: function () {
-      this.el.addEventListener('loaded',this.loaded)
+      this.video = document.querySelector(this.el.getAttribute('src'))
+      this.video.ontimeupdate=this.onTrackedVideoFrame
+      //this.el.addEventListener('loaded',this.loaded)
     },
     loaded: function () {
       setTimeout(()=>{

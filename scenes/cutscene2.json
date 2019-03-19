@@ -1,0 +1,13 @@
+{
+    "a-videosphere": {
+      "id": "cutscene2",
+      "src": "#my-video2",
+      "play-on-enter-vr": "",
+      "cutscene-event-emitter": {
+        "destination":"scenes/scene2.json"
+      },
+      "music-change-emitter": {
+        "newsource": "#cutscenemusic"
+      }
+    }
+  }

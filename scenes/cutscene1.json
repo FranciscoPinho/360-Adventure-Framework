@@ -1,0 +1,23 @@
+{
+    "a-videosphere": {
+      "id": "scene1",
+      "src": "#my-video",
+      "play-on-enter-vr": "",
+      "cutscene-event-emitter": {
+          "destination":"scenes/scene1.json"
+      },
+      "music-change-emitter": {
+        "newsource": "#cutscenemusic"
+      },
+      "children": [
+        {
+          "a-entity": {
+            "gltf-model": "#deer",
+            "position": "53 -5.5 -12",
+            "scale": "0.01 0.01 0.01",
+            "rotation": "-0.19 110 0.005"
+          }
+        }
+      ]
+    }
+  }

@@ -7,7 +7,6 @@ AFRAME.registerComponent('music-manager', {
         this.onMusicResume = this.onMusicResume.bind(this)
     },
     play : function () {
-        this.el.addEventListener('sound-ended', this.onSoundEnded)
         this.el.addEventListener('enter-vr',this.onMusicResume)
         this.el.addEventListener('exit-vr',this.onMusicPause)
         this.el.addEventListener('music-change',this.onMusicChange)
@@ -16,45 +15,63 @@ AFRAME.registerComponent('music-manager', {
         this.el.addEventListener('music-resume',this.onMusicResume)
     },
     pause: function () {
-        this.el.removeEventListener('sound-ended', this.onSoundEnded)
+        document.querySelector(this.musicSrc).removeEventListener('ended', this.onSoundEnded)
         this.el.removeEventListener('enter-vr',this.onMusicResume)
         this.el.removeEventListener('exit-vr',this.onMusicPause)
         this.el.removeEventListener('music-change',this.onMusicChange)
         this.el.removeEventListener('music-pause',this.onMusicPause)
+        this.el.removeEventListener('music-stop',this.onMusicStop)
         this.el.removeEventListener('music-resume',this.onMusicResume)
     },
     onSoundEnded: function (evt) {
+        evt.stopPropagation() 
         if(!this.loop)
             return
-        evt.stopPropagation() 
-        this.el.components.sound.playSound()
+        document.querySelector(this.musicSrc).play();
     },
     onMusicChange: function (evt) { 
         evt.stopPropagation()
         this.loop = evt.detail.loop
-        if(!this.el.components.sound){
-            this.el.setAttribute('sound',{src:evt.detail.newsource})
-            if(!this.el.is('vr-mode'))
-                this.el.components.sound.playSound()
+        if(!this.musicSrc){
+            this.musicSrc = evt.detail.newsource
+            document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)  
+            document.querySelector(this.musicSrc).load()
+            if(this.el.is('vr-mode')){
+                document.querySelector(this.musicSrc).volume=0.1
+                document.querySelector(this.musicSrc).play()
+                //document.querySelector(this.musicSrc).animate({volume:1})
+            }
             return
         }
-        if(document.querySelector(evt.detail.newsource).getAttribute('src')===this.el.getAttribute('sound').src)
+        if(document.querySelector(evt.detail.newsource).src===document.querySelector(this.musicSrc).src)
             return
-        this.el.components.sound.stopSound()
-        this.el.setAttribute('sound',{src:evt.detail.newsource})
-        if(!this.el.is('vr-mode'))
-            this.el.components.sound.playSound()
+        
+        //document.querySelector(this.musicSrc).animate({volume:0})
+        document.querySelector(this.musicSrc).pause()
+        document.querySelector(this.musicSrc).removeEventListener('ended', this.onSoundEnded)
+        this.musicSrc=evt.detail.newsource
+        document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)
+        document.querySelector(this.musicSrc).load()
+        if(this.el.is('vr-mode')){
+            document.querySelector(this.musicSrc).volume=0.1
+            document.querySelector(this.musicSrc).play()
+            //document.querySelector(this.musicSrc).animate({volume:1})
+        }
     },
     onMusicResume: function (evt) { 
         evt.stopPropagation()
-        this.el.components.sound.playSound();
+        document.querySelector(this.musicSrc).volume=0.1
+        document.querySelector(this.musicSrc).play()
+        //document.querySelector(this.musicSrc).animate({volume:1})
     },
     onMusicPause: function (evt) { 
         evt.stopPropagation()
-        this.el.components.sound.pauseSound();
+        //document.querySelector(this.musicSrc).animate({volume:0})
+        document.querySelector(this.musicSrc).pause()
     },
     onMusicStop: function (evt) { 
         evt.stopPropagation()
-        this.el.components.sound.stopSound();
+        //document.querySelector(this.musicSrc).animate({volume:0})
+        document.querySelector(this.musicSrc).stop()
     }
   });
