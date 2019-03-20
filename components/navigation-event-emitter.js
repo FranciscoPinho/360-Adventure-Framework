@@ -1,5 +1,6 @@
 AFRAME.registerComponent('navigation-event-emitter', {
     schema:{
+        firstdestination: {type:'string'},
         destination: {type:'string'}
     },
     init:  function () {  
@@ -12,13 +13,22 @@ AFRAME.registerComponent('navigation-event-emitter', {
         this.el.removeEventListener('click',this.clickNavigation)
     },
     clickNavigation: function () {
+        let appState = AFRAME.scenes[0].systems.state.state;
         if(!this.el.sceneEl.is('vr-mode'))
             return;
-        const {destination}=this.data;
+        const {destination,firstdestination}=this.data;
         const eventDetail = {
             origin:this.el.parentNode,
             destinationURL:destination
         }
+        
+        if(this.data.firstdestination){
+            if(appState.flags.indexOf(this.el.getAttribute('id')+"firstdestinationchecked")===-1){
+                AFRAME.scenes[0].emit('addFlag', {flag: this.el.getAttribute('id')+"firstdestinationchecked"});
+                eventDetail.destinationURL = firstdestination
+            }
+        }
         this.el.emit('clickNavigation',eventDetail,true)
+        this.el.removeEventListener('click',this.clickNavigation)
     }
   });

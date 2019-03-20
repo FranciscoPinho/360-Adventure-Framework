@@ -11,7 +11,8 @@
           "a-sphere": {
             "class": "nav",
             "navigation-event-emitter": {
-              "destination": "scenes/cutscene2.json"
+              "firstdestination": "scenes/cutscene2.json",
+              "destination": "scenes/scene2.json"
             },
             "position": "5 -2 0.5",
             "geometry": {

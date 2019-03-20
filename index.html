@@ -5,6 +5,7 @@
     <title>RealAdventure360</title>
     <meta name="description" content="360 Adventure game">
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-state-component@^3.0.0/dist/aframe-state-component.min.js"></script> 
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="components/play-on-enter-vr.js"></script>
     <script src="components/video-looper.js"></script>
@@ -15,15 +16,17 @@
     <script src="components/navigation-event-emitter.js"></script>
     <script src="components/oculus-go-control-handlers.js"></script>
     <script src="components/remove-self-if-oculusgo.js"></script>
+    <script src="components/global-state-listener.js"></script>
+    <script src="state/global-scene-state.js"></script>
    
   </head>
   <body>
-    <a-scene navigation-manager="initialEnv:scenes/scene2.json" music-manager>
+    <a-scene global-state-listener="active:true" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
       <a-assets>
         <!-- No loop. --> 
         <audio id="music" src="audio/shore.flac"></audio>
         <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
-        <video id="my-video2" src="videos/beachlow.webm"></video>
+        <video id="my-video2" src="videos/beachl.webm"></video>
         <video id="my-video" muted src="videos/botanica.webm"></video>
         <image id="person" src="images/person.png"></image>
         <a-asset-item id="deer" src="3D/scene.gltf" preload="auto"></a-asset-item>
