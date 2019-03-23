@@ -35,6 +35,7 @@ AFRAME.registerComponent('navigation-manager', {
         },this.data.dur)
     },
     injectNewEnvironmentDOM : function (scene,newEnvironment) {
+        let appState = AFRAME.scenes[0].systems.state.state;
         let destination = scene.appendChild(newEnvironment["parentNode"])
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
@@ -45,6 +46,8 @@ AFRAME.registerComponent('navigation-manager', {
                 let childNodes = childrenJsonToEntities(queue[queue.length-1]["jsonChildren"])
                 queue.pop()
                 for(let i=0,len=childNodes.length;i<len;i++){
+                    if(appState.pickedObjectIds.indexOf(childNodes[i]["parentNode"].id)>-1)
+                        continue
                     let prospectParent = parentNode.appendChild(childNodes[i]["parentNode"])
                     if(childNodes[i]["jsonChildren"] !== undefined){
                         queue.push({

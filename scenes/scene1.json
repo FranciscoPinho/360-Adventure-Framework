@@ -9,7 +9,7 @@
       },
       "children": [{
           "a-sphere": {
-            "class": "nav",
+            "class": "inter",
             "navigation-event-emitter": {
               "firstdestination": "scenes/cutscene2.json",
               "destination": "scenes/scene2.json"
@@ -23,17 +23,28 @@
         },
         {
           "a-image": {
+            "id": "person",
+            "class":"inter",
             "src": "#person",
             "position": "8 -1.4 -4",
-            "scale": "2 2 2"
+            "scale": "2 2 2",
+            "pickable": {
+              "icon":"icons/person.png"
+            }
+            
           }
         },
         {
           "a-entity": {
+            "id":"deer",
+            "class":"inter",
             "gltf-model": "#deer",
             "position": "20 -5.5 -12",
             "scale": "0.01 0.01 0.01",
-            "rotation": "-0.19 110 0.005"
+            "rotation": "-0.19 110 0.005",
+            "pickable": {
+              "icon":"icons/deer.png"
+            }
           }
         },
         {

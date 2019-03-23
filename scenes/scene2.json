@@ -9,7 +9,7 @@
         },
         "children": [{
             "a-sphere": {
-                "class": "nav",
+                "class": "inter",
                 "navigation-event-emitter": {
                     "destination": "scenes/scene1.json"
                 },

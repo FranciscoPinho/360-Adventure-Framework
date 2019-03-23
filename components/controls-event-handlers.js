@@ -1,4 +1,4 @@
-AFRAME.registerComponent('oculus-go-control-handlers', {
+AFRAME.registerComponent('controls-event-handlers', {
     init:  function () {
       this.trackpadPressed = this.trackpadPressed.bind(this)
       this.trackpadUp = this.trackpadUp.bind(this)
