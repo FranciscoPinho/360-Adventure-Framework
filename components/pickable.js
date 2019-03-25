@@ -15,6 +15,7 @@ AFRAME.registerComponent('pickable', {
     pause: function() {
         this.el.removeEventListener('click',this.pickObject)
     },
+    //@TODO maybe allow to play some kind of voice track after picking up the object
     pickObject: function () {
         if(!this.el.sceneEl.is('vr-mode'))
             return;
