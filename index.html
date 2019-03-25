@@ -7,8 +7,9 @@
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-state-component@^3.0.0/dist/aframe-state-component.min.js"></script> 
     <script src="parser/jsonToEntityParser.js"></script>
-    <script src="components/play-on-enter-vr.js"></script>
+    <script src="components/video-player.js"></script>
     <script src="components/video-looper.js"></script>
+    <script src="components/hoverable.js"></script>
     <script src="components/pickable.js"></script>
     <script src="components/music-manager.js"></script>
     <script src="components/music-change-emitter.js"></script>
@@ -16,7 +17,7 @@
     <script src="components/cutscene-event-emitter.js"></script>
     <script src="components/navigation-event-emitter.js"></script>
     <script src="components/controls-event-handlers.js"></script>
-    <script src="components/remove-self-if-oculusgo.js"></script>
+    <script src="components/remove-self-if-laser-available.js"></script>
     <script src="components/global-state-listener.js"></script>
     <script src="state/global-scene-state.js"></script>
    
@@ -26,6 +27,8 @@
       <a-assets>
         <!-- No loop. --> 
         <audio id="music" src="audio/shore.flac"></audio>
+        <audio id="hover" src="sfx/hover.mp3" ></audio>
+        <audio id="pickup" src="sfx/whoosh.flac" ></audio>
         <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
         <video id="my-video2" src="videos/beachl.webm"></video>
         <video id="my-video" muted src="videos/botanica.webm"></video>
@@ -37,7 +40,7 @@
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter"></a-entity>
       <a-entity camera look-controls>
         <a-cursor id="cursor"
-          remove-self-if-oculusgo
+          remove-self-if-laser-available
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
           animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
           animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"

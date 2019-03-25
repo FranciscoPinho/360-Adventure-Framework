@@ -2,10 +2,11 @@
     "a-videosphere": {
       "id": "scene1",
       "src": "#my-video",
-      "play-on-enter-vr": "",
+      "video-player": "",
       "video-looper": "",
       "music-change-emitter": {
-        "newsource": "#music"
+        "newsource": "#music",
+        "volume":0.03
       },
       "children": [{
           "a-sphere": {
@@ -29,9 +30,13 @@
             "position": "8 -1.4 -4",
             "scale": "2 2 2",
             "pickable": {
-              "icon":"icons/person.png"
+              "icon":"icons/person.png",
+              "sfxSrc":"#pickup",
+              "volume":0.05
+            },
+            "hoverable": {
+              "sfxSrc":"#hover"
             }
-            
           }
         },
         {
@@ -43,8 +48,13 @@
             "scale": "0.01 0.01 0.01",
             "rotation": "-0.19 110 0.005",
             "pickable": {
-              "icon":"icons/deer.png"
-            }
+              "icon":"icons/deer.png",
+              "sfxSrc":"#pickup",
+              "volume":0.05
+            },
+            "hoverable": {
+              "sfxSrc":"#hover"
+            } 
           }
         },
         {

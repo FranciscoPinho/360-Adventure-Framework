@@ -1,9 +1,13 @@
 AFRAME.registerComponent('pickable', {
     schema: {
-        icon:{type:"string"}
+        icon:{type:"string"},
+        sfxSrc:{type:"string",default:""},
+        volume:{type:"number",default:1}
     },
     init:  function () {  
         this.pickObject = this.pickObject.bind(this)
+        this.sfxSrc = document.querySelector(this.data.sfxSrc)
+        this.sfxSrc.volume = this.data.volume
     },
     play: function() {
         this.el.addEventListener('click',this.pickObject)
@@ -19,6 +23,8 @@ AFRAME.registerComponent('pickable', {
             icon:this.data.icon
         }
         AFRAME.scenes[0].emit('addToInventory', {object: object});
+        if(this.sfxSrc)
+            this.sfxSrc.play()
         this.el.parentNode.removeChild(this.el);
     }
 });

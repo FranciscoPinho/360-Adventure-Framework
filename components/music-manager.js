@@ -5,6 +5,10 @@ AFRAME.registerComponent('music-manager', {
         this.onMusicPause = this.onMusicPause.bind(this)
         this.onMusicStop = this.onMusicStop.bind(this)
         this.onMusicResume = this.onMusicResume.bind(this)
+        let queryResults = document.querySelectorAll('audio')
+        queryResults.forEach((audio)=>{
+            audio.load()
+        })
     },
     play : function () {
         this.el.addEventListener('enter-vr',this.onMusicResume)
@@ -34,10 +38,11 @@ AFRAME.registerComponent('music-manager', {
         this.loop = evt.detail.loop
         if(!this.musicSrc){
             this.musicSrc = evt.detail.newsource
+            document.querySelector(this.musicSrc).volume=evt.detail.volume
             document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)  
-            document.querySelector(this.musicSrc).load()
+            //document.querySelector(this.musicSrc).load()
             if(this.el.is('vr-mode')){
-                document.querySelector(this.musicSrc).volume=0.1
+                
                 document.querySelector(this.musicSrc).play()
                 //document.querySelector(this.musicSrc).animate({volume:1})
             }
@@ -50,17 +55,16 @@ AFRAME.registerComponent('music-manager', {
         document.querySelector(this.musicSrc).pause()
         document.querySelector(this.musicSrc).removeEventListener('ended', this.onSoundEnded)
         this.musicSrc=evt.detail.newsource
+        document.querySelector(this.musicSrc).volume=evt.detail.volume
         document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)
-        document.querySelector(this.musicSrc).load()
+        //document.querySelector(this.musicSrc).load()
         if(this.el.is('vr-mode')){
-            document.querySelector(this.musicSrc).volume=0.1
             document.querySelector(this.musicSrc).play()
             //document.querySelector(this.musicSrc).animate({volume:1})
         }
     },
     onMusicResume: function (evt) { 
         evt.stopPropagation()
-        document.querySelector(this.musicSrc).volume=0.1
         document.querySelector(this.musicSrc).play()
         //document.querySelector(this.musicSrc).animate({volume:1})
     },

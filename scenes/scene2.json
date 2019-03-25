@@ -2,10 +2,11 @@
     "a-videosphere": {
         "id": "scene2",
         "src": "#my-video2",
-        "play-on-enter-vr": "",
+        "video-player": "",
         "music-change-emitter": {
             "newsource": "#music",
-            "loop": "true"
+            "loop": "true",
+            "volume":0.03
         },
         "children": [{
             "a-sphere": {
@@ -13,7 +14,7 @@
                 "navigation-event-emitter": {
                     "destination": "scenes/scene1.json"
                 },
-                "position": "-18 1.7 1",
+                "position": "-8 1.7 1",
                 "geometry": {
                     "primitive": "sphere",
                     "radius": "0.3"

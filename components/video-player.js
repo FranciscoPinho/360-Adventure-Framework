@@ -1,4 +1,4 @@
-AFRAME.registerComponent('play-on-enter-vr', {
+AFRAME.registerComponent('video-player', {
     init: function () {
       this.playVideo = this.playVideo.bind(this);
       this.playVideoNextTick = this.playVideoNextTick.bind(this);

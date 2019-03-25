@@ -2,7 +2,7 @@
     "a-videosphere": {
       "id": "scene1",
       "src": "#my-video",
-      "play-on-enter-vr": "",
+      "video-player": "",
       "cutscene-event-emitter": {
           "destination":"scenes/scene1.json"
       },
