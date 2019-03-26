@@ -3,7 +3,8 @@ AFRAME.registerState({
     initialState: {
       flags:['bla'],
       inventory:[],
-      pickedObjectIds:[]
+      pickedObjectIds:[],
+      triggerPressed:false
     },
     handlers: {
       addFlag: (state,action) => {
@@ -24,6 +25,9 @@ AFRAME.registerState({
       },
       loadFromLocalStorage: (state,action) => {
 
+      },
+      updateTriggerState: (state,action) => {
+        state.triggerPressed = action.pressed
       }
     }
 });

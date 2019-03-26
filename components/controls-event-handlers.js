@@ -41,9 +41,9 @@ AFRAME.registerComponent('controls-event-handlers', {
        this.gocontroller.touching=false;
     },
     triggerPressed: function (evt) {
-       this.gocontroller.triggerpressed=true;
+       AFRAME.scenes[0].emit('updateTriggerState', {pressed: true});
     },
     triggerUp: function (evt) {
-       this.gocontroller.triggerpressed=false;
+       AFRAME.scenes[0].emit('updateTriggerState', {pressed: false});
     },
   });
