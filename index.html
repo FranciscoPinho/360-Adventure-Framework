@@ -25,7 +25,7 @@
    
   </head>
   <body>
-    <a-scene inventory global-state-listener="active:true" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
+    <a-scene inventory="iconHoverSfx:#hover" global-state-listener="active:true" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
       <a-assets>
           <!-- No loop. --> 
           <audio id="music" src="audio/shore.flac"></audio>
@@ -44,7 +44,7 @@
       <a-entity id="rightHand" controls-event-handlers oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E; opacity:0.3"></a-entity>
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter"></a-entity>
       <a-entity id="camera" camera look-controls>
-     
+        
       
         <a-cursor id="cursor"
           remove-self-if-laser-available

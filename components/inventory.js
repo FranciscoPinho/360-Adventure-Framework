@@ -1,15 +1,14 @@
 AFRAME.registerComponent('inventory', {
     schema: {
         horizontalSpacing: { type: "number", default: 0.4 },
-        horizontalOffset: { type: "number", default: -0.6 },
         verticalSpacing: { type: "number", default: 0.3 },
-        verticalOffset: { type: "number", default: 0.3 },
         inventoryMaxWidth: { type: "number", default: 2.5 },
         rowHeight: { type: "number", default: 0.5 },
         columnWidth: { type: "number", default: 0.625 },
         maxInventoryObjectsPerRow: { type: "number", default: 4 },
         iconDimensions: { type: "number", default: 0.25 },
-        iconHoverSfx: { type: "string", default: "" }
+        iconHoverSfx: { type: "string", default: "" },
+        inventoryZDistance: { type: "number", default: -5 }
     },
     init: function () {
         this.summonInventory = this.summonInventory.bind(this)
@@ -42,10 +41,13 @@ AFRAME.registerComponent('inventory', {
             <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="0.6 -0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
         </a-entity>   
         */
+        if (!this.el.sceneEl.is('vr-mode'))
+            return;
+
         let appState = AFRAME.scenes[0].systems.state.state
         let nrInventoryObjects = appState.inventory.length
 
-        if (nrInventoryObjects === 0)
+        if (nrInventoryObjects === 0 || appState.hoveringObject)
             return
 
         if (evt.type === "keydown") {
@@ -60,46 +62,33 @@ AFRAME.registerComponent('inventory', {
             return
         }
 
-        const { iconHoverSfx, iconDimensions, horizontalOffset, horizontalSpacing,
-            verticalOffset, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,
-            rowHeight, columnWidth } = this.data
-        let inventoryWidth, inventoryHeight, finalHorizontalOffset
+        const { iconHoverSfx, iconDimensions, horizontalSpacing, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,
+            rowHeight, columnWidth, inventoryZDistance } = this.data
+        let inventoryWidth, inventoryHeight, horizontalOffset, verticalOffset
 
         inventoryHeight = Math.ceil(nrInventoryObjects / maxInventoryObjectsPerRow) * rowHeight
-        if (nrInventoryObjects >= 4){
-            inventoryWidth = inventoryMaxWidth
-            finalHorizontalOffset = horizontalOffset
-        }
-        else {
-            inventoryWidth = nrInventoryObjects * columnWidth
-            switch (nrInventoryObjects) {
-                case 1:
-                    finalHorizontalOffset = 0
-                    break
-                case 2:
-                    finalHorizontalOffset = horizontalOffset + (Math.abs(horizontalOffset)-horizontalSpacing) * nrInventoryObjects
-                    break
-                case 3:
-                    finalHorizontalOffset = horizontalOffset + (Math.abs(horizontalOffset)-horizontalSpacing)
-                    break
-                default:
-                    break
-            }
+        inventoryWidth = nrInventoryObjects >= maxInventoryObjectsPerRow ? inventoryMaxWidth : nrInventoryObjects * columnWidth
 
-        }
+        horizontalOffset = nrInventoryObjects >= maxInventoryObjectsPerRow ? -0.6 : (nrInventoryObjects - 1) * -0.2
+        verticalOffset = 0.15 * (inventoryHeight / rowHeight - 1)
+
         //generating main inventory
         let inventoryNode = document.createElement("a-entity")
         inventoryNode.setAttribute("id", "inventory")
-        inventoryNode.setAttribute("position", { x: 0, y: 0, z: -4 });
+        inventoryNode.setAttribute("position", { x: 0, y: 0, z: inventoryZDistance });
         inventoryNode.setAttribute("slice9", { width: inventoryWidth, height: inventoryHeight, left: 20, right: 43, top: 20, bottom: 43, src: "textures/inventory.png" })
         this.camera.appendChild(inventoryNode)
 
         //inserting each object in inventory
         for (let i = 0; i < nrInventoryObjects; i++) {
+
             let objectNode = document.createElement("a-plane")
-            let xPos = finalHorizontalOffset + horizontalSpacing * (i % 4)
-            let yPos = verticalOffset - verticalSpacing * Math.ceil(nrInventoryObjects / 4)
-            let zPos = 1
+            let xPos, yPos, zPos
+            xPos = horizontalOffset + horizontalSpacing * (i % maxInventoryObjectsPerRow)
+            yPos = verticalOffset - verticalSpacing * Math.floor(i / maxInventoryObjectsPerRow)
+            zPos = 1
+            objectNode.classList.add("inter");
+            objectNode.classList.add("invObject");
             objectNode.setAttribute("geometry", { primitive: "plane" })
             objectNode.setAttribute("position", { x: xPos, y: yPos, z: zPos })
             objectNode.setAttribute("hoverable", { sfxSrc: iconHoverSfx, scaleFactor: 1.25 })
@@ -108,7 +97,6 @@ AFRAME.registerComponent('inventory', {
             objectNode.setAttribute("height", iconDimensions)
             inventoryNode.appendChild(objectNode)
         }
-        inventoryNode.flushToDOM()
         AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: true })
     }
 });

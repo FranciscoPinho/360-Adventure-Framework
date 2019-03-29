@@ -6,6 +6,7 @@ AFRAME.registerComponent('hoverable', {
         volume:{type:"number",default:1}
     },
     init:  function () {  
+        console.log("INIT HOVERING ON ELEMENT ",this.el)
         this.onHoverObject = this.onHoverObject.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.onIntersect = this.onIntersect.bind(this)
@@ -56,7 +57,7 @@ AFRAME.registerComponent('hoverable', {
         if(!this.el.sceneEl.is('vr-mode'))
             return
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen) 
+        if (appState.inventoryOpen && !this.el.classList.contains('invObject')) 
             return
         let scale = this.originScaling
         const {scaleFactor} = this.data
@@ -70,12 +71,14 @@ AFRAME.registerComponent('hoverable', {
         this.el.setAttribute('scale',newScaling)
         if(this.data.hoverIcon)
             this.pointer.setAttribute('visible',true)
+        if(!this.el.classList.contains('invObject'))
+            AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: true})
     },
     onLeaveObject: function () {
         if(!this.el.sceneEl.is('vr-mode'))
            return;
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen) 
+        if (appState.inventoryOpen && !this.el.classList.contains('invObject')) 
             return
         let scale = this.originScaling
         const {scaleFactor} = this.data
@@ -87,5 +90,7 @@ AFRAME.registerComponent('hoverable', {
         this.el.setAttribute('scale',newScaling)
         if(this.data.hoverIcon)
             this.pointer.setAttribute('visible',false)
+        if(!this.el.classList.contains('invObject'))
+            AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
     }
 });

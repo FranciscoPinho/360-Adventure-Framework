@@ -32,5 +32,6 @@ AFRAME.registerComponent('pickable', {
         if(this.sfxSrc)
             this.sfxSrc.play()
         this.el.parentNode.removeChild(this.el);
+        AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
     }
 });

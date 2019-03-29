@@ -30,6 +30,7 @@ AFRAME.registerComponent('controls-event-handlers', {
     },
     trackpadPressed: function (evt) {
       this.gocontroller.padpressed=true;
+      console.log("trackpadd pressed")
     },
     trackpadUp: function (evt) {
       this.gocontroller.padpressed=false;

@@ -18,7 +18,6 @@ AFRAME.registerComponent('navigation-event-emitter', {
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen) 
             return
-        let appState = AFRAME.scenes[0].systems.state.state;
         const {destination,firstdestination}=this.data;
         const eventDetail = {
             origin:this.el.parentNode,

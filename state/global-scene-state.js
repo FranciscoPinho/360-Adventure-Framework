@@ -1,10 +1,11 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['flags','inventory','pickedObjectIds'],
+    nonBindedStateKeys: ['flags','inventory','pickedObjectIds','hoveringObject'],
     initialState: {
       flags:[],
-      inventory:[],
+      inventory:[{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"}],
       pickedObjectIds:[],
       triggerPressed:false,
+      hoveringObject: false,
       inventoryOpen:false
     },
     handlers: {
@@ -21,17 +22,20 @@ AFRAME.registerState({
       removeFromInventory: (state,action) => {
         state.inventory.splice(state.inventory.indexOf(action.object),1)
       },
+      updateInventoryState: (state,action) => {
+        state.inventoryOpen = action.inventoryOpen
+      },
+      updateHoveringObject: (state,action) => {
+        state.hoveringObject = action.hoveringObject
+      },
+      updateTriggerState: (state,action) => {
+        state.triggerPressed = action.pressed
+      },
       saveToLocalStorage: (state,action) => {
         
       },
       loadFromLocalStorage: (state,action) => {
 
       },
-      updateTriggerState: (state,action) => {
-        state.triggerPressed = action.pressed
-      },
-      updateInventoryState: (state,action) => {
-        state.inventoryOpen = action.inventoryOpen
-      }
     }
 });
