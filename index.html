@@ -12,6 +12,7 @@
     <script src="components/video-looper.js"></script>
     <script src="components/hoverable.js"></script>
     <script src="components/pickable.js"></script>
+    <script src="components/inventory.js"></script>
     <script src="components/music-manager.js"></script>
     <script src="components/music-change-emitter.js"></script>
     <script src="components/navigation-manager.js"></script>
@@ -33,31 +34,18 @@
           <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
           <video id="my-video2" src="videos/beachl.webm"></video>
           <video id="my-video" muted src="videos/botanica.webm"></video>
-          <image id="person" src="images/person.png"></image>
-          <image id="pickIcon" src="icons/hand-pick.png"></image>
+          <img id="person" src="images/person.png"></img>
+          <img id="pickIcon" src="icons/hand-pick.png"></img>
+          <img id="deerIcon" src="icons/deer.png"></img>
+          <img id="personIcon" src="icons/person.png"></img>
           <a-asset-item id="deer" src="3D/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
      
       <a-entity id="rightHand" controls-event-handlers oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E; opacity:0.3"></a-entity>
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter"></a-entity>
-      <a-entity camera look-controls>
-        <a-entity position="0 0 -4" slice9="width: 4.5; height: 3; left: 20; right: 43; top: 20; bottom: 43; src:icons/tooltip.png">
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.5" class="inter" position="-1.1 0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.5" class="inter" position="-0.35 0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.5" class="inter" position="0.35 0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.5" class="inter" position="1.1 0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-
-            <a-plane position="-1.1 0 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane position="-0.35 0 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane position="0.35 0 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane position="1.1 0 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-
-            <a-plane position="-1.1 -0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane position="-0.35 -0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane position="0.35 -0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-            <a-plane position="1.1 -0.7 1" src="icons/deer.png" width="0.5" height="0.5" color="#CCC"></a-plane>
-        </a-entity>      
-          
+      <a-entity id="camera" camera look-controls>
+     
+      
         <a-cursor id="cursor"
           remove-self-if-laser-available
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"

@@ -11,8 +11,10 @@ AFRAME.registerComponent('hoverable', {
         this.onIntersect = this.onIntersect.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.originScaling = this.el.getAttribute('scale')
-        this.sfxSrc = document.querySelector(this.data.sfxSrc)
-        this.sfxSrc.volume = this.data.volume
+        if(this.data.sfxSrc){
+            this.sfxSrc = document.querySelector(this.data.sfxSrc)
+            this.sfxSrc.volume = this.data.volume
+        }
     },
     play: function() {
         if(this.data.hoverIcon){
@@ -52,7 +54,10 @@ AFRAME.registerComponent('hoverable', {
     },
     onHoverObject: function () {
         if(!this.el.sceneEl.is('vr-mode'))
-            return;
+            return
+        let appState = AFRAME.scenes[0].systems.state.state
+        if (appState.inventoryOpen) 
+            return
         let scale = this.originScaling
         const {scaleFactor} = this.data
         let newScaling =  {
@@ -69,6 +74,9 @@ AFRAME.registerComponent('hoverable', {
     onLeaveObject: function () {
         if(!this.el.sceneEl.is('vr-mode'))
            return;
+        let appState = AFRAME.scenes[0].systems.state.state
+        if (appState.inventoryOpen) 
+            return
         let scale = this.originScaling
         const {scaleFactor} = this.data
         let newScaling =  {

@@ -30,7 +30,7 @@
             "position": "8 -1.4 -4",
             "scale": "2 2 2",
             "pickable": {
-              "icon":"icons/person.png",
+              "icon":"#personIcon",
               "sfxSrc":"#pickup",
               "volume":0.05
             },
@@ -48,7 +48,7 @@
             "scale": "0.01 0.01 0.01",
             "rotation": "-0.19 110 0.005",
             "pickable": {
-              "icon":"icons/deer.png",
+              "icon":"#deerIcon",
               "sfxSrc":"#pickup",
               "volume":0.05
             },

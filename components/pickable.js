@@ -6,8 +6,10 @@ AFRAME.registerComponent('pickable', {
     },
     init:  function () {  
         this.pickObject = this.pickObject.bind(this)
-        this.sfxSrc = document.querySelector(this.data.sfxSrc)
-        this.sfxSrc.volume = this.data.volume
+        if(this.data.sfxSrc){
+            this.sfxSrc = document.querySelector(this.data.sfxSrc)
+            this.sfxSrc.volume = this.data.volume
+        }
     },
     play: function() {
         this.el.addEventListener('click',this.pickObject)
@@ -19,6 +21,9 @@ AFRAME.registerComponent('pickable', {
     pickObject: function () {
         if(!this.el.sceneEl.is('vr-mode'))
             return;
+        let appState = AFRAME.scenes[0].systems.state.state
+        if (appState.inventoryOpen) 
+            return
         let object = {
             id:this.el.getAttribute('id'),
             icon:this.data.icon

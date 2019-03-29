@@ -1,10 +1,11 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['flags'],
+    nonBindedStateKeys: ['flags','inventory','pickedObjectIds'],
     initialState: {
-      flags:['bla'],
+      flags:[],
       inventory:[],
       pickedObjectIds:[],
-      triggerPressed:false
+      triggerPressed:false,
+      inventoryOpen:false
     },
     handlers: {
       addFlag: (state,action) => {
@@ -28,6 +29,9 @@ AFRAME.registerState({
       },
       updateTriggerState: (state,action) => {
         state.triggerPressed = action.pressed
+      },
+      updateInventoryState: (state,action) => {
+        state.inventoryOpen = action.inventoryOpen
       }
     }
 });

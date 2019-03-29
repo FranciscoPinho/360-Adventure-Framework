@@ -15,6 +15,9 @@ AFRAME.registerComponent('navigation-event-emitter', {
     clickNavigation: function () {
         if(!this.el.sceneEl.is('vr-mode'))
             return;
+        let appState = AFRAME.scenes[0].systems.state.state
+        if (appState.inventoryOpen) 
+            return
         let appState = AFRAME.scenes[0].systems.state.state;
         const {destination,firstdestination}=this.data;
         const eventDetail = {
