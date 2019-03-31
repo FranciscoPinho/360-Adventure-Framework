@@ -34,7 +34,8 @@
             "pickable": {
               "icon":"#personIcon",
               "sfxSrc":"#pickup",
-              "volume":1
+              "volume":1,
+              "afterPickCutscene":"scenes/cutscene1.json"
             },
             "hoverable": {
               "sfxSrc":"#hover",

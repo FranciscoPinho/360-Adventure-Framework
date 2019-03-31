@@ -1,8 +1,7 @@
-TODO: maybe allow to play some kind of voice track after picking up the object
 TODO: add hover feedback options besides scaling (changing the visuals of the object somehow)
 TODO: Fade in and fade out volume 
-TODO: Objects scripting
-TODO: Play cutscenes on click object
-TODO: Play voice track/cutscenes on object pickup
+TODO: Smart objects scripting (use, combine, etc)
+TODO: Play voice track on object pickup
+TODO: Play voice track/cutscene on object examination
 TODO: Proof of concept document
 

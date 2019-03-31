@@ -2,7 +2,8 @@ AFRAME.registerComponent('pickable', {
     schema: {
         icon:{type:"string"},
         sfxSrc:{type:"string",default:""},
-        volume:{type:"number",default:1}
+        volume:{type:"number",default:1},
+        afterPickCutscene:{type:"string",default:""}
     },
     init:  function () {  
         this.pickObject = this.pickObject.bind(this)
@@ -31,7 +32,17 @@ AFRAME.registerComponent('pickable', {
         AFRAME.scenes[0].emit('addToInventory', {object: object});
         if(this.sfxSrc)
             this.sfxSrc.play()
-        this.el.parentNode.removeChild(this.el);
         AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
+        if(this.data.afterPickCutscene){
+            const eventDetail = {
+                origin:this.el.parentNode,
+                destinationURL:this.data.afterPickCutscene
+            }
+            AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
+            this.el.emit('clickNavigation',eventDetail,true)
+            return
+        }
+        else this.el.parentNode.removeChild(this.el);
     }
+      
 });
