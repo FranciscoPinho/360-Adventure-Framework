@@ -4,6 +4,7 @@ AFRAME.registerState({
       flags:[],
       inventory:[{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"}],
       pickedObjectIds:[],
+      musicRecords:{},
       triggerPressed:false,
       hoveringObject: false,
       inventoryOpen:false
@@ -30,6 +31,9 @@ AFRAME.registerState({
       },
       updateTriggerState: (state,action) => {
         state.triggerPressed = action.pressed
+      },
+      saveMusicRecords: (state, action) => {
+        state.musicRecords[action.audioID]=action.time
       },
       saveToLocalStorage: (state,action) => {
         

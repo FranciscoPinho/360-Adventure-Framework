@@ -42,7 +42,6 @@ AFRAME.registerComponent('music-manager', {
             document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)  
             //document.querySelector(this.musicSrc).load()
             if(this.el.is('vr-mode')){
-                
                 document.querySelector(this.musicSrc).play()
                 //document.querySelector(this.musicSrc).animate({volume:1})
             }
@@ -50,8 +49,8 @@ AFRAME.registerComponent('music-manager', {
         }
         if(document.querySelector(evt.detail.newsource).src===document.querySelector(this.musicSrc).src)
             return
-        
         //document.querySelector(this.musicSrc).animate({volume:0})
+        AFRAME.scenes[0].emit('saveMusicRecords', {audioID: this.musicSrc, resumeTime:this.musicSrc.currentTime})
         document.querySelector(this.musicSrc).pause()
         document.querySelector(this.musicSrc).removeEventListener('ended', this.onSoundEnded)
         this.musicSrc=evt.detail.newsource
