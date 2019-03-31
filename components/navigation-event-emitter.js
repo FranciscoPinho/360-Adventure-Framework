@@ -28,6 +28,7 @@ AFRAME.registerComponent('navigation-event-emitter', {
             if(appState.flags.indexOf(this.el.getAttribute('id')+"firstdestinationchecked")===-1){
                 AFRAME.scenes[0].emit('addFlag', {flag: this.el.getAttribute('id')+"firstdestinationchecked"});
                 eventDetail.destinationURL = firstdestination
+                AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }
         }
         this.el.emit('clickNavigation',eventDetail,true)

@@ -8,11 +8,22 @@ AFRAME.registerComponent('inventory', {
         maxInventoryObjectsPerRow: { type: "number", default: 4 },
         iconDimensions: { type: "number", default: 0.25 },
         iconHoverSfx: { type: "string", default: "" },
-        inventoryZDistance: { type: "number", default: -5 }
+        inventoryZDistance: { type: "number", default: -5 },
+        summonSfx: {type:"string", default:""},
+        volume: {type:"number",default:1},
+        unsummonSfx: {type:"string", default:""}
     },
     init: function () {
         this.summonInventory = this.summonInventory.bind(this)
         this.camera = document.querySelector("#camera")
+        if(this.data.summonSfx){
+            this.summonSfx = document.querySelector(this.data.summonSfx)
+            this.summonSfx.volume = this.data.volume
+        }
+        if(this.data.unsummonSfx){
+            this.unsummonSfx = document.querySelector(this.data.unsummonSfx)
+            this.unsummonSfx.volume = this.data.volume
+        }
     },
     play: function () {
         this.el.addEventListener('trackpaddown', this.summonInventory)
@@ -23,41 +34,25 @@ AFRAME.registerComponent('inventory', {
         window.removeEventListener('keydown', this.summonInventory)
     },
     summonInventory: function (evt) {
-        /*
-           <a-entity position="0 0 -4" slice9="width: 2.5; height: 1.5; left: 20; right: 43; top: 20; bottom: 43; src:icons/tooltip.png">
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" class="inter" position="-0.6 0.3 1" src="icons/person.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" class="inter" position="-0.2 0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" class="inter" position="0.2 0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" class="inter" position="0.6 0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="-0.6 0 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="-0.2 0 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="0.2 0 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="0.6 0 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="-0.6 -0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="-0.2 -0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="0.2 -0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-            <a-plane hoverable="sfxSrc:#hover;scaleFactor:1.25" position="0.6 -0.3 1" src="icons/deer.png" width="0.25" height="0.25" ></a-plane>
-        </a-entity>   
-        */
         if (!this.el.sceneEl.is('vr-mode'))
             return;
 
         let appState = AFRAME.scenes[0].systems.state.state
         let nrInventoryObjects = appState.inventory.length
 
-        if (nrInventoryObjects === 0 || appState.hoveringObject)
+        if (nrInventoryObjects === 0 || appState.hoveringObject || appState.cutscenePlaying)
             return
 
         if (evt.type === "keydown") {
             evt.stopPropagation();
-            if (evt.key !== "j" && evt.key !== "J")
+            if (evt.key !== "i" && evt.key !== "I")
                 return
         }
 
         if (appState.inventoryOpen) {
             this.camera.removeChild(document.querySelector("#inventory"))
+            if(this.unsummonSfx)
+                this.unsummonSfx.play()
             AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: false })
             return
         }
@@ -97,6 +92,8 @@ AFRAME.registerComponent('inventory', {
             objectNode.setAttribute("height", iconDimensions)
             inventoryNode.appendChild(objectNode)
         }
+        if(this.summonSfx)
+                this.summonSfx.play()
         AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: true })
     }
 });

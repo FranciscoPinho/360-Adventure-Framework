@@ -19,7 +19,7 @@ AFRAME.registerComponent('music-manager', {
         this.el.addEventListener('music-resume',this.onMusicResume)
     },
     pause: function () {
-        document.querySelector(this.musicSrc).removeEventListener('ended', this.onSoundEnded)
+        this.musicSrcDOM.removeEventListener('ended', this.onSoundEnded)
         this.el.removeEventListener('enter-vr',this.onMusicResume)
         this.el.removeEventListener('exit-vr',this.onMusicPause)
         this.el.removeEventListener('music-change',this.onMusicChange)
@@ -31,50 +31,58 @@ AFRAME.registerComponent('music-manager', {
         evt.stopPropagation() 
         if(!this.loop)
             return
-        document.querySelector(this.musicSrc).play();
+        this.musicSrcDOM.play();
     },
     onMusicChange: function (evt) { 
         evt.stopPropagation()
         this.loop = evt.detail.loop
-        if(!this.musicSrc){
-            this.musicSrc = evt.detail.newsource
-            document.querySelector(this.musicSrc).volume=evt.detail.volume
-            document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)  
-            //document.querySelector(this.musicSrc).load()
+        if(!this.musicSrcID){
+            this.musicSrcID = evt.detail.newsource
+            this.musicSrcDOM = document.querySelector(this.musicSrcID)
+            this.musicSrcDOM.volume=evt.detail.volume
+            this.musicSrcDOM.addEventListener('ended', this.onSoundEnded)
+            this.cacheDuration = evt.detail.cacheDuration
             if(this.el.is('vr-mode')){
-                document.querySelector(this.musicSrc).play()
-                //document.querySelector(this.musicSrc).animate({volume:1})
+                this.musicSrcDOM.play()
+                //this.musicSrcDOM.animate({volume:1})
             }
             return
         }
-        if(document.querySelector(evt.detail.newsource).src===document.querySelector(this.musicSrc).src)
+        if(document.querySelector(evt.detail.newsource).src===this.musicSrcDOM.src)
             return
-        //document.querySelector(this.musicSrc).animate({volume:0})
-        AFRAME.scenes[0].emit('saveMusicRecords', {audioID: this.musicSrc, resumeTime:this.musicSrc.currentTime})
-        document.querySelector(this.musicSrc).pause()
-        document.querySelector(this.musicSrc).removeEventListener('ended', this.onSoundEnded)
-        this.musicSrc=evt.detail.newsource
-        document.querySelector(this.musicSrc).volume=evt.detail.volume
-        document.querySelector(this.musicSrc).addEventListener('ended', this.onSoundEnded)
-        //document.querySelector(this.musicSrc).load()
+        //this.musicSrcDOM.animate({volume:0})
+        let appState = AFRAME.scenes[0].systems.state.state
+        if(this.cacheDuration)
+            AFRAME.scenes[0].emit('saveMusicRecords', {audioID: this.musicSrcID, resumeTime:this.musicSrcDOM.currentTime})
+        this.musicSrcDOM.pause()
+        this.musicSrcDOM.removeEventListener('ended', this.onSoundEnded)
+        this.musicSrcID=evt.detail.newsource
+        this.cacheDuration = evt.detail.cacheDuration
+        this.musicSrcDOM = document.querySelector(this.musicSrcID)
+        if(appState.musicRecords[this.musicSrcID])
+            this.musicSrcDOM.currentTime = appState.musicRecords[this.musicSrcID]
+        this.musicSrcDOM.volume=evt.detail.volume
+        this.musicSrcDOM.addEventListener('ended', this.onSoundEnded)
         if(this.el.is('vr-mode')){
-            document.querySelector(this.musicSrc).play()
-            //document.querySelector(this.musicSrc).animate({volume:1})
+            this.musicSrcDOM.play()
+            //this.musicSrcDOM.animate({volume:1})
         }
     },
     onMusicResume: function (evt) { 
         evt.stopPropagation()
-        document.querySelector(this.musicSrc).play()
-        //document.querySelector(this.musicSrc).animate({volume:1})
+        this.musicSrcDOM.play()
+        //this.musicSrcDOM.animate({volume:1})
     },
     onMusicPause: function (evt) { 
         evt.stopPropagation()
-        //document.querySelector(this.musicSrc).animate({volume:0})
-        document.querySelector(this.musicSrc).pause()
+        //this.musicSrcDOM.animate({volume:0})
+        AFRAME.scenes[0].emit('saveMusicRecords', {audioID: this.musicSrcID, resumeTime:this.musicSrcDOM.currentTime})
+        this.musicSrcDOM.pause()
     },
     onMusicStop: function (evt) { 
         evt.stopPropagation()
-        //document.querySelector(this.musicSrc).animate({volume:0})
-        document.querySelector(this.musicSrc).stop()
+        //this.musicSrcDOM.animate({volume:0})
+        AFRAME.scenes[0].emit('saveMusicRecords', {audioID: this.musicSrcID, resumeTime:0})
+        this.musicSrcDOM.stop()
     }
   });

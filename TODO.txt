@@ -1,10 +1,8 @@
 TODO: maybe allow to play some kind of voice track after picking up the object
-TODO: 360 cutscene or normal cutscene pause videosphere/scene sound and resume when over 
 TODO: add hover feedback options besides scaling (changing the visuals of the object somehow)
-TODO: disable inventory on cutscenes
 TODO: Fade in and fade out volume 
 TODO: Objects scripting
-TODO: Play cutscenes on click
+TODO: Play cutscenes on click object
 TODO: Play voice track/cutscenes on object pickup
 TODO: Proof of concept document
 

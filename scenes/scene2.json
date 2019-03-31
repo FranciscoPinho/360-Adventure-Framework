@@ -6,7 +6,8 @@
         "music-change-emitter": {
             "newsource": "#music",
             "loop": "true",
-            "volume":0.03
+            "volume":0.5,
+            "cacheDuration":"true"
         },
         "children": [{
             "a-sphere": {

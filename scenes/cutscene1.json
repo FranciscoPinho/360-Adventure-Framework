@@ -7,7 +7,8 @@
           "destination":"scenes/scene1.json"
       },
       "music-change-emitter": {
-        "newsource": "#cutscenemusic"
+        "newsource": "#cutscenemusic",
+        "cacheDuration":"false"
       },
       "children": [
         {

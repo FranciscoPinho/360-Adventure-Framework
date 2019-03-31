@@ -6,7 +6,6 @@ AFRAME.registerComponent('hoverable', {
         volume:{type:"number",default:1}
     },
     init:  function () {  
-        console.log("INIT HOVERING ON ELEMENT ",this.el)
         this.onHoverObject = this.onHoverObject.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.onIntersect = this.onIntersect.bind(this)

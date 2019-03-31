@@ -20,6 +20,7 @@ AFRAME.registerComponent('cutscene-event-emitter', {
                 destinationURL:destination
             }
             this.el.emit('clickNavigation',eventDetail,true)
+            AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
             this.video.ontimeupdate = null
         }
     }

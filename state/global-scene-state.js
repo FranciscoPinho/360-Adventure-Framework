@@ -7,7 +7,8 @@ AFRAME.registerState({
       musicRecords:{},
       triggerPressed:false,
       hoveringObject: false,
-      inventoryOpen:false
+      inventoryOpen:false,
+      cutscenePlaying:false
     },
     handlers: {
       addFlag: (state,action) => {
@@ -29,11 +30,14 @@ AFRAME.registerState({
       updateHoveringObject: (state,action) => {
         state.hoveringObject = action.hoveringObject
       },
+      updateCutscenePlaying: (state,action) => {
+        state.cutscenePlaying = action.cutscenePlaying
+      },
       updateTriggerState: (state,action) => {
         state.triggerPressed = action.pressed
       },
       saveMusicRecords: (state, action) => {
-        state.musicRecords[action.audioID]=action.time
+        state.musicRecords[action.audioID]=action.resumeTime
       },
       saveToLocalStorage: (state,action) => {
         

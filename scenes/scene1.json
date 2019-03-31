@@ -6,7 +6,9 @@
       "video-looper": "",
       "music-change-emitter": {
         "newsource": "#music",
-        "volume":0.03
+        "loop": "true",
+        "volume":0.03,
+        "cacheDuration":"true"
       },
       "children": [{
           "a-sphere": {
@@ -32,10 +34,11 @@
             "pickable": {
               "icon":"#personIcon",
               "sfxSrc":"#pickup",
-              "volume":0.05
+              "volume":1
             },
             "hoverable": {
-              "sfxSrc":"#hover"
+              "sfxSrc":"#hover",
+              "volume":1
             }
           }
         },
@@ -54,6 +57,7 @@
             },
             "hoverable": {
               "sfxSrc":"#hover",
+              "volume":1,
               "hoverIcon":"#pickIcon"
             } 
           }
