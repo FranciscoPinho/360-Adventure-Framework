@@ -1,5 +1,4 @@
 TODO: add hover feedback options besides scaling (changing the visuals of the object somehow)
-TODO: Fade in and fade out volume 
 TODO: Smart objects scripting (use, combine, etc)
 TODO: Play voice track on object pickup
 TODO: Play voice track/cutscene on object examination

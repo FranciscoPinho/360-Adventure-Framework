@@ -1,10 +1,11 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['flags','inventory','pickedObjectIds','hoveringObject'],
+    nonBindedStateKeys: ['flags','inventory','pickedObjectIds','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
       flags:[],
       inventory:[{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"}],
       pickedObjectIds:[],
       musicRecords:{},
+      musicBaseVolumes:{},
       triggerPressed:false,
       hoveringObject: false,
       inventoryOpen:false,
@@ -38,6 +39,9 @@ AFRAME.registerState({
       },
       saveMusicRecords: (state, action) => {
         state.musicRecords[action.audioID]=action.resumeTime
+      },
+      saveMusicBaseVolume: (state, action) => {
+        state.musicBaseVolumes[action.audioID]=action.baseVolume
       },
       saveToLocalStorage: (state,action) => {
         
