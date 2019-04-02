@@ -39,7 +39,8 @@
             },
             "hoverable": {
               "sfxSrc":"#hover",
-              "volume":1
+              "volume":1,
+              "feedback":"color"
             }
           }
         },
