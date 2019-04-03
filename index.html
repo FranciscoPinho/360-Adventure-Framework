@@ -7,10 +7,11 @@
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-state-component@^3.0.0/dist/aframe-state-component.min.js"></script> 
     <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script>
+    <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="components/video-player.js"></script>
     <script src="components/video-looper.js"></script>
-    <script src="components/hoverable.js"></script>
+    <script src="components/custom-hoverable.js"></script>
     <script src="components/pickable.js"></script>
     <script src="components/spin.js"></script>
     <script src="components/inventory.js"></script>
@@ -19,14 +20,13 @@
     <script src="components/navigation-manager.js"></script>
     <script src="components/cutscene-event-emitter.js"></script>
     <script src="components/navigation-event-emitter.js"></script>
-    <script src="components/controls-event-handlers.js"></script>
     <script src="components/remove-self-if-laser-available.js"></script>
     <script src="components/global-state-listener.js"></script>
     <script src="state/global-scene-state.js"></script>
    
   </head>
   <body>
-    <a-scene inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
+    <a-scene stats inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
       <a-assets>
           <!-- No loop. --> 
           <audio id="music" src="audio/shore.flac"></audio>
@@ -35,20 +35,29 @@
           <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
           <video id="my-video2" src="videos/beachl.webm"></video>
           <video id="my-video" muted src="videos/botanica.webm"></video>
+          <img id="clickToCutscene" src="images/clicktocutscene.PNG"></img>
+          <img id="deadperson" src="images/deadperson.png"></img>
           <img id="person" src="images/person.png"></img>
+          <img id="icecubeIcon" src="icons/icecube.jpg"></img>
+          <img id="halficecubeIcon" src="icons/halficecube.jpg"></img>
+          <img id="puddleIcon" src="icons/puddle.jpg"></img>
+          <img id="oilIcon" src="icons/oil.png"></img>
+          <img id="blackPuddleIcon" src="icons/blackpuddle.png"></img>
+          <img id="flameIcon" src="icons/flame.png"></img>
+          <img id="cutsceneIcon" src="icons/cutscene.jpg"></img>
+          <img id="deadlydeerIcon" src="icons/deadlydeer.jpg"></img>
           <img id="pickIcon" src="icons/hand-pick.png"></img>
           <img id="deerIcon" src="icons/deer.png"></img>
           <img id="personIcon" src="icons/person.png"></img>
           <a-asset-item id="deer" src="3D/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
      
-      <a-entity id="rightHand" controls-event-handlers oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E; opacity:0.3"></a-entity>
-      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter"></a-entity>
+      <a-entity id="rightHand" super-hands oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E; opacity:0.3"></a-entity>
+      <a-entity id="mouseCursor" super-hands cursor="rayOrigin: mouse" raycaster="objects: .inter"></a-entity>
       <a-entity id="camera" camera look-controls>
-        
-      
         <a-cursor id="cursor"
           remove-self-if-laser-available
+          super-hands
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
           animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
           animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"

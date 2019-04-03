@@ -1,9 +1,8 @@
-AFRAME.registerComponent('hoverable', {
+AFRAME.registerComponent('custom-hoverable', {
     schema: {
         hoverIcon: { type: "string", default: "" },
         scaleFactor: { type: "number", default: 1.05 },
-        sfxSrc: { type: "string", default: "" },
-        volume: { type: "number", default: 1 },
+        sfx: { type: "string", default: "" },
         feedback: { type: "string", default: "color" }
     },
     init: function () {
@@ -12,9 +11,10 @@ AFRAME.registerComponent('hoverable', {
         this.onIntersect = this.onIntersect.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.originScaling = this.el.getAttribute('scale')
-        if (this.data.sfxSrc) {
-            this.sfxSrc = document.querySelector(this.data.sfxSrc)
-            this.sfxSrc.volume = this.data.volume
+        const {sfx} = this.data
+        if(sfx.sfxSrc){
+            this.sfxSrc = document.querySelector(sfx.sfxSrc)
+            this.sfxSrc.volume = sfx.volume
         }
     },
     play: function () {

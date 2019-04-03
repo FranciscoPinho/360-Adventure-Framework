@@ -1,15 +1,16 @@
 AFRAME.registerComponent('pickable', {
     schema: {
-        icon:{type:"string"},
-        sfxSrc:{type:"string",default:""},
-        volume:{type:"number",default:1},
+        sfx:{type:"string"},
+        inventoryData:{type:"string"},
+        newFlag:{type:"string",default:"picked"},
         afterPickCutscene:{type:"string",default:""}
     },
     init:  function () {  
         this.pickObject = this.pickObject.bind(this)
-        if(this.data.sfxSrc){
-            this.sfxSrc = document.querySelector(this.data.sfxSrc)
-            this.sfxSrc.volume = this.data.volume
+        const {sfx} = this.data
+        if(sfx.sfxSrc){
+            this.sfxSrc = document.querySelector(sfx.sfxSrc)
+            this.sfxSrc.volume = sfx.volume
         }
     },
     play: function() {
@@ -18,16 +19,16 @@ AFRAME.registerComponent('pickable', {
     pause: function() {
         this.el.removeEventListener('click',this.pickObject)
     },
-    //@TODO maybe allow to play some kind of voice track after picking up the object
     pickObject: function () {
         if(!this.el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen) 
             return
+        const {inventoryData,newFlag} = this.data
         let object = {
-            id:this.el.getAttribute('id'),
-            icon:this.data.icon
+            iconID:inventoryData.iconID,
+            iconSrc:inventoryData.iconSrc
         }
         AFRAME.scenes[0].emit('addToInventory', {object: object});
         if(this.sfxSrc)
@@ -39,6 +40,7 @@ AFRAME.registerComponent('pickable', {
                 destinationURL:this.data.afterPickCutscene
             }
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
+            AFRAME.scenes[0].emit('addFlag', {flagKey:this.el.getAttribute('id'),flagValue:newFlag});
             this.el.emit('clickNavigation',eventDetail,true)
             return
         }

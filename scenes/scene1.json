@@ -1,77 +1,195 @@
 {
-    "a-videosphere": {
-      "id": "scene1",
-      "src": "#my-video",
-      "video-player": "",
-      "video-looper": "",
-      "music-change-emitter": {
-        "newsource": "#music",
-        "loop": "true",
-        "volume":0.5,
-        "cacheDuration":"true"
-      },
-      "children": [{
-          "a-sphere": {
-            "class": "inter",
-            "navigation-event-emitter": {
-              "firstdestination": "scenes/cutscene2.json",
-              "destination": "scenes/scene2.json"
-            },
-            "position": "5 -2 0.5",
-            "geometry": {
-              "primitive": "sphere",
-              "radius": "0.3"
-            }
-          }
-        },
-        {
-          "a-image": {
-            "id": "person",
-            "class":"inter",
-            "src": "#person",
-            "position": "8 -1.4 -4",
-            "scale": "2 2 2",
-            "pickable": {
-              "icon":"#personIcon",
-              "sfxSrc":"#pickup",
-              "volume":1,
-              "afterPickCutscene":"scenes/cutscene1.json"
-            },
-            "hoverable": {
-              "sfxSrc":"#hover",
-              "volume":1,
-              "feedback":"color"
-            }
-          }
-        },
-        {
-          "a-entity": {
-            "id":"deer",
-            "class":"inter",
-            "gltf-model": "#deer",
-            "position": "20 -5.5 -12",
-            "scale": "0.01 0.01 0.01",
-            "rotation": "-0.19 110 0.005",
-            "pickable": {
-              "icon":"#deerIcon",
-              "sfxSrc":"#pickup",
-              "volume":0.05
-            },
-            "hoverable": {
-              "sfxSrc":"#hover",
-              "volume":1,
-              "hoverIcon":"#pickIcon"
-            } 
-          }
-        },
-        {
-          "a-entity": {
-            "gltf-model": "#deer",
-            "position": "53 -5.5 -12",
-            "scale": "0.01 0.01 0.01",
-            "rotation": "-0.19 110 0.005"
+  "addToInventory":[
+    {"iconID": "icecube", "iconSrc": "#icecubeIcon"},
+    {"iconID": "flame", "iconSrc": "#flameIcon"},
+    {"iconID": "flame", "iconSrc": "#flameIcon"},
+    {"iconID": "oil", "iconSrc": "#oilIcon"}
+  ],
+  "a-videosphere": {
+    "id": "scene1",
+    "src": "#my-video",
+    "video-player": "",
+    "video-looper": "",
+    "music-change-emitter": {
+      "newsource": "#music",
+      "loop": "true",
+      "volume": 0.5,
+      "cacheDuration": "true"
+    },
+    "children": [{
+        "a-sphere": {
+          "id":"sphere1",
+          "class": "inter",
+          "navigation-event-emitter": {
+            "firstdestination": "scenes/cutscene2.json",
+            "destination": "scenes/scene2.json"
+          },
+          "position": "5 -2 0.5",
+          "geometry": {
+            "primitive": "sphere",
+            "radius": "0.3"
           }
         }
-      ]
+      },
+      {
+        "a-image": {
+          "id": "person",
+          "class": "inter",
+          "src": "#person",
+          "position": "8 -1.4 -4",
+          "scale": "2 2 2",
+          "pickable": {
+            "sfx":{
+              "sfxSrc": "#pickup",
+              "volume": 1
+            },
+            "newFlag": "saved",
+            "inventoryData": {
+              "iconSrc": "#personIcon",
+              "iconID": "person"
+            }
+          },
+          "use-target": {
+            "targeted-by": "deadlyDeer",
+            "newFlag": "dead",
+            "newSrc": "#deadperson"
+          },
+          "custom-hoverable": {
+            "sfx":{
+              "sfxSrc": "#hover",
+              "volume": 1
+            },
+            "feedback": "color"
+          }
+        }
+      },
+      {
+        "a-image": {
+          "id": "cutscene",
+          "class": "inter",
+          "src": "#clickToCutscene",
+          "position": "10 5 -4",
+          "scale": "2 2 2",
+          "rotation":"0 100 0",
+          "pickable": {
+            "sfx":{
+              "sfxSrc": "#pickup",
+              "volume": 1
+            },
+            "inventoryData": {
+              "iconSrc": "#cutsceneIcon",
+              "iconID": "cutscene"
+            },
+            "afterPickCutscene": "scenes/cutscene1.json"
+          },
+          "custom-hoverable": {
+            "sfx":{
+              "sfxSrc": "#hover",
+              "volume": 1
+            },
+            "feedback": "color"
+          }
+        }
+      },
+      {
+        "a-entity": {
+          "id": "deer1",
+          "class": "inter",
+          "gltf-model": "#deer",
+          "position": "20 -5.5 -12",
+          "scale": "0.01 0.01 0.01",
+          "rotation": "-0.19 110 0.005",
+          "pickable": {
+            "sfxSrc": "#pickup",
+            "volume": 0.05,
+            "inventoryData": {
+              "iconSrc": "#deerIcon",
+              "iconID": "deer1"
+            }
+          },
+          "custom-hoverable": {
+            "sfx":{
+              "sfxSrc": "#hover",
+              "volume": 1
+            },
+            "feedback": "color",
+            "hoverIcon": "#pickIcon"
+          }
+        }
+      },
+      {
+        "a-entity": {
+          "id": "deer2",
+          "gltf-model": "#deer",
+          "position": "53 -5.5 -12",
+          "scale": "0.01 0.01 0.01",
+          "rotation": "-0.19 110 0.005",
+          "pickable": {
+            "sfxSrc": "#pickup",
+            "volume": 0.05,
+            "inventoryData": {
+              "iconSrc": "#deerIcon",
+              "iconID": "deer2"
+            }
+          },
+          "custom-hoverable": {
+            "sfx":{
+              "sfxSrc": "#hover",
+              "volume": 1
+            },
+            "feedback": "color",
+            "hoverIcon": "#pickIcon"
+          }
+        }
+      }
+    ]
+  },
+  "combinations": [
+    {
+      "mix":["#deer1","#deer2"],
+      "result":{
+         "iconSrc":"#deadlydeerIcon",
+         "iconID":"deadlydeer"
+      }
+    },
+    {
+      "mix":["#icecube","#flame"],
+      "result":{
+         "iconSrc":"#halficecubeIcon",
+         "iconID":"halficecube"
+      }
+    },
+    {
+      "mix":["#halficecube","#flame"],
+      "result":{
+         "iconSrc":"#puddleIcon",
+         "iconID":"puddle"
+      }
+    },
+    {
+      "mix":["#puddle","#oil"],
+      "result":{
+         "iconSrc":"#blackPuddleIcon",
+         "iconID":"blackpuddle"
+      }
     }
-  }
+  ],
+  "transitions": [
+    {
+      "on": {
+        "person": "dead",
+        "blackPuddle": "created"
+      },
+      "gotoCutscene": "scenes/cutscene3.json",
+      "carryInventory":false
+    },
+    {
+      "on": {
+        "person": "saved",
+        "cutscene1": "seen"
+      },
+      "gotoURL": "goodending.html",
+      "carryInventory":true
+    }
+  ]
+}

@@ -25,8 +25,8 @@ AFRAME.registerComponent('navigation-event-emitter', {
         }
         
         if(this.data.firstdestination){
-            if(appState.flags.indexOf(this.el.getAttribute('id')+"firstdestinationchecked")===-1){
-                AFRAME.scenes[0].emit('addFlag', {flag: this.el.getAttribute('id')+"firstdestinationchecked"});
+            if(!appState.flags[this.el.getAttribute('id')]){
+                AFRAME.scenes[0].emit('addFlag', {flagKey: this.el.getAttribute('id'), flagValue:true});
                 eventDetail.destinationURL = firstdestination
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }

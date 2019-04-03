@@ -1,6 +1,26 @@
-TODO: add hover feedback options besides scaling (changing the visuals of the object somehow)
 TODO: Smart objects scripting (use, combine, etc)
-TODO: Play voice track on object pickup
-TODO: Play voice track/cutscene on object examination
 TODO: Proof of concept document
+TODO?: Think of way to combine more than one object
 
+
+NEW DESCRIPTION ELEMENTS
+
+
+- combinations (+ deal with inventory superhands stuff) lookup + parse
+- implement use-target component
+- transitions (transition into cutscene that then transitions into new url or transition to new url directly)
+- inside cutscene-event-emitter: new URL
+
+When can cutscenes be played:
+OnBeginScene - Start with cutscenes and transition to playable scene
+OnEndScene - Define a new url on cutscene event emitter vs regular destination
+OnObjectPickup - afterPickCutscene element inside pickable component //force state to check transitions only after cutsceneplayed=false
+OnObjectExamination - To be implemented
+OnSuccessfulObjectUse - to be implemented
+
+When can voice tracks be played:
+OnBeginScene - to be implemented
+OnEndScene - to be implemented
+OnObjectPickup - to be implemented
+OnObjectExamination - to be implemented
+OnSuccessfulObjectUse - to be implemented

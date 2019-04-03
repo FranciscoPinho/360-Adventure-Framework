@@ -1,22 +1,21 @@
 AFRAME.registerState({
     nonBindedStateKeys: ['flags','inventory','pickedObjectIds','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
-      flags:[],
-      inventory:[{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"},{id: "deer", icon: "#deerIcon"}],
+      flags:{},
+      inventory:[],
       pickedObjectIds:[],
       musicRecords:{},
       musicBaseVolumes:{},
-      triggerPressed:false,
       hoveringObject: false,
       inventoryOpen:false,
       cutscenePlaying:false
     },
     handlers: {
       addFlag: (state,action) => {
-        state.flags.push(action.flag)
+        state.flags[action.flagKey]=action.flagValue
       },
       removeFlag: (state,action) => {
-        state.flags.splice(state.flags.indexOf(action.flag),1)
+        delete state.flags[action.flagKey]
       },
       addToInventory: (state,action) => {
         state.inventory.push(action.object)
@@ -33,9 +32,7 @@ AFRAME.registerState({
       },
       updateCutscenePlaying: (state,action) => {
         state.cutscenePlaying = action.cutscenePlaying
-      },
-      updateTriggerState: (state,action) => {
-        state.triggerPressed = action.pressed
+        //check for transitions if cutscenePlaying turns to false
       },
       saveMusicRecords: (state, action) => {
         state.musicRecords[action.audioID]=action.resumeTime

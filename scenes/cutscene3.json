@@ -1,10 +1,10 @@
 {
     "a-videosphere": {
-      "id": "cutscene1",
+      "id": "cutscene3",
       "src": "#my-video",
       "video-player": "",
       "cutscene-event-emitter": {
-          "destination":"scenes/scene1.json"
+          "newUrl":"badending.html"
       },
       "music-change-emitter": {
         "newsource": "#cutscenemusic",

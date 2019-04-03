@@ -84,10 +84,13 @@ AFRAME.registerComponent('inventory', {
             zPos = 1
             objectNode.classList.add("inter");
             objectNode.classList.add("invObject");
+            objectNode.setAttribute("id", appState.inventory[i].iconID)
             objectNode.setAttribute("geometry", { primitive: "plane" })
             objectNode.setAttribute("position", { x: xPos, y: yPos, z: zPos })
-            objectNode.setAttribute("hoverable", { sfxSrc: iconHoverSfx, scaleFactor: 1.25 })
-            objectNode.setAttribute("src", appState.inventory[i].icon)
+            objectNode.setAttribute("custom-hoverable", { sfxSrc: iconHoverSfx, scaleFactor: 1.25 })
+            objectNode.setAttribute("src", appState.inventory[i].iconSrc)
+            objectNode.setAttribute("draggable",{startButtons:['triggerdown'],endButtons:['triggerup']})
+            objectNode.setAttribute("droppable",{accepts:'.invObject'})
             objectNode.setAttribute("width", iconDimensions)
             objectNode.setAttribute("height", iconDimensions)
             inventoryNode.appendChild(objectNode)
