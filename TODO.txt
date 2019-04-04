@@ -1,4 +1,4 @@
-TODO: Smart objects scripting (use, combine, etc)
+TODO: Animation when picking up object
 TODO: Proof of concept document
 TODO?: Think of way to combine more than one object
 
@@ -6,7 +6,7 @@ TODO?: Think of way to combine more than one object
 NEW DESCRIPTION ELEMENTS
 
 
-- combinations (+ deal with inventory superhands stuff) lookup + parse
+- combinations lookup + parse
 - implement use-target component
 - transitions (transition into cutscene that then transitions into new url or transition to new url directly)
 - inside cutscene-event-emitter: new URL

@@ -30,7 +30,7 @@ AFRAME.registerComponent('pickable', {
             iconID:inventoryData.iconID,
             iconSrc:inventoryData.iconSrc
         }
-        AFRAME.scenes[0].emit('addToInventory', {object: object});
+        AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:this.el.getAttribute('id')});
         if(this.sfxSrc)
             this.sfxSrc.play()
         AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})

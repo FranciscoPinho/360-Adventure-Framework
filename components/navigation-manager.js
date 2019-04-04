@@ -46,7 +46,7 @@ AFRAME.registerComponent('navigation-manager', {
                 let childNodes = childrenJsonToEntities(queue[queue.length-1]["jsonChildren"])
                 queue.pop()
                 for(let i=0,len=childNodes.length;i<len;i++){
-                    if(appState.pickedObjectIds.indexOf(childNodes[i]["parentNode"].id)>-1)
+                    if(appState.pickedObjectIDs.indexOf(childNodes[i]["parentNode"].id)>-1)
                         continue
                     let prospectParent = parentNode.appendChild(childNodes[i]["parentNode"])
                     if(childNodes[i]["jsonChildren"] !== undefined){

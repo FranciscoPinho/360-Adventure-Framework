@@ -1,4 +1,4 @@
-AFRAME.registerComponent('custom-hoverable', {
+AFRAME.registerComponent('hoverable', {
     schema: {
         hoverIcon: { type: "string", default: "" },
         scaleFactor: { type: "number", default: 1.05 },
@@ -9,8 +9,10 @@ AFRAME.registerComponent('custom-hoverable', {
         this.onHoverObject = this.onHoverObject.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.onIntersect = this.onIntersect.bind(this)
+        this.onLoseIntersection = this.onLoseIntersection.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.originScaling = this.el.getAttribute('scale')
+        this.hovering = false;
         const {sfx} = this.data
         if(sfx.sfxSrc){
             this.sfxSrc = document.querySelector(sfx.sfxSrc)
@@ -18,26 +20,32 @@ AFRAME.registerComponent('custom-hoverable', {
         }
     },
     play: function () {
-        if (this.data.hoverIcon) {
             this.pointer = document.createElement('a-image')
             this.pointer.setAttribute('src', this.data.hoverIcon)
+            this.pointer.setAttribute('visible', false)
+            this.pointer.setAttribute('look-at', "[camera]")
+            this.el.sceneEl.appendChild(this.pointer)
             this.el.addEventListener('raycaster-intersected', this.onIntersect);
             this.el.addEventListener('raycaster-intersected-cleared', this.onLoseIntersection);
-            this.el.sceneEl.appendChild(this.pointer)
-        }
-        this.el.addEventListener('mouseenter', this.onHoverObject)
-        this.el.addEventListener('mouseleave', this.onLeaveObject)
+            this.el.addEventListener('mouseenter', this.onHoverObject)
+            this.el.addEventListener('mouseleave', this.onLeaveObject)
     },
     pause: function () {
-        if (this.data.hoverIcon) {
-            this.el.removeEventListener('raycaster-intersected', this.onIntersect);
-            this.el.removeEventListener('raycaster-intersected-cleared', this.onLoseIntersection);
+        if (this.pointer) {
             this.el.sceneEl.removeChild(this.pointer)
         }
+        this.el.removeEventListener('raycaster-intersected', this.onIntersect);
+        this.el.removeEventListener('raycaster-intersected-cleared', this.onLoseIntersection);
         this.el.removeEventListener('mouseenter', this.onHoverObject)
         this.el.removeEventListener('mouseleave', this.onLeaveObject)
     },
     tick: function () {
+        if (!this.el.sceneEl.is('vr-mode') || !this.pointer.getAttribute('visible'))
+            return
+
+        let appState = AFRAME.scenes[0].systems.state.state
+        if (appState.inventoryOpen && !appState.grabbedObject)
+            return
         if (!this.raycaster) {
             return;
         }
@@ -45,11 +53,12 @@ AFRAME.registerComponent('custom-hoverable', {
         if (!intersection) {
             return;
         }
-        this.pointer.setAttribute('position', {
-            x: intersection.point.x + 0.2,
-            y: intersection.point.y,
-            z: intersection.point.z
-        })
+        this.pointer.object3D.position.set(
+            intersection.point.x + 0.5,
+            intersection.point.y,
+            intersection.point.z
+        )
+        this.pointer.object3D.scale.set(0.4 + 0.02 * Math.abs(this.pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(this.pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(this.pointer.object3D.position.x))
     },
     onIntersect: function (evt) {
         this.raycaster = evt.detail.el;
@@ -61,8 +70,17 @@ AFRAME.registerComponent('custom-hoverable', {
         if (!this.el.sceneEl.is('vr-mode'))
             return
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !this.el.classList.contains('invObject'))
+        if (appState.inventoryOpen && !this.el.classList.contains('invObject') && !appState.grabbedObject)
             return
+
+        this.hovering = true
+        if (appState.grabbedObject) {
+            this.pointer.setAttribute('src', appState.grabbedObject.iconSrc)
+            setTimeout(() => {
+                if (this.hovering)
+                    this.pointer.setAttribute('visible', true)
+            }, 10)
+        }
 
         if (this.sfxSrc)
             this.sfxSrc.play()
@@ -85,36 +103,37 @@ AFRAME.registerComponent('custom-hoverable', {
             default:
                 const obj = this.el.getObject3D('mesh');
                 obj.traverse(node => {
-                    if(node.material){
-                        if(!this.originColor)
+                    if (node.material) {
+                        if (!this.originColor)
                             this.originColor = {
-                                r:node.material.color.r,
-                                g:node.material.color.g,
-                                b:node.material.color.b
+                                r: node.material.color.r,
+                                g: node.material.color.g,
+                                b: node.material.color.b
                             }
-                        node.material.color.setRGB(this.originColor.r/2,this.originColor.g/2,this.originColor.b/2);
-                    }
-                    else{
-                        if(!this.originColor)
-                            this.originColor = {r:1,g:1,b:1}
+                        node.material.color.setRGB(this.originColor.r / 2, this.originColor.g / 2, this.originColor.b / 2);
+                    } else {
+                        if (!this.originColor)
+                            this.originColor = {r: 1,g: 1,b: 1}
                         node.material = new THREE.MeshBasicMaterial()
-                        node.material.color.setRGB(this.originColor.r/2,this.originColor.g/2,this.originColor.b/2);
-                    } 
+                        node.material.color.setRGB(this.originColor.r / 2, this.originColor.g / 2, this.originColor.b / 2);
+                    }
                 });
                 break
         }
-        if (this.data.hoverIcon)
+        if (this.data.hoverIcon && !appState.grabbedObject)
             this.pointer.setAttribute('visible', true)
         if (!this.el.classList.contains('invObject'))
-            AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: true})
+            AFRAME.scenes[0].emit('updateHoveringObject', {
+                hoveringObject: true
+            })
     },
     onLeaveObject: function () {
         if (!this.el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !this.el.classList.contains('invObject'))
+        if (appState.inventoryOpen && !this.el.classList.contains('invObject') && !appState.grabbedObject)
             return
-
+        this.hovering = false
         switch (this.data.feedback) {
             case 'scale':
                 let scale = this.originScaling
@@ -133,16 +152,20 @@ AFRAME.registerComponent('custom-hoverable', {
             default:
                 const obj = this.el.getObject3D('mesh');
                 obj.traverse(node => {
-                    if(node.material){
-                        node.material.color.setRGB(this.originColor.r,this.originColor.g,this.originColor.b);
-                    }
+                    if (node.material && this.originColor)
+                        node.material.color.setRGB(this.originColor.r, this.originColor.g, this.originColor.b);
                 });
                 break
         }
-    
-        if (this.data.hoverIcon)
+            
+        if (this.pointer) {
             this.pointer.setAttribute('visible', false)
+            this.pointer.setAttribute('src', this.data.hoverIcon)
+        }
+
         if (!this.el.classList.contains('invObject'))
-            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false })
-    },
-});
+            AFRAME.scenes[0].emit('updateHoveringObject', {
+                hoveringObject: false
+            })
+        },
+    });

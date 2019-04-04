@@ -1,10 +1,4 @@
 {
-  "addToInventory":[
-    {"iconID": "icecube", "iconSrc": "#icecubeIcon"},
-    {"iconID": "flame", "iconSrc": "#flameIcon"},
-    {"iconID": "flame", "iconSrc": "#flameIcon"},
-    {"iconID": "oil", "iconSrc": "#oilIcon"}
-  ],
   "a-videosphere": {
     "id": "scene1",
     "src": "#my-video",
@@ -37,7 +31,8 @@
           "class": "inter",
           "src": "#person",
           "position": "8 -1.4 -4",
-          "scale": "2 2 2",
+          "rotation": "0 -90 0",
+          "scale": "1.5 1.5 1.5",
           "pickable": {
             "sfx":{
               "sfxSrc": "#pickup",
@@ -49,17 +44,27 @@
               "iconID": "person"
             }
           },
-          "use-target": {
-            "targeted-by": "deadlyDeer",
-            "newFlag": "dead",
-            "newSrc": "#deadperson"
+          "use-target":{
+            "stimulus":[
+              {
+                "targeted_by": "deadlydeer",
+                "newFlag": "dead",
+                "newSrc": "#deadperson"
+              },
+              {
+                "targeted_by":["deer1","deer2"],
+                "newFlag": "deerman",
+                "newSrc": "#deerman"
+              }
+            ]
           },
-          "custom-hoverable": {
+          "hoverable": {
             "sfx":{
               "sfxSrc": "#hover",
               "volume": 1
             },
-            "feedback": "color"
+            "feedback": "color",
+            "hoverIcon": "#pickIcon"
           }
         }
       },
@@ -82,12 +87,13 @@
             },
             "afterPickCutscene": "scenes/cutscene1.json"
           },
-          "custom-hoverable": {
+          "hoverable": {
             "sfx":{
               "sfxSrc": "#hover",
               "volume": 1
             },
-            "feedback": "color"
+            "feedback": "color",
+            "hoverIcon": "#pickIcon"
           }
         }
       },
@@ -100,14 +106,16 @@
           "scale": "0.01 0.01 0.01",
           "rotation": "-0.19 110 0.005",
           "pickable": {
-            "sfxSrc": "#pickup",
-            "volume": 0.05,
+            "sfx":{
+              "sfxSrc": "#pickup",
+              "volume": 0.05
+            },
             "inventoryData": {
               "iconSrc": "#deerIcon",
               "iconID": "deer1"
             }
           },
-          "custom-hoverable": {
+          "hoverable": {
             "sfx":{
               "sfxSrc": "#hover",
               "volume": 1
@@ -120,19 +128,22 @@
       {
         "a-entity": {
           "id": "deer2",
+          "class": "inter",
           "gltf-model": "#deer",
           "position": "53 -5.5 -12",
           "scale": "0.01 0.01 0.01",
           "rotation": "-0.19 110 0.005",
           "pickable": {
-            "sfxSrc": "#pickup",
-            "volume": 0.05,
+            "sfx":{
+              "sfxSrc": "#pickup",
+              "volume": 0.05
+            },
             "inventoryData": {
               "iconSrc": "#deerIcon",
               "iconID": "deer2"
             }
           },
-          "custom-hoverable": {
+          "hoverable": {
             "sfx":{
               "sfxSrc": "#hover",
               "volume": 1
@@ -144,30 +155,36 @@
       }
     ]
   },
+  "addToInventory":[
+    {"iconID": "icecube", "iconSrc": "#icecubeIcon"},
+    {"iconID": "flame", "iconSrc": "#flameIcon"},
+    {"iconID": "flame", "iconSrc": "#flameIcon"},
+    {"iconID": "oil", "iconSrc": "#oilIcon"}
+  ],
   "combinations": [
     {
-      "mix":["#deer1","#deer2"],
+      "mix":["deer1","deer2"],
       "result":{
          "iconSrc":"#deadlydeerIcon",
          "iconID":"deadlydeer"
       }
     },
     {
-      "mix":["#icecube","#flame"],
+      "mix":["icecube","flame"],
       "result":{
          "iconSrc":"#halficecubeIcon",
          "iconID":"halficecube"
       }
     },
     {
-      "mix":["#halficecube","#flame"],
+      "mix":["halficecube","flame"],
       "result":{
          "iconSrc":"#puddleIcon",
          "iconID":"puddle"
       }
     },
     {
-      "mix":["#puddle","#oil"],
+      "mix":["puddle","oil"],
       "result":{
          "iconSrc":"#blackPuddleIcon",
          "iconID":"blackpuddle"
@@ -185,7 +202,7 @@
     },
     {
       "on": {
-        "person": "saved",
+        "person": ["saved","deerman"],
         "cutscene1": "seen"
       },
       "gotoURL": "goodending.html",

@@ -1,9 +1,12 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['flags','inventory','pickedObjectIds','hoveringObject','musicRecords','musicBaseVolumes'],
+    nonBindedStateKeys: ['grabbedObject','flags','pickedObjectIDs','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
       flags:{},
       inventory:[],
-      pickedObjectIds:[],
+      combinations:[],
+      parsedSceneIDs:[],
+      grabbedObject:null,
+      pickedObjectIDs:[],
       musicRecords:{},
       musicBaseVolumes:{},
       hoveringObject: false,
@@ -19,10 +22,25 @@ AFRAME.registerState({
       },
       addToInventory: (state,action) => {
         state.inventory.push(action.object)
-        state.pickedObjectIds.push(action.object.id)
+        if(action.alreadyPickedID)
+          state.pickedObjectIDs.push(action.alreadyPickedID)
       },
       removeFromInventory: (state,action) => {
-        state.inventory.splice(state.inventory.indexOf(action.object),1)
+        for(let i=0, n=state.inventory.length;i<n;i++){
+            if(state.inventory[i].iconID===action.object.iconID){
+              state.inventory.splice(i,1)
+              return
+            }
+        }
+      },
+      updateParsedSceneIDs: (state,action) => {
+        state.parsedSceneIDs.push(action.parsedSceneID)
+      },
+      updateGrabbedObject: (state,action) => {
+        state.grabbedObject = action.grabbedObject
+      },
+      updateCombinations: (state,action) => {
+        state.combinations = state.combinations.concat(action.newCombinations)
       },
       updateInventoryState: (state,action) => {
         state.inventoryOpen = action.inventoryOpen

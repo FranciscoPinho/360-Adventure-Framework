@@ -27,10 +27,12 @@ AFRAME.registerComponent('inventory', {
     },
     play: function () {
         this.el.addEventListener('trackpaddown', this.summonInventory)
+        this.el.addEventListener('inventoryRefresh', this.summonInventory)
         window.addEventListener('keydown', this.summonInventory)
     },
     pause: function () {
         this.el.removeEventListener('trackpaddown', this.summonInventory)
+        this.el.removeEventListener('inventoryRefresh', this.summonInventory)
         window.removeEventListener('keydown', this.summonInventory)
     },
     summonInventory: function (evt) {
@@ -54,7 +56,8 @@ AFRAME.registerComponent('inventory', {
             if(this.unsummonSfx)
                 this.unsummonSfx.play()
             AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: false })
-            return
+            if(evt.type!=="inventoryRefresh")
+                return
         }
 
         const { iconHoverSfx, iconDimensions, horizontalSpacing, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,
@@ -87,10 +90,9 @@ AFRAME.registerComponent('inventory', {
             objectNode.setAttribute("id", appState.inventory[i].iconID)
             objectNode.setAttribute("geometry", { primitive: "plane" })
             objectNode.setAttribute("position", { x: xPos, y: yPos, z: zPos })
-            objectNode.setAttribute("custom-hoverable", { sfxSrc: iconHoverSfx, scaleFactor: 1.25 })
+            objectNode.setAttribute("hoverable", { sfx:{sfxSrc: iconHoverSfx,volume: 1} , scaleFactor: 1.25 })
             objectNode.setAttribute("src", appState.inventory[i].iconSrc)
-            objectNode.setAttribute("draggable",{startButtons:['triggerdown'],endButtons:['triggerup']})
-            objectNode.setAttribute("droppable",{accepts:'.invObject'})
+            objectNode.setAttribute("grabbable",{startButtons:['triggerdown','mousedown'],endButtons:['triggerup','mouseup']})
             objectNode.setAttribute("width", iconDimensions)
             objectNode.setAttribute("height", iconDimensions)
             inventoryNode.appendChild(objectNode)

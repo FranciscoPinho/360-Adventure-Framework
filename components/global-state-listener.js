@@ -19,6 +19,7 @@ AFRAME.registerComponent('global-state-listener', {
         console.log("OldState:",event.detail.lastState)
         console.log("Changes:",event.detail.payload)
         console.log("NewState:",event.detail.state)
+        console.log('\n')
       
     }
 });
