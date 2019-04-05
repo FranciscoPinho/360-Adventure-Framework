@@ -3,7 +3,8 @@ AFRAME.registerComponent('hoverable', {
         hoverIcon: { type: "string", default: "" },
         scaleFactor: { type: "number", default: 1.05 },
         sfx: { type: "string", default: "" },
-        feedback: { type: "string", default: "color" }
+        feedback: { type: "string", default: "color" },
+        itemOnly: {type:"boolean",default:false}
     },
     init: function () {
         this.onHoverObject = this.onHoverObject.bind(this)
@@ -72,7 +73,8 @@ AFRAME.registerComponent('hoverable', {
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen && !this.el.classList.contains('invObject') && !appState.grabbedObject)
             return
-
+        if(this.data.itemOnly && !appState.grabbedObject)
+            return
         this.hovering = true
         if (appState.grabbedObject) {
             this.pointer.setAttribute('src', appState.grabbedObject.iconSrc)

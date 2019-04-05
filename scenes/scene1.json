@@ -7,7 +7,7 @@
     "music-change-emitter": {
       "newsource": "#music",
       "loop": "true",
-      "volume": 0.5,
+      "volume": 0.05,
       "cacheDuration": "true"
     },
     "children": [{
@@ -33,17 +33,6 @@
           "position": "8 -1.4 -4",
           "rotation": "0 -90 0",
           "scale": "1.5 1.5 1.5",
-          "pickable": {
-            "sfx":{
-              "sfxSrc": "#pickup",
-              "volume": 1
-            },
-            "newFlag": "saved",
-            "inventoryData": {
-              "iconSrc": "#personIcon",
-              "iconID": "person"
-            }
-          },
           "use-target":{
             "stimulus":[
               {
@@ -64,7 +53,7 @@
               "volume": 1
             },
             "feedback": "color",
-            "hoverIcon": "#pickIcon"
+            "itemOnly": "true"
           }
         }
       },
@@ -202,7 +191,7 @@
     },
     {
       "on": {
-        "person": ["saved","deerman"],
+        "person": ["","deerman"],
         "cutscene1": "seen"
       },
       "gotoURL": "goodending.html",

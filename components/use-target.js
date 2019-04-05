@@ -25,7 +25,6 @@ AFRAME.registerComponent('use-target', {
                 }
             }
             else if(stimulus[i].targeted_by === usedObjectID){
-               
                 this.updateFromStimulus(stimulus[i],usedObjectID)
                 break
             }
