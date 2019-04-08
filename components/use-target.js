@@ -32,13 +32,14 @@ AFRAME.registerComponent('use-target', {
         AFRAME.scenes[0].emit('inventoryRefresh')
     },
     updateFromStimulus: function (stimulus,usedObjectID) {
+        const {el} = this
         AFRAME.scenes[0].emit('removeFromInventory', {
             object: { iconID: usedObjectID}
         })
         AFRAME.scenes[0].emit('addFlag', {
-            flagKey:this.el.getAttribute('id'),
+            flagKey:el.getAttribute('id'),
             flagValue:stimulus.newFlag
         })
-        this.el.setAttribute('src',stimulus.newSrc)
+        el.setAttribute('src',stimulus.newSrc)
     }
   });

@@ -6,168 +6,174 @@ AFRAME.registerComponent('hoverable', {
         feedback: { type: "string", default: "color" },
         itemOnly: {type:"boolean",default:false}
     },
-    init: function () {
+    init() {
         this.onHoverObject = this.onHoverObject.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.onIntersect = this.onIntersect.bind(this)
+        this.halveMaterialRGB = this.halveMaterialRGB.bind(this)
+        this.revertToOriginalRGB = this.revertToOriginalRGB.bind(this)
         this.onLoseIntersection = this.onLoseIntersection.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
-        this.originScaling = this.el.getAttribute('scale')
-        this.hovering = false;
+        this.originalScaling = this.el.getAttribute('scale')
         const {sfx} = this.data
         if(sfx.sfxSrc){
             this.sfxSrc = document.querySelector(sfx.sfxSrc)
             this.sfxSrc.volume = sfx.volume
         }
     },
-    play: function () {
-            this.pointer = document.createElement('a-image')
-            this.pointer.setAttribute('src', this.data.hoverIcon)
-            this.pointer.setAttribute('visible', false)
-            this.pointer.setAttribute('look-at', "[camera]")
-            this.el.sceneEl.appendChild(this.pointer)
-            this.el.addEventListener('raycaster-intersected', this.onIntersect);
-            this.el.addEventListener('raycaster-intersected-cleared', this.onLoseIntersection);
-            this.el.addEventListener('mouseenter', this.onHoverObject)
-            this.el.addEventListener('mouseleave', this.onLeaveObject)
+    play() {
+        this.pointer = document.createElement('a-image')
+        const {pointer,el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
+        const {hoverIcon} = this.data
+        pointer.setAttribute('src', hoverIcon)
+        pointer.setAttribute('visible', false)
+        pointer.setAttribute('look-at', "[camera]")
+        el.sceneEl.appendChild(pointer)
+        el.addEventListener('raycaster-intersected', onIntersect);
+        el.addEventListener('raycaster-intersected-cleared', onLoseIntersection);
+        el.addEventListener('mouseenter', onHoverObject)
+        el.addEventListener('mouseleave', onLeaveObject)
     },
-    pause: function () {
-        if (this.pointer) {
-            this.el.sceneEl.removeChild(this.pointer)
+    pause() {
+        const {pointer,el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
+        if (pointer) {
+            el.sceneEl.removeChild(pointer)
         }
-        this.el.removeEventListener('raycaster-intersected', this.onIntersect);
-        this.el.removeEventListener('raycaster-intersected-cleared', this.onLoseIntersection);
-        this.el.removeEventListener('mouseenter', this.onHoverObject)
-        this.el.removeEventListener('mouseleave', this.onLeaveObject)
+        el.removeEventListener('raycaster-intersected', onIntersect);
+        el.removeEventListener('raycaster-intersected-cleared', onLoseIntersection);
+        el.removeEventListener('mouseenter', onHoverObject)
+        el.removeEventListener('mouseleave', onLeaveObject)
     },
-    tick: function () {
-        if (!this.el.sceneEl.is('vr-mode') || !this.pointer.getAttribute('visible'))
+    tick() {
+        const {pointer,el,raycaster} = this
+        if (!el.sceneEl.is('vr-mode') || !pointer.getAttribute('visible'))
             return
 
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen && !appState.grabbedObject)
             return
-        if (!this.raycaster) {
+        if (!raycaster) {
             return;
         }
-        let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+        let intersection = raycaster.components.raycaster.getIntersection(el);
         if (!intersection) {
             return;
         }
-        this.pointer.object3D.position.set(
+        pointer.object3D.position.set(
             intersection.point.x + 0.5,
             intersection.point.y,
             intersection.point.z
         )
-        this.pointer.object3D.scale.set(0.4 + 0.02 * Math.abs(this.pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(this.pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(this.pointer.object3D.position.x))
+        pointer.object3D.scale.set(0.4 + 0.02 * Math.abs(pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(pointer.object3D.position.x))
     },
-    onIntersect: function (evt) {
+    onIntersect(evt) {
         this.raycaster = evt.detail.el;
     },
-    onLoseIntersection: function (evt) {
+    onLoseIntersection(evt) {
         this.raycaster = null;
     },
-    onHoverObject: function () {
+    onHoverObject() {
         if (!this.el.sceneEl.is('vr-mode'))
             return
+        const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling} = this
+        const {itemOnly,feedback,hoverIcon} = this.data
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !this.el.classList.contains('invObject') && !appState.grabbedObject)
+        if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
             return
-        if(this.data.itemOnly && !appState.grabbedObject)
+        if(itemOnly && !appState.grabbedObject)
             return
-        this.hovering = true
-        if (appState.grabbedObject) {
-            this.pointer.setAttribute('src', appState.grabbedObject.iconSrc)
-            setTimeout(() => {
-                if (this.hovering)
-                    this.pointer.setAttribute('visible', true)
-            }, 10)
-        }
 
-        if (this.sfxSrc)
-            this.sfxSrc.play()
+        if (sfxSrc)
+            sfxSrc.play()
 
-        switch (this.data.feedback) {
+        switch (feedback) {
             case 'scale':
-                let scale = this.originScaling
-                const { scaleFactor } = this.data
-                let newScaling = {
-                    x: scale.x * scaleFactor,
-                    y: scale.y * scaleFactor,
-                    z: scale.z * scaleFactor
-                }
-                this.el.setAttribute('scale', newScaling)
+                scaleFeedback(this.data.scaleFactor,1)
                 break
             case 'rotate':
-                this.el.setAttribute('spin', "")
+                el.setAttribute('spin', "")
                 break
             case 'color':
             default:
-                const obj = this.el.getObject3D('mesh');
-                obj.traverse(node => {
-                    if (node.material) {
-                        if (!this.originColor)
-                            this.originColor = {
-                                r: node.material.color.r,
-                                g: node.material.color.g,
-                                b: node.material.color.b
-                            }
-                        node.material.color.setRGB(this.originColor.r / 2, this.originColor.g / 2, this.originColor.b / 2);
-                    } else {
-                        if (!this.originColor)
-                            this.originColor = {r: 1,g: 1,b: 1}
-                        node.material = new THREE.MeshBasicMaterial()
-                        node.material.color.setRGB(this.originColor.r / 2, this.originColor.g / 2, this.originColor.b / 2);
-                    }
-                });
+                halveMaterialRGB()
                 break
         }
-        if (this.data.hoverIcon && !appState.grabbedObject)
-            this.pointer.setAttribute('visible', true)
-        if (!this.el.classList.contains('invObject'))
+        
+        if (hoverIcon && !appState.grabbedObject)
+            pointer.setAttribute('visible', true)
+        if (!el.classList.contains('invObject'))
             AFRAME.scenes[0].emit('updateHoveringObject', {
                 hoveringObject: true
             })
     },
-    onLeaveObject: function () {
+    onLeaveObject() {
         if (!this.el.sceneEl.is('vr-mode'))
             return;
+
+        const {pointer,el,originColor,originalScaling,revertToOriginalRGB,scaleFeedback} = this
+        const {feedback,hoverIcon} = this.data
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !this.el.classList.contains('invObject') && !appState.grabbedObject)
+
+        if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
             return
-        this.hovering = false
-        switch (this.data.feedback) {
+
+        switch (feedback) {
             case 'scale':
-                let scale = this.originScaling
-                const { scaleFactor } = this.data
-                let newScaling = {
-                    x: scale.x / scaleFactor,
-                    y: scale.y / scaleFactor,
-                    z: scale.z / scaleFactor
-                }
-                this.el.setAttribute('scale', newScaling)
+                scaleFeedback(this.data.scaleFactor,-1)
                 break
             case 'rotate':
-                this.el.removeAttribute('spin')
+                el.removeAttribute('spin')
                 break
             case 'color':
             default:
-                const obj = this.el.getObject3D('mesh');
-                obj.traverse(node => {
-                    if (node.material && this.originColor)
-                        node.material.color.setRGB(this.originColor.r, this.originColor.g, this.originColor.b);
-                });
+                revertToOriginalRGB()
                 break
         }
-            
-        if (this.pointer) {
-            this.pointer.setAttribute('visible', false)
-            this.pointer.setAttribute('src', this.data.hoverIcon)
-        }
+        
+        pointer.setAttribute('visible', false)
 
-        if (!this.el.classList.contains('invObject'))
+        if (!el.classList.contains('invObject'))
             AFRAME.scenes[0].emit('updateHoveringObject', {
                 hoveringObject: false
             })
-        },
+    },
+    scaleFeedback(scaleFactor,scaleDirection){
+        let scale = originalScaling
+        let newScaling = {
+            x: scaleDirection>0 ? scale.x * scaleFactor: scale.x / scaleFactor,
+            y: scaleDirection>0 ? scale.y * scaleFactor: scale.y / scaleFactor,
+            z: scaleDirection>0 ? scale.z * scaleFactor: scale.z / scaleFactor
+        }
+        el.setAttribute('scale', newScaling)
+    },
+    halveMaterialRGB(){
+        const {el} = this
+        const obj = el.getObject3D('mesh');
+        obj.traverse(node => {
+            if (node.material) {
+                if (!this.originColor)
+                    this.originColor = {
+                        r: node.material.color.r,
+                        g: node.material.color.g,
+                        b: node.material.color.b
+                    }
+                const {originColor} = this
+                node.material.color.setRGB(originColor.r / 2, originColor.g / 2, originColor.b / 2);
+            } else {
+                if (!this.originColor)
+                    this.originColor = {r: 1,g: 1,b: 1}
+                const {originColor} = this
+                node.material = new THREE.MeshBasicMaterial()
+                node.material.color.setRGB(originColor.r / 2, originColor.g / 2, originColor.b / 2);
+            }
+        });
+    },
+    revertToOriginalRGB() {
+        const {originColor,el} = this
+        const obj = el.getObject3D('mesh');
+        obj.traverse(node => {
+            if (node.material && originColor)
+                node.material.color.setRGB(originColor.r, originColor.g, originColor.b);
+        });
+    },
     });

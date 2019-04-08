@@ -23,13 +23,14 @@
     <script src="components/navigation-event-emitter.js"></script>
     <script src="components/remove-self-if-laser-available.js"></script>
     <script src="components/global-state-listener.js"></script>
+    <script src="components/asset-loader.js"></script>
     <script src="state/global-scene-state.js"></script>
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="game-logic/handleDropObject.js"></script>
    
   </head>
   <body>
-    <a-scene stats inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
+    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
       <a-assets>
           <!-- No loop. --> 
           <audio id="music" src="audio/shore.flac"></audio>

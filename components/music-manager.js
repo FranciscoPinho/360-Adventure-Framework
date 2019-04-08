@@ -1,59 +1,57 @@
 AFRAME.registerComponent('music-manager', {
-    init : function () {
+    init () {
         this.onSoundEnded = this.onSoundEnded.bind(this)
         this.onMusicChange = this.onMusicChange.bind(this)
         this.onMusicPause = this.onMusicPause.bind(this)
         this.onMusicStop = this.onMusicStop.bind(this)
         this.onMusicResume = this.onMusicResume.bind(this)
-        this.FadeInAudio = this.FadeInAudio.bind(this)
-        this.FadeOutAudio = this.FadeOutAudio.bind(this)
-        let queryResults = document.querySelectorAll('audio')
-        queryResults.forEach((audio)=>{
-            audio.load()
-        })
+        this.fadeInAudio = this.fadeInAudio.bind(this)
+        this.fadeOutAudio = this.fadeOutAudio.bind(this)
     },
-    play : function () {
-        this.el.addEventListener('enter-vr',this.onMusicResume)
-        this.el.addEventListener('exit-vr',this.onMusicPause)
-        this.el.addEventListener('music-change',this.onMusicChange)
-        this.el.addEventListener('music-pause',this.onMusicPause)
-        this.el.addEventListener('music-stop',this.onMusicStop)
-        this.el.addEventListener('music-resume',this.onMusicResume)
+    play () {
+        const {el,onMusicChange,onMusicPause,onMusicResume,onMusicStop} = this
+        el.addEventListener('enter-vr',onMusicResume)
+        el.addEventListener('exit-vr',onMusicPause)
+        el.addEventListener('music-change',onMusicChange)
+        el.addEventListener('music-pause',onMusicPause)
+        el.addEventListener('music-stop',onMusicStop)
+        el.addEventListener('music-resume',onMusicResume)
     },
-    pause: function () {
-        this.musicSrcDOM.removeEventListener('ended', this.onSoundEnded)
-        this.el.removeEventListener('enter-vr',this.onMusicResume)
-        this.el.removeEventListener('exit-vr',this.onMusicPause)
-        this.el.removeEventListener('music-change',this.onMusicChange)
-        this.el.removeEventListener('music-pause',this.onMusicPause)
-        this.el.removeEventListener('music-stop',this.onMusicStop)
-        this.el.removeEventListener('music-resume',this.onMusicResume)
+    pause() {
+        const {el,musicSrcDOM,onMusicChange,onMusicPause,onMusicResume,onMusicStop} = this
+        musicSrcDOM.removeEventListener('ended', onSoundEnded)
+        el.removeEventListener('enter-vr',onMusicResume)
+        el.removeEventListener('exit-vr',onMusicPause)
+        el.removeEventListener('music-change',onMusicChange)
+        el.removeEventListener('music-pause',onMusicPause)
+        el.removeEventListener('music-stop',onMusicStop)
+        el.removeEventListener('music-resume',onMusicResume)
     },
-    onSoundEnded: function (evt) {
+    onSoundEnded(evt) {
         evt.stopPropagation() 
         if(!this.loop)
             return
         this.musicSrcDOM.play();
     },
-    onMusicChange: function (evt) { 
+    onMusicChange(evt) { 
         evt.stopPropagation()
+        const {el,fadeInAudio,fadeOutAudio,onSoundEnded} = this
         this.loop = evt.detail.loop
         if(!this.musicSrcID){
             this.musicSrcID = evt.detail.newsource
             this.musicSrcDOM = document.querySelector(this.musicSrcID)
             AFRAME.scenes[0].emit('saveMusicBaseVolume', {audioID: this.musicSrcID, baseVolume:evt.detail.volume})
-            this.musicSrcDOM.addEventListener('ended', this.onSoundEnded)
+            this.musicSrcDOM.addEventListener('ended', onSoundEnded)
             this.cacheDuration = evt.detail.cacheDuration
-            if(this.el.is('vr-mode')){
-                this.FadeInAudio()
+            if(el.is('vr-mode')){
+                fadeInAudio()
             }
             return
         }
 
         if(document.querySelector(evt.detail.newsource).src===this.musicSrcDOM.src)
             return
-
-        this.FadeOutAudio("pause",this.cacheDuration)
+        fadeOutAudio("pause",this.cacheDuration)
         setTimeout(()=>{
             this.musicSrcID=evt.detail.newsource
             this.cacheDuration = evt.detail.cacheDuration
@@ -62,25 +60,25 @@ AFRAME.registerComponent('music-manager', {
             let appState = AFRAME.scenes[0].systems.state.state
             if(appState.musicRecords[this.musicSrcID])
                 this.musicSrcDOM.currentTime = appState.musicRecords[this.musicSrcID]
-            this.musicSrcDOM.addEventListener('ended', this.onSoundEnded)
-            if(this.el.is('vr-mode')){
-                this.FadeInAudio()
+            this.musicSrcDOM.addEventListener('ended', onSoundEnded)
+            if(el.is('vr-mode')){
+                fadeInAudio()
             }
         },1000)
     },
-    onMusicResume: function (evt) { 
+    onMusicResume(evt) { 
         evt.stopPropagation()
-        this.FadeInAudio()
+        this.fadeInAudio()
     },
-    onMusicPause: function (evt) { 
+    onMusicPause(evt) { 
         evt.stopPropagation()
-        this.FadeOutAudio("pause",false)
+        this.fadeOutAudio("pause",false)
     },
-    onMusicStop: function (evt) { 
+    onMusicStop(evt) { 
         evt.stopPropagation()
-        this.FadeOutAudio("stop",false)
+        this.fadeOutAudio("stop",false)
     },
-    FadeInAudio: function () {
+    fadeInAudio() {
         let appState = AFRAME.scenes[0].systems.state.state
         let baseVolume =  appState.musicBaseVolumes[this.musicSrcID]
         let volIncrement = baseVolume/10
@@ -97,7 +95,7 @@ AFRAME.registerComponent('music-manager', {
             }
         }, 100);
     },
-    FadeOutAudio: function (type,cacheDuration) {
+    fadeOutAudio(type,cacheDuration) {
         let volIncrement = this.musicSrcDOM.volume/9
         let fadeOut = setInterval(() => {
             if (this.musicSrcDOM.volume > 0) {

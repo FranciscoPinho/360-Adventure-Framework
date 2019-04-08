@@ -26,14 +26,16 @@ AFRAME.registerComponent('inventory', {
         }
     },
     play: function () {
-        this.el.addEventListener('trackpaddown', this.summonInventory)
-        this.el.addEventListener('inventoryRefresh', this.summonInventory)
-        window.addEventListener('keydown', this.summonInventory)
+        const {el,summonInventory} = this
+        el.addEventListener('trackpaddown', summonInventory)
+        el.addEventListener('inventoryRefresh', summonInventory)
+        window.addEventListener('keydown', summonInventory)
     },
     pause: function () {
-        this.el.removeEventListener('trackpaddown', this.summonInventory)
-        this.el.removeEventListener('inventoryRefresh', this.summonInventory)
-        window.removeEventListener('keydown', this.summonInventory)
+        const {el,summonInventory} = this
+        el.removeEventListener('trackpaddown', summonInventory)
+        el.removeEventListener('inventoryRefresh', summonInventory)
+        window.removeEventListener('keydown', summonInventory)
     },
     summonInventory: function (evt) {
         if (!this.el.sceneEl.is('vr-mode'))

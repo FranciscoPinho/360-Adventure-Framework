@@ -20,31 +20,32 @@ AFRAME.registerComponent('pickable', {
         this.el.removeEventListener('click',this.pickObject)
     },
     pickObject: function () {
-        if(!this.el.sceneEl.is('vr-mode'))
+        const {el} = this
+        if(!el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen) 
             return
-        const {inventoryData,newFlag} = this.data
+        const {inventoryData,newFlag,afterPickCutscene,sfxSrc} = this.data
         let object = {
             iconID:inventoryData.iconID,
             iconSrc:inventoryData.iconSrc
         }
-        AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:this.el.getAttribute('id')});
-        if(this.sfxSrc)
-            this.sfxSrc.play()
+        AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:el.getAttribute('id')});
+        if(sfxSrc)
+            sfxSrc.play()
         AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
-        if(this.data.afterPickCutscene){
+        if(afterPickCutscene){
             const eventDetail = {
-                origin:this.el.parentNode,
-                destinationURL:this.data.afterPickCutscene
+                origin:el.parentNode,
+                destinationURL:afterPickCutscene
             }
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
-            AFRAME.scenes[0].emit('addFlag', {flagKey:this.el.getAttribute('id'),flagValue:newFlag});
-            this.el.emit('clickNavigation',eventDetail,true)
+            AFRAME.scenes[0].emit('addFlag', {flagKey:el.getAttribute('id'),flagValue:newFlag});
+            el.emit('clickNavigation',eventDetail,true)
             return
         }
-        else this.el.parentNode.removeChild(this.el);
+        else el.parentNode.removeChild(this.el);
     }
       
 });

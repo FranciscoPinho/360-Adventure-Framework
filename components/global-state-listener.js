@@ -6,11 +6,13 @@ AFRAME.registerComponent('global-state-listener', {
         this.onStateUpdate = this.onStateUpdate.bind(this)
     },
     play: function () {
-        if(!this.data.active){
-            this.el.removeAttribute('global-state-listener')
+        const {active,disableWarnings} = this.data
+        const {el} = this   
+        if(!active){
+            el.removeAttribute('global-state-listener')
             return
         }
-        this.el.addEventListener('stateupdate',this.onStateUpdate)
+        el.addEventListener('stateupdate',this.onStateUpdate)
     },
     pause: function () {
         this.el.removeEventListener('stateupdate',this.onStateUpdate)

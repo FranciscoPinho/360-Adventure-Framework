@@ -1,38 +1,34 @@
 AFRAME.registerComponent('video-player', {
-    init: function () {
+    init() {
       this.playVideo = this.playVideo.bind(this);
       this.playVideoNextTick = this.playVideoNextTick.bind(this);
       this.pauseVideo = this.pauseVideo.bind(this)
       this.video = document.querySelector(this.el.getAttribute('src'))
-      this.video.load()
     },
-    play: function ()  {
-      if(this.el.sceneEl.is('vr-mode')){
-        this.el.emit('set-image-fade-in')
-        if (this.video.readyState === 4 ) {
-          this.video.play()
-        }
-        else setTimeout(this.playVideo,50)
+    play()  {
+      const {el,playVideo,playVideoNextTick,pauseVideo} = this
+      if(el.sceneEl.is('vr-mode')){
+        el.emit('set-image-fade-in')
+        playVideo()
       }
-      window.addEventListener('vrdisplayactivate', this.playVideo);
-      this.el.sceneEl.addEventListener('enter-vr', this.playVideoNextTick);
-      this.el.sceneEl.addEventListener('exit-vr',this.pauseVideo)
+      window.addEventListener('vrdisplayactivate', playVideo);
+      el.sceneEl.addEventListener('enter-vr', playVideoNextTick);
+      el.sceneEl.addEventListener('exit-vr', pauseVideo)
     },
-    pause: function ()  {
-      this.el.sceneEl.removeEventListener('enter-vr', this.playVideoNextTick);
-      this.el.sceneEl.removeEventListener('exit-vr',this.pauseVideo)
-      window.removeEventListener('vrdisplayactivate', this.playVideo);
+    pause()  {
+      const {el,playVideo,playVideoNextTick,pauseVideo} = this
+      el.sceneEl.removeEventListener('enter-vr', playVideoNextTick);
+      el.sceneEl.removeEventListener('exit-vr', pauseVideo)
+      window.removeEventListener('vrdisplayactivate', playVideo);
     },
-    playVideoNextTick: function ()  {
+    playVideoNextTick()  {
       setTimeout(this.playVideo);
     },
-    playVideo: function ()  {
-      if ( this.video.readyState === 4 ) {
-        this.video.play()
-      }
-      else setTimeout(this.playVideo,50)
+    playVideo()  {
+      const {video,playVideo} = this
+      video.readyState === 4 ? video.play() : setTimeout(playVideo,50)
     },
-    pauseVideo: function () {
+    pauseVideo() {
       this.video.pause()
     }
   });

@@ -4,12 +4,14 @@ TODO?: Think of way to combine more than one object
 
 
 NEW DESCRIPTION ELEMENTS
-
--persistence in use target, use object lead to object pickup and use object lead to dialogue
-- combinations lookup + parse
-- implement use-target component
+- use object lead to dialogue
 - transitions (transition into cutscene that then transitions into new url or transition to new url directly)
 - inside cutscene-event-emitter: new URL
+- dialogue and examinable objects
+
+MONDAY: 
+- persistence in use target, use object lead to object pickup
+- try laser tracking in with line
 
 When can cutscenes be played:
 OnBeginScene - Start with cutscenes and transition to playable scene
