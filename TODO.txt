@@ -8,10 +8,7 @@ NEW DESCRIPTION ELEMENTS
 - transitions (transition into cutscene that then transitions into new url or transition to new url directly)
 - inside cutscene-event-emitter: new URL
 - dialogue and examinable objects
-
-MONDAY: 
-- persistence in use target, use object lead to object pickup
-- try laser tracking in with line
+- make objects visible after certain conditions (navigation sphere after puzzle solved for exmaple)
 
 When can cutscenes be played:
 OnBeginScene - Start with cutscenes and transition to playable scene

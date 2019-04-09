@@ -25,9 +25,11 @@ AFRAME.registerComponent('hoverable', {
         this.pointer = document.createElement('a-image')
         const {pointer,el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
         const {hoverIcon} = this.data
-        pointer.setAttribute('src', hoverIcon)
+        pointer.classList.add('pointer')
+        pointer.setAttribute('id',el.getAttribute('id')+"pointer")
         pointer.setAttribute('visible', false)
-        pointer.setAttribute('look-at', "[camera]")
+        pointer.setAttribute('src', hoverIcon)
+        pointer.setAttribute('look-at', "[camera]") 
         el.sceneEl.appendChild(pointer)
         el.addEventListener('raycaster-intersected', onIntersect);
         el.addEventListener('raycaster-intersected-cleared', onLoseIntersection);
@@ -35,10 +37,7 @@ AFRAME.registerComponent('hoverable', {
         el.addEventListener('mouseleave', onLeaveObject)
     },
     pause() {
-        const {pointer,el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
-        if (pointer) {
-            el.sceneEl.removeChild(pointer)
-        }
+        const {el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
         el.removeEventListener('raycaster-intersected', onIntersect);
         el.removeEventListener('raycaster-intersected-cleared', onLoseIntersection);
         el.removeEventListener('mouseenter', onHoverObject)
@@ -77,6 +76,7 @@ AFRAME.registerComponent('hoverable', {
             return
         const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling} = this
         const {itemOnly,feedback,hoverIcon} = this.data
+       
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
             return

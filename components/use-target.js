@@ -29,7 +29,7 @@ AFRAME.registerComponent('use-target', {
                 break
             }
         }
-        AFRAME.scenes[0].emit('inventoryRefresh')
+        this.el.sceneEl.emit('inventoryRefresh')
     },
     updateFromStimulus: function (stimulus,usedObjectID) {
         const {el} = this
@@ -40,6 +40,24 @@ AFRAME.registerComponent('use-target', {
             flagKey:el.getAttribute('id'),
             flagValue:stimulus.newFlag
         })
-        el.setAttribute('src',stimulus.newSrc)
+        const {inventoryData,src} = stimulus
+        if(stimulus.inventoryData){
+            el.parentNode.removeChild(el)
+            AFRAME.scenes[0].emit('addToInventory', {
+                object: { iconID: inventoryData.iconID, iconSrc: inventoryData.iconSrc, alreadyPickedID:el.getAttribute('id')}
+            })
+        }
+        else if(src){
+            AFRAME.scenes[0].emit('updateTransformedObjects', {
+                original:el.getAttribute('id'),
+                transformation:stimulus
+            })
+            for(let key in stimulus){
+                if(key==="targeted_by" || key==="newFlag")
+                    continue
+                el.setAttribute(key,stimulus[key])
+            } 
+        }
+        //else if (dialogue)
     }
   });

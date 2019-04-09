@@ -3,22 +3,22 @@ AFRAME.registerComponent('navigation-manager', {
         dur: {type:'number', default: 1000},
         initialEnv:{type:'string'}
     },
-    init:  function () {
+    init() {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
     }, 
-    play: function() {
+    play() {
         if(this.data.initialEnv){
             this.setInitialEnvironment = this.setInitialEnvironment.bind(this)
             this.setInitialEnvironment()
         } 
         this.el.addEventListener('clickNavigation',this.clickNavigationListener)
     },
-    pause: function() {
+    pause() {
         this.el.removeEventListener('clickNavigation',this.clickNavigationListener)
     },
-    clickNavigationListener: async function (evt) {
+    async clickNavigationListener (evt) {
         evt.stopPropagation()
         const {origin,destinationURL} = evt.detail
         const {injectNewEnvironmentDOM} = this
@@ -29,12 +29,15 @@ AFRAME.registerComponent('navigation-manager', {
         document.querySelector(origin.getAttribute('src')).pause()
         this.setFadeInOrOut('out',origin) 
         origin.emit('set-image-fade-out')
+        document.querySelectorAll('.pointer').forEach((pointer)=>{
+            scene.removeChild(pointer)
+        })
         setTimeout(()=>{
             scene.removeChild(origin)
             injectNewEnvironmentDOM(scene,newEnvironment,false)
         },this.data.dur)
     },
-    injectNewEnvironmentDOM : function (scene,newEnvironment) {
+    injectNewEnvironmentDOM (scene,newEnvironment) {
         let appState = AFRAME.scenes[0].systems.state.state;
         let destination = scene.appendChild(newEnvironment["parentNode"])
         this.setFadeInOrOut('in',destination)
@@ -59,15 +62,15 @@ AFRAME.registerComponent('navigation-manager', {
             }
         }
     },
-    setInitialEnvironment : async function () {
+    async setInitialEnvironment() {
         const {initialEnv} = this.data
         const response = await fetch(initialEnv)
         const env_json = await response.json()
         const scene = this.el
         let newEnvironment = jsonToEntity(env_json)
-        this.injectNewEnvironmentDOM(scene,newEnvironment,true)
+        this.injectNewEnvironmentDOM(scene,newEnvironment)
     },
-    setFadeInOrOut: function (direction,targetEl) {
+    setFadeInOrOut(direction,targetEl) {
         // Only set up once.
         if(direction==="in"){
             if (targetEl.dataset.setImageFadeInSetup) { return }

@@ -1,4 +1,4 @@
-function tryCombine(grabbed, dropped) {
+tryCombine = (grabbed, dropped) => {
     if (!dropped.classList.contains('invObject'))
         return false
     let appState = AFRAME.scenes[0].systems.state.state
@@ -35,9 +35,8 @@ function tryCombine(grabbed, dropped) {
     }
     return false
 
-}
-
-function sendUseEvent(grabbed,target) {
+},
+sendUseEvent = (grabbed,target) => {
     if (target.classList.contains('invObject'))
         return false
     target.emit('stimulus',{usedObject:grabbed.getAttribute('id')})

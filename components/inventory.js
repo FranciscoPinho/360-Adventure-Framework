@@ -40,7 +40,6 @@ AFRAME.registerComponent('inventory', {
     summonInventory: function (evt) {
         if (!this.el.sceneEl.is('vr-mode'))
             return;
-
         let appState = AFRAME.scenes[0].systems.state.state
         let nrInventoryObjects = appState.inventory.length
 
@@ -54,7 +53,7 @@ AFRAME.registerComponent('inventory', {
         }
 
         if (appState.inventoryOpen) {
-            this.camera.removeChild(document.querySelector("#inventory"))
+            this.camera.removeChild(document.querySelector("#inventory"))       
             if(this.unsummonSfx)
                 this.unsummonSfx.play()
             AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: false })
@@ -77,11 +76,9 @@ AFRAME.registerComponent('inventory', {
         inventoryNode.setAttribute("id", "inventory")
         inventoryNode.setAttribute("position", { x: 0, y: 0, z: inventoryZDistance });
         inventoryNode.setAttribute("slice9", { width: inventoryWidth, height: inventoryHeight, left: 20, right: 43, top: 20, bottom: 43, src: "textures/inventory.png" })
-        this.camera.appendChild(inventoryNode)
-
+        this.camera.appendChild(inventoryNode)  
         //inserting each object in inventory
         for (let i = 0; i < nrInventoryObjects; i++) {
-
             let objectNode = document.createElement("a-plane")
             let xPos, yPos, zPos
             xPos = horizontalOffset + horizontalSpacing * (i % maxInventoryObjectsPerRow)

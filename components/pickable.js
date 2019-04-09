@@ -26,6 +26,7 @@ AFRAME.registerComponent('pickable', {
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen) 
             return
+        el.sceneEl.removeChild(document.querySelector('#'+el.getAttribute('id')+"pointer"))
         const {inventoryData,newFlag,afterPickCutscene,sfxSrc} = this.data
         let object = {
             iconID:inventoryData.iconID,
@@ -45,7 +46,7 @@ AFRAME.registerComponent('pickable', {
             el.emit('clickNavigation',eventDetail,true)
             return
         }
-        else el.parentNode.removeChild(this.el);
+        else el.parentNode.removeChild(el);
     }
       
 });

@@ -1,3 +1,4 @@
+//only parses the top level elements of the json, the videosphere, combinations, transitions and add to inventory
 jsonToEntity = (env_json)=>{
     if(!('a-videosphere' in env_json)){
         console.error("Invalid scene, needs to have a videosphere")
@@ -22,6 +23,7 @@ jsonToEntity = (env_json)=>{
     
     let components = env_json['a-videosphere']
     let newEntity = document.createElement('a-videosphere')
+   
     let jsonChildren
     for (const componentName in components){
         if(componentName==="children"){
@@ -30,6 +32,7 @@ jsonToEntity = (env_json)=>{
         }
         newEntity.setAttribute(componentName,components[componentName])
     }
+    //newEntity.setAttribute('material',{shader:"flat",side:"back",color:"#fff"})
     return {
         "parentNode":newEntity,
         "jsonChildren":jsonChildren
@@ -37,19 +40,32 @@ jsonToEntity = (env_json)=>{
     
 };
 
+//parses a layer of children descendant of some node, called multiple times down the parent-child hierarchy to parse all nodes
 childrenJsonToEntities = (child_json)=>{
     let finalNodes = [];
+    let appState = AFRAME.scenes[0].systems.state.state
     for(let i=0,len=child_json.length;i<len;i++)
         for(const entityName in child_json[i]){
             let components = child_json[i][entityName]
             let newEntity = document.createElement(entityName)
-            let jsonChildren
+            let jsonChildren, transformationAttributes
             for (const componentName in components){
                 if(componentName==="children"){
                     jsonChildren = components[componentName]
                     continue
                 }
-                newEntity.setAttribute(componentName,components[componentName])
+                if(componentName==="id"){
+                    let objectID = components[componentName]
+                    transformationAttributes = checkForPreviouslyTransformed(appState,objectID)
+                    //if(Object.keys(transformationAttributes).length && entityName==="a-image")
+                        //newEntity.setAttribute('material',{transparent:true,shader:"flat",side:"double"})
+                }
+                if(transformationAttributes){
+                    if(componentName in transformationAttributes)
+                        newEntity.setAttribute(componentName,transformationAttributes[componentName])
+                    else newEntity.setAttribute(componentName,components[componentName])
+                }
+                else newEntity.setAttribute(componentName,components[componentName])
             }
             finalNodes.push({
                 "parentNode":newEntity,
@@ -57,4 +73,23 @@ childrenJsonToEntities = (child_json)=>{
             });
         }   
     return finalNodes;
+};
+
+checkForPreviouslyTransformed = (appState,objectID) => {
+    transformationAttributes = {}
+    transformation = appState.transformedObjects[objectID]
+    while(transformation){
+        let moreTransformation = appState.transformedObjects[transformation.id]
+        if(moreTransformation){
+            transformation=moreTransformation
+            continue
+        }
+        for(let key in transformation){
+            if(key==="targeted_by" || key==="newFlag" )
+                continue
+            transformationAttributes[key]=transformation[key]
+        } 
+        return transformationAttributes
+    }
+    return transformationAttributes
 };

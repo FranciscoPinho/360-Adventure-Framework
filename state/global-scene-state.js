@@ -5,6 +5,7 @@ AFRAME.registerState({
       inventory:[],
       combinations:[],
       parsedSceneIDs:[],
+      transformedObjects:{},
       grabbedObject:null,
       pickedObjectIDs:[],
       musicRecords:{},
@@ -32,6 +33,9 @@ AFRAME.registerState({
               return
             }
         }
+      },
+      updateTransformedObjects: (state,action) => {
+        state.transformedObjects[action.original]=action.transformation
       },
       updateParsedSceneIDs: (state,action) => {
         state.parsedSceneIDs.push(action.parsedSceneID)
