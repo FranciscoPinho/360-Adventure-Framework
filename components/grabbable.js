@@ -94,21 +94,11 @@ AFRAME.registerComponent('grabbable', {
                 intersections[0].emit('mouseleave')
                 AFRAME.scenes[0].emit('updateGrabbedObject', {grabbedObject:null})
                 if(tryCombine(el,intersections[0])){
-                    try{
-                        el.parentNode.removeChild(el)
-                    }
-                    catch(error){
-                        console.log(error)
-                    }
+                    el.parentNode.removeChild(el)
                     return
                 }
                 if(sendUseEvent(el,intersections[0])){
-                    try{
-                        el.parentNode.removeChild(el)
-                    }
-                    catch(error){
-                        console.log(error)
-                    }
+                    el.parentNode.removeChild(el)
                     return
                 } 
             }

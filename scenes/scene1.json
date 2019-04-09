@@ -16,6 +16,7 @@
           "id":"sphere1",
           "class": "inter",
           "navigation-event-emitter": {
+            "firstdestination": "scenes/cutscene2.json",
             "destination": "scenes/scene2.json"
           },
           "position": "5 -2 0.5",
