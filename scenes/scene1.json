@@ -51,6 +51,8 @@
                 "id":"deerman",
                 "src": "#deerman",
                 "scale":"5 5 5",
+                "sfxSrc":"#matchlit",
+                "volume":"0.5",
                 "use-target":{
                   "stimulus":[
                     {
@@ -185,7 +187,9 @@
       "result":{
          "iconSrc":"#halficecubeIcon",
          "iconID":"halficecube",
-         "iconDesc":"Half Melted Cube: Half ice, half water"
+         "iconDesc":"Half Melted Cube: Half ice, half water",
+         "sfxSrc":"#matchlit",
+         "volume":"0.5"
       }
     },
     {
@@ -193,7 +197,9 @@
       "result":{
          "iconSrc":"#puddleIcon",
          "iconID":"puddle",
-         "iconDesc":"Puddle: It's a water puddle"
+         "iconDesc":"Puddle: It's a water puddle",
+         "sfxSrc":"#matchlit",
+         "volume":"0.5"
       }
     },
     {
@@ -201,7 +207,9 @@
       "result":{
          "iconSrc":"#blackPuddleIcon",
          "iconID":"blackpuddle",
-         "iconDesc":"Oily Puddle: It's a goddamn water puddle but with oil"
+         "iconDesc":"Oily Puddle: It's a goddamn water puddle but with oil",
+         "sfxSrc":"#oilsfx",
+         "volume":"1"
       }
     }
   ],

@@ -11,6 +11,13 @@ tryCombine = (grabbed, dropped) => {
         if (combination.mix.indexOf(grabbedID) !== -1 &&
             combination.mix.indexOf(droppedID) !== -1 &&
             grabbedID!=droppedID) {
+
+            if(combination.result.sfxSrc){
+                let audio = document.querySelector(combination.result.sfxSrc)
+                if(combination.result.volume)
+                    audio.volume = combination.result.volume
+                audio.play()
+            }
             AFRAME.scenes[0].emit('removeFromInventory', {
                 object: {
                     iconID: grabbedID,

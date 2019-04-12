@@ -41,6 +41,12 @@ AFRAME.registerComponent('use-target', {
             flagValue:stimulus.newFlag
         })
         const {inventoryData,src} = stimulus
+        if(stimulus.sfxSrc){
+            let audio = document.querySelector(stimulus.sfxSrc)
+            if(stimulus.volume)
+                audio.volume = stimulus.volume
+            audio.play()
+        }
         if(stimulus.inventoryData){
             el.parentNode.removeChild(el)
             AFRAME.scenes[0].emit('addToInventory', {
