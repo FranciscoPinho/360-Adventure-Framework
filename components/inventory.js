@@ -31,6 +31,11 @@ AFRAME.registerComponent('inventory', {
             this.raycaster = document.querySelector('#mouseCursor')
         else this.raycaster = document.querySelector('#hand')
         this.newMat = new THREE.Matrix4();
+        this.MixedReality=false
+        let HMD = AFRAME.utils.device.getVRDisplay().displayName
+        if(HMD)
+            if(HMD.includes("Windows"))
+                this.MixedReality=true
     },
     play() {
         const {el,handleInventory} = this
@@ -48,6 +53,7 @@ AFRAME.registerComponent('inventory', {
         const {el,summonInventory,unsummonInventory} = this
         if (!el.is('vr-mode'))
            return;
+
         if (evt.type === "keydown") {
             evt.stopPropagation();
             if (evt.key !== "j" && evt.key !== "J")
@@ -129,7 +135,9 @@ AFRAME.registerComponent('inventory', {
                     }
                     else if(positionType==="laser"){
                         const {x,y} = raycaster.components.line.data.end
-                        dummyNode.object3D.position.set(x,y,inventoryZDistance)  
+                        if(!this.MixedReality)
+                            dummyNode.object3D.position.set(x,y,inventoryZDistance)
+                        else dummyNode.object3D.position.set(0,-3,inventoryZDistance)
                         raycaster.appendChild(dummyNode)
                     }
                 }
