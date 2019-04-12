@@ -128,12 +128,8 @@ AFRAME.registerComponent('inventory', {
                         camera.appendChild(dummyNode)
                     }
                     else if(positionType==="laser"){
-                        if(!AFRAME.utils.device.checkHasPositionalTracking()){
-                            const {x,y} = raycaster.components.line.data.end
-                            dummyNode.object3D.position.set(x,y,inventoryZDistance)
-                        }
-                        else dummyNode.object3D.position.set(0,-4,inventoryZDistance)
-                        
+                        const {x,y} = raycaster.components.line.data.end
+                        dummyNode.object3D.position.set(x,y,inventoryZDistance)  
                         raycaster.appendChild(dummyNode)
                     }
                 }

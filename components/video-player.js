@@ -7,6 +7,7 @@ AFRAME.registerComponent('video-player', {
     },
     play()  {
       const {el,playVideo,playVideoNextTick,pauseVideo} = this
+      this.video.currentTime=0
       if(el.sceneEl.is('vr-mode')){
         el.emit('set-image-fade-in')
         playVideo()
