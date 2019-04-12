@@ -79,6 +79,8 @@ AFRAME.registerComponent('music-manager', {
         this.fadeOutAudio("stop",false)
     },
     fadeInAudio() {
+        if(!this.musicSrcDOM)
+            return
         let appState = AFRAME.scenes[0].systems.state.state
         let baseVolume =  appState.musicBaseVolumes[this.musicSrcID]
         let volIncrement = baseVolume/10
@@ -96,6 +98,8 @@ AFRAME.registerComponent('music-manager', {
         }, 100);
     },
     fadeOutAudio(type,cacheDuration) {
+        if(!this.musicSrcDOM)
+            return
         let volIncrement = this.musicSrcDOM.volume/9
         let fadeOut = setInterval(() => {
             if (this.musicSrcDOM.volume > 0) {

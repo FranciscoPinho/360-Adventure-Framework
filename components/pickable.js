@@ -20,17 +20,18 @@ AFRAME.registerComponent('pickable', {
         this.el.removeEventListener('click',this.pickObject)
     },
     pickObject: function () {
-        const {el} = this
+        const {el,sfxSrc} = this
         if(!el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen) 
+        if (appState.inventoryOpen || appState.dialogueOn) 
             return
         el.sceneEl.removeChild(document.querySelector('#'+el.getAttribute('id')+"pointer"))
-        const {inventoryData,newFlag,afterPickCutscene,sfxSrc} = this.data
+        const {inventoryData,newFlag,afterPickCutscene} = this.data
         let object = {
             iconID:inventoryData.iconID,
-            iconSrc:inventoryData.iconSrc
+            iconSrc:inventoryData.iconSrc,
+            iconDesc:inventoryData.iconDesc
         }
         AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:el.getAttribute('id')});
         if(sfxSrc)

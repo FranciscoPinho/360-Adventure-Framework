@@ -1,8 +1,7 @@
 TODO: Animation when picking up object
 TODO: Proof of concept document
-TODO?: Think of way to combine more than one object
 
-
+// finish object descriptions, go to hoverable to implement the box under inventory
 NEW DESCRIPTION ELEMENTS
 - use object lead to dialogue
 - transitions (transition into cutscene that then transitions into new url or transition to new url directly)
@@ -17,7 +16,7 @@ OnObjectPickup - afterPickCutscene element inside pickable component //force sta
 OnObjectExamination - To be implemented
 OnSuccessfulObjectUse - to be implemented
 
-When can voice tracks be played:
+When can voice tracks be played: (have exclusive voice tracks, voice tracks that lower background volume, whatever else)
 OnBeginScene - to be implemented
 OnEndScene - to be implemented
 OnObjectPickup - to be implemented

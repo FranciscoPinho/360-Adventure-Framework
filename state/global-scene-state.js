@@ -12,7 +12,9 @@ AFRAME.registerState({
       musicBaseVolumes:{},
       hoveringObject: false,
       inventoryOpen:false,
-      cutscenePlaying:false
+      inventoryHeight:0,
+      cutscenePlaying:false,
+      dialogueOn:false
     },
     handlers: {
       addFlag: (state,action) => {
@@ -48,9 +50,15 @@ AFRAME.registerState({
       },
       updateInventoryState: (state,action) => {
         state.inventoryOpen = action.inventoryOpen
+        if(action.inventoryHeight)
+          state.inventoryHeight = action.inventoryHeight
+        else state.inventoryHeight = 0
       },
       updateHoveringObject: (state,action) => {
         state.hoveringObject = action.hoveringObject
+      },
+      updateDialogueOn: (state,action) => {
+        state.dialogueOn = action.dialogueOn
       },
       updateCutscenePlaying: (state,action) => {
         state.cutscenePlaying = action.cutscenePlaying

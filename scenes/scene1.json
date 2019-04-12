@@ -41,7 +41,8 @@
                 "newFlag": "dead",
                 "inventoryData": {
                   "iconSrc": "#deadperson",
-                  "iconID": "deadperson"
+                  "iconID": "deadperson",
+                  "iconDesc":"Dead Guy: This guy is dead..."
                 }
               },
               {
@@ -89,7 +90,8 @@
             },
             "inventoryData": {
               "iconSrc": "#cutsceneIcon",
-              "iconID": "cutscene"
+              "iconID": "cutscene",
+              "iconDesc":"Cutscene?: A completely useless item, enjoy"
             },
             "afterPickCutscene": "scenes/cutscene1.json"
           },
@@ -114,11 +116,12 @@
           "pickable": {
             "sfx":{
               "sfxSrc": "#pickup",
-              "volume": 0.05
+              "volume": 1
             },
             "inventoryData": {
               "iconSrc": "#deerIcon",
-              "iconID": "deer1"
+              "iconID": "deer1",
+              "iconDesc":"Deer: I wonder what happens when two deers join forces..."
             }
           },
           "hoverable": {
@@ -142,11 +145,12 @@
           "pickable": {
             "sfx":{
               "sfxSrc": "#pickup",
-              "volume": 0.05
+              "volume": 1
             },
             "inventoryData": {
               "iconSrc": "#deerIcon",
-              "iconID": "deer2"
+              "iconID": "deer2",
+              "iconDesc":"Deer: I wonder what happens when two deers join forces..."
             }
           },
           "hoverable": {
@@ -162,38 +166,42 @@
     ]
   },
   "addToInventory":[
-    {"iconID": "icecube", "iconSrc": "#icecubeIcon"},
-    {"iconID": "flame", "iconSrc": "#flameIcon"},
-    {"iconID": "flame", "iconSrc": "#flameIcon"},
-    {"iconID": "oil", "iconSrc": "#oilIcon"}
+    {"iconID": "icecube", "iconSrc": "#icecubeIcon", "iconDesc":"Ice Cube: An ice cube"},
+    {"iconID": "flame", "iconSrc": "#flameIcon", "iconDesc":"Flame: A fiery flame, hot enough to melt stuff"},
+    {"iconID": "flame", "iconSrc": "#flameIcon", "iconDesc":"Flame: A fiery flame, hot enough to melt stuff"},
+    {"iconID": "oil", "iconSrc": "#oilIcon", "iconDesc":"Oil: Stains stuff black, disgusting"}
   ],
   "combinations": [
     {
       "mix":["deer1","deer2"],
       "result":{
          "iconSrc":"#deadlydeerIcon",
-         "iconID":"deadlydeer"
+         "iconID":"deadlydeer",
+         "iconDesc":"Deadliest Deer: Use it to kill any living being"
       }
     },
     {
       "mix":["icecube","flame"],
       "result":{
          "iconSrc":"#halficecubeIcon",
-         "iconID":"halficecube"
+         "iconID":"halficecube",
+         "iconDesc":"Half Melted Cube: Half ice, half water"
       }
     },
     {
       "mix":["halficecube","flame"],
       "result":{
          "iconSrc":"#puddleIcon",
-         "iconID":"puddle"
+         "iconID":"puddle",
+         "iconDesc":"Puddle: It's a water puddle"
       }
     },
     {
       "mix":["puddle","oil"],
       "result":{
          "iconSrc":"#blackPuddleIcon",
-         "iconID":"blackpuddle"
+         "iconID":"blackpuddle",
+         "iconDesc":"Oily Puddle: It's a goddamn water puddle but with oil"
       }
     }
   ],

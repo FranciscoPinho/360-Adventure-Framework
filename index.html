@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+  
+  <!--You can use this music for free in your multimedia project (online videos (Youtube, Facebook,...), websites, animations, etc.) as long as you credit Bensound.com (in the description for a video). 
+For example: Music: https://www.bensound.com-->
   <head>
     <meta charset="utf-8">
     <title>RealAdventure360</title>
@@ -27,15 +30,14 @@
     <script src="state/global-scene-state.js"></script>
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="game-logic/handleDropObject.js"></script>
-   
+    
   </head>
   <body>
-    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
+    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager>
       <a-assets>
-          <!-- No loop. --> 
-          <audio id="music" src="audio/shore.flac"></audio>
-          <audio id="hover" src="sfx/hover.mp3" ></audio>
-          <audio id="pickup" src="sfx/whoosh.flac" ></audio>
+          <audio id="music" src="audio/lounge.mp3"></audio>
+          <audio id="hover" src="sfx/hover.mp3"></audio>
+          <audio id="pickup" src="sfx/whoosh.flac"></audio>
           <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
           <video id="my-video2" src="videos/beachl.webm"></video>
           <video id="my-video" muted src="videos/botanica.webm"></video>
@@ -56,12 +58,18 @@
           <img id="personIcon" src="icons/person.png"></img>
           <a-asset-item id="deer" src="3D/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
-     
-      <a-entity id="rightHand" oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
+      
+      <a-entity id="hand" oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
       </a-entity>
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
       </a-entity>
       <a-entity id="camera" camera look-controls>
+         <!-- <a-entity
+          geometry="primitive: plane; height: auto; width: auto"
+          position="0 0 -5"
+          material="color:black; opacity:0.3"
+          text="width: 4; value: This text will be 4 units wideasasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa .">
+        </a-entity>-->
         <a-cursor id="cursor"
           remove-self-if-laser-available
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"

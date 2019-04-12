@@ -26,7 +26,8 @@ tryCombine = (grabbed, dropped) => {
             AFRAME.scenes[0].emit('addToInventory', {
                 object: {
                     iconID: combination.result.iconID,
-                    iconSrc: combination.result.iconSrc
+                    iconSrc: combination.result.iconSrc,
+                    iconDesc: combination.result.iconDesc
                 }
             })
             AFRAME.scenes[0].emit('inventoryRefresh')

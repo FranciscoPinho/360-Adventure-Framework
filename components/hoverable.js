@@ -4,7 +4,8 @@ AFRAME.registerComponent('hoverable', {
         scaleFactor: { type: "number", default: 1.05 },
         sfx: { type: "string", default: "" },
         feedback: { type: "string", default: "color" },
-        itemOnly: {type:"boolean",default:false}
+        itemOnly: {type:"boolean",default:false},
+        pointerClass: {type:"string", default:"pointer"}
     },
     init() {
         this.onHoverObject = this.onHoverObject.bind(this)
@@ -24,8 +25,8 @@ AFRAME.registerComponent('hoverable', {
     play() {
         this.pointer = document.createElement('a-image')
         const {pointer,el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
-        const {hoverIcon} = this.data
-        pointer.classList.add('pointer')
+        const {hoverIcon,pointerClass} = this.data
+        pointer.classList.add(pointerClass)
         pointer.setAttribute('id',el.getAttribute('id')+"pointer")
         pointer.setAttribute('visible', false)
         pointer.setAttribute('src', hoverIcon)
@@ -74,15 +75,20 @@ AFRAME.registerComponent('hoverable', {
     onHoverObject() {
         if (!this.el.sceneEl.is('vr-mode'))
             return
-        const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling} = this
+        const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
         const {itemOnly,feedback,hoverIcon} = this.data
        
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
             return
+        if(appState.dialogueOn)
+            return
         if(itemOnly && !appState.grabbedObject)
             return
-
+        if(appState.inventoryOpen){
+            let description = lookupInventoryDescription(appState,el.getAttribute('id'))
+            displayInventoryInfo(appState,description)
+        }
         if (sfxSrc)
             sfxSrc.play()
 
@@ -116,7 +122,11 @@ AFRAME.registerComponent('hoverable', {
 
         if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
             return
-
+        if(appState.inventoryOpen){
+            let infoBox = document.querySelector("#inventoryinfo")
+            if(infoBox)
+                infoBox.parentNode.removeChild(infoBox)
+        }
         switch (feedback) {
             case 'scale':
                 scaleFeedback(this.data.scaleFactor,-1)
@@ -176,4 +186,41 @@ AFRAME.registerComponent('hoverable', {
                 node.material.color.setRGB(originColor.r, originColor.g, originColor.b);
         });
     },
+    displayInventoryInfo(appState,desc) {
+        if(!desc)
+            return
+        let infoBox = document.createElement("a-entity")
+        infoBox.setAttribute("id","inventoryinfo")
+        infoBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
+        infoBox.setAttribute("visible",false)
+        infoBox.setAttribute("material",{color:"black",opacity:0.3})
+        let wrapCount = 40
+        infoBox.setAttribute("text",{width:4,value:desc,wrapCount:wrapCount})
+        let inventory = document.querySelector("#inventory")
+        if(!inventory)
+            return
+        inventory.appendChild(infoBox)
+        infoBox.addEventListener('loaded',()=>
+        {
+            let checkForHeightData = setInterval(()=>{
+                if(!infoBox.components.geometry || !appState.inventoryOpen){
+                    clearTimeout(checkForHeightData)
+                    return
+                }
+                if(!infoBox.components.geometry.data.height)
+                    return
+                infoBox.object3D.position.set(0,-appState.inventoryHeight,0)
+                infoBox.setAttribute("visible",true)    
+                clearTimeout(checkForHeightData)
+            },50)   
+        })
+    },
+    lookupInventoryDescription(appState,iconID){
+        for(let i=0,len=appState.inventory.length;i<len;i++){
+            let icon = appState.inventory[i]
+            if(icon.iconID===iconID)
+                return icon.iconDesc
+        }
+        return ""
+    }
     });

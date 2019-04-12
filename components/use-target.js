@@ -44,7 +44,12 @@ AFRAME.registerComponent('use-target', {
         if(stimulus.inventoryData){
             el.parentNode.removeChild(el)
             AFRAME.scenes[0].emit('addToInventory', {
-                object: { iconID: inventoryData.iconID, iconSrc: inventoryData.iconSrc, alreadyPickedID:el.getAttribute('id')}
+                object: {
+                    iconID: inventoryData.iconID,
+                    iconSrc: inventoryData.iconSrc,
+                    iconDesc: inventoryData.iconDesc,
+                    alreadyPickedID: el.getAttribute('id')
+                }
             })
         }
         else if(src){
