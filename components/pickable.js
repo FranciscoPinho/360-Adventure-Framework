@@ -3,7 +3,9 @@ AFRAME.registerComponent('pickable', {
         sfx:{type:"string"},
         inventoryData:{type:"string"},
         newFlag:{type:"string",default:"picked"},
-        afterPickCutscene:{type:"string",default:""}
+        afterPickCutscene:{type:"string",default:""},
+        animate:{type:"boolean",default:true},
+        animationDuration:{type:"number",default:500}
     },
     init:  function () {  
         this.pickObject = this.pickObject.bind(this)
@@ -26,28 +28,54 @@ AFRAME.registerComponent('pickable', {
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen || appState.dialogueOn) 
             return
-        el.sceneEl.removeChild(document.querySelector('#'+el.getAttribute('id')+"pointer"))
-        const {inventoryData,newFlag,afterPickCutscene} = this.data
+        let objectID = el.getAttribute('id')
+        el.sceneEl.removeChild(document.querySelector('#'+objectID+"pointer"))
+        const {inventoryData,newFlag,afterPickCutscene,animate,animationDuration} = this.data
         let object = {
             iconID:inventoryData.iconID,
             iconSrc:inventoryData.iconSrc,
             iconDesc:inventoryData.iconDesc
         }
-        AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:el.getAttribute('id')});
-        if(sfxSrc)
-            sfxSrc.play()
-        AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
-        if(afterPickCutscene){
-            const eventDetail = {
-                origin:el.parentNode,
-                destinationURL:afterPickCutscene
-            }
-            AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
-            AFRAME.scenes[0].emit('addFlag', {flagKey:el.getAttribute('id'),flagValue:newFlag});
-            el.emit('clickNavigation',eventDetail,true)
-            return
+        let timeOut = 0
+        if(animate){
+         
+            /*const {xScale,yScale,zScale}=el.getAttribute('scale')
+            el.setAttribute('animation__pickup__scaling', {
+                property: 'scale',
+                startEvents: 'pickupObject'+objectID,
+                dur: animationDuration,
+                from: {x:xScale,y:yScale,z:zScale},
+                to: {X:xScale/5,y:yScale/5,z:zScale/5},
+                easing: "linear"
+            })*/
+            el.setAttribute('animation__pickup__position', {
+                property: 'position',
+                startEvents: 'pickupObject'+objectID,
+                dur: animationDuration,
+                from: el.getAttribute('position'),
+                to: "0 0 0",
+                easing: "linear"
+            })
+            timeOut = animationDuration
+            el.emit('pickupObject'+objectID)
         }
-        else el.parentNode.removeChild(el);
+        setTimeout(()=>{
+            AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
+            if(sfxSrc)
+                sfxSrc.play()
+            AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
+            if(afterPickCutscene){
+                const eventDetail = {
+                    origin:el.parentNode,
+                    destinationURL:afterPickCutscene
+                }
+                AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
+                AFRAME.scenes[0].emit('addFlag', {flagKey:objectID,flagValue:newFlag});
+                el.emit('clickNavigation',eventDetail,true)
+                return
+            }
+            else el.parentNode.removeChild(el);
+        },timeOut)
     }
       
 });
