@@ -61,12 +61,15 @@ AFRAME.registerComponent('grabbable', {
                 return;
             }
             const {x,y,z} = raycaster.components.line.data.end
+     
             let lineLength = Math.abs(z)
-            let intersections = raycaster.components.raycaster.intersectedEls
-            if(intersections.length)
-                el.object3D.position.set(x,y,z+Math.abs(z/10))
+            if(!AFRAME.utils.device.checkHasPositionalTracking()){
+                let intersections = raycaster.components.raycaster.intersectedEls
+                if(intersections.length)
+                    el.object3D.position.set(x,y,z+Math.abs(z/10))
+                else el.object3D.position.set(x,y,z)
+            }
             else el.object3D.position.set(x,y,z)
-            
             el.object3D.scale.set(0.5+lineLength/10,0.5+lineLength/10,0.5+lineLength/10)
         }
     },

@@ -32,7 +32,7 @@ jsonToEntity = (env_json)=>{
         }
         newEntity.setAttribute(componentName,components[componentName])
     }
-    //newEntity.setAttribute('material',{shader:"flat",side:"back",color:"#fff"})
+    newEntity.setAttribute('material',{shader:"flat",side:"back",color:"#fff"})
     return {
         "parentNode":newEntity,
         "jsonChildren":jsonChildren
@@ -57,8 +57,8 @@ childrenJsonToEntities = (child_json)=>{
                 if(componentName==="id"){
                     let objectID = components[componentName]
                     transformationAttributes = checkForPreviouslyTransformed(appState,objectID)
-                    //if(Object.keys(transformationAttributes).length && entityName==="a-image")
-                        //newEntity.setAttribute('material',{transparent:true,shader:"flat",side:"double"})
+                    if(Object.keys(transformationAttributes).length && entityName==="a-image")
+                        newEntity.setAttribute('material',{transparent:true,shader:"flat",side:"double"})
                 }
                 if(transformationAttributes){
                     if(componentName in transformationAttributes)
