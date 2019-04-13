@@ -53,9 +53,9 @@ AFRAME.registerComponent('use-target', {
                 object: {
                     iconID: inventoryData.iconID,
                     iconSrc: inventoryData.iconSrc,
-                    iconDesc: inventoryData.iconDesc,
-                    alreadyPickedID: el.getAttribute('id')
-                }
+                    iconDesc: inventoryData.iconDesc
+                },
+                alreadyPickedID: inventoryData.originalID
             })
         }
         else if(src){

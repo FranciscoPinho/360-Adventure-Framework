@@ -5,7 +5,7 @@ AFRAME.registerComponent('pickable', {
         newFlag:{type:"string",default:"picked"},
         afterPickCutscene:{type:"string",default:""},
         animate:{type:"boolean",default:true},
-        animationDuration:{type:"number",default:500}
+        animationDuration:{type:"number",default:1000}
     },
     init:  function () {  
         this.pickObject = this.pickObject.bind(this)
@@ -38,29 +38,33 @@ AFRAME.registerComponent('pickable', {
         }
         let timeOut = 0
         if(animate){
+           const {x,y,z} = el.getAttribute('scale')
          
-            /*const {xScale,yScale,zScale}=el.getAttribute('scale')
             el.setAttribute('animation__pickup__scaling', {
                 property: 'scale',
                 startEvents: 'pickupObject'+objectID,
-                dur: animationDuration,
-                from: {x:xScale,y:yScale,z:zScale},
-                to: {X:xScale/5,y:yScale/5,z:zScale/5},
-                easing: "linear"
-            })*/
+                dur: animationDuration/2,
+                from: {x:x,y:y,z:z},
+                to: {x:x/20,y:y/20,z:z/20},
+            })
             el.setAttribute('animation__pickup__position', {
                 property: 'position',
                 startEvents: 'pickupObject'+objectID,
-                dur: animationDuration,
+                dur: animationDuration/2,
+                delay:animationDuration/2,
                 from: el.getAttribute('position'),
                 to: "0 0 0",
                 easing: "linear"
             })
+        
             timeOut = animationDuration
+            
             el.emit('pickupObject'+objectID)
         }
+        AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
+        if(afterPickCutscene)
+            AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         setTimeout(()=>{
-            AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
             if(sfxSrc)
                 sfxSrc.play()
             AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
@@ -69,7 +73,6 @@ AFRAME.registerComponent('pickable', {
                     origin:el.parentNode,
                     destinationURL:afterPickCutscene
                 }
-                AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
                 AFRAME.scenes[0].emit('addFlag', {flagKey:objectID,flagValue:newFlag});
                 el.emit('clickNavigation',eventDetail,true)
                 return

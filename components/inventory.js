@@ -53,22 +53,23 @@ AFRAME.registerComponent('inventory', {
             if (evt.key !== "j" && evt.key !== "J")
                 return
         }
-        let appState = AFRAME.scenes[0].systems.state.state
         let isRefresh = evt.type==="inventoryRefresh"
+
+        let appState = AFRAME.scenes[0].systems.state.state
+
         if (appState.inventoryOpen) {
-            unsummonInventory(isRefresh)
+            unsummonInventory(isRefresh,appState)
             if(!isRefresh)
                 return
         }
-        summonInventory(appState,isRefresh)
+        summonInventory(isRefresh,appState)
     },
-    unsummonInventory(isRefresh) {
+    unsummonInventory(isRefresh,appState) {
         const {unsummonSfx,el,camera,raycaster} = this
         const {positionType} = this.data
         
         if(unsummonSfx)
             unsummonSfx.play()
-        
         AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: false })
         switch (positionType) {
             case "look":
@@ -89,10 +90,13 @@ AFRAME.registerComponent('inventory', {
                 break
         }
         document.querySelectorAll("a-scene > .pointerinventory").forEach((node) => node.parentNode.removeChild(node))  
+        if(appState.hoveringObject){
+            document.querySelector("#"+appState.hoveringID).emit("mouseenter")
+        }
     },
-    summonInventory(appState,isRefresh){
+    summonInventory(isRefresh,appState){
         let nrInventoryObjects = appState.inventory.length
-        if (nrInventoryObjects === 0 || appState.hoveringObject || appState.cutscenePlaying || appState.dialogueOn)
+        if (nrInventoryObjects === 0  || appState.hoveringObject || appState.cutscenePlaying || appState.dialogueOn)
             return
 
         const { iconHoverSfx, positionType, iconDimensions, horizontalSpacing, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,

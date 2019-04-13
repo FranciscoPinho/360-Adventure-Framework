@@ -1,11 +1,20 @@
 TODO: Proof of concept document
 
-NEW DESCRIPTION ELEMENTS
-- use object lead to dialogue
+
+- dialogue and examinable objects
 - transitions (transition into cutscene that then transitions into new url or transition to new url directly)
 - inside cutscene-event-emitter: new URL
-- dialogue and examinable objects
+
+NEW DESCRIPTION ELEMENTS
+- use object lead to dialogue
 - make objects visible after certain conditions (navigation sphere after puzzle solved for exmaple)
+
+When can dialogue be presented:
+OnBeginScene
+OnEndScene
+OnObjectExamination
+OnSuccessfulObjectUse
+OnPickObject
 
 When can cutscenes be played:
 OnBeginScene - Start with cutscenes and transition to playable scene
@@ -20,3 +29,6 @@ OnEndScene - to be implemented
 OnObjectPickup - to be implemented
 OnObjectExamination - to be implemented
 OnSuccessfulObjectUse - to be implemented
+
+Useful info
+Interaction components:hoverable,inventory,pickable,navigation-event-emitter

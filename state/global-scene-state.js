@@ -13,6 +13,7 @@ AFRAME.registerState({
       hoveringObject: false,
       inventoryOpen:false,
       inventoryHeight:0,
+      hoveringID:null,
       cutscenePlaying:false,
       dialogueOn:false
     },
@@ -56,6 +57,9 @@ AFRAME.registerState({
       },
       updateHoveringObject: (state,action) => {
         state.hoveringObject = action.hoveringObject
+        if(action.hoveringObject)
+          state.hoveringID = action.hoveringID
+        else state.hoveringID = null
       },
       updateDialogueOn: (state,action) => {
         state.dialogueOn = action.dialogueOn
