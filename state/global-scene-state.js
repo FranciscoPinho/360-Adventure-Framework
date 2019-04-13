@@ -1,5 +1,7 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['grabbedObject','flags','pickedObjectIDs','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
+    nonBindedStateKeys: ['inventory','combinations','grabbedObject',
+    'hoveringID','flags','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight',
+    'inventoryOpen','transformedObjects','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
       flags:{},
       inventory:[],
