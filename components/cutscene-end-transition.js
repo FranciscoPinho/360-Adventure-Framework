@@ -1,6 +1,7 @@
-AFRAME.registerComponent('cutscene-event-emitter', {
+AFRAME.registerComponent('cutscene-end-transition', {
     schema: {
-        destination:{type:'string'},
+        destination:{type:'string',default:""},
+        newURL:{type:'string',default:""},
         newFlag:{type:'string',default:"seen"}
     },
     init: function () {
@@ -16,14 +17,19 @@ AFRAME.registerComponent('cutscene-event-emitter', {
     onVideoFrame: function (event) {
         const {el,video} = this
         if(video.currentTime>=video.duration){
-            const {destination,newFlag}=this.data;
+            const {newURL,destination,newFlag}=this.data;
+            if(newURL){
+                AFRAME.scenes[0].emit('changeURL',{url:newURL,flagKey:el.getAttribute('id'),flagValue:newFlag})
+                this.video.ontimeupdate = null
+                return
+            }
             const eventDetail = {
                 origin:el,
                 destinationURL:destination
             }
-            el.emit('clickNavigation',eventDetail,true)
-            el.emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
+            AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
+            el.emit('clickNavigation',eventDetail,true)
             this.video.ontimeupdate = null
         }
     }

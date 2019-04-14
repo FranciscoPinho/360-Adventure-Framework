@@ -3,7 +3,7 @@
       "id": "cutscene3",
       "src": "#my-video",
       "video-player": "",
-      "cutscene-event-emitter": {
+      "cutscene-end-transition": {
           "newUrl":"badending.html"
       },
       "music-change-emitter": {

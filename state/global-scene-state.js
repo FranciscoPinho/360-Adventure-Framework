@@ -22,6 +22,7 @@ AFRAME.registerState({
     handlers: {
       addFlag: (state,action) => {
         state.flags[action.flagKey]=action.flagValue
+        //check for transitions here, add possibility to ignore cchecking for transitions here
       },
       removeFlag: (state,action) => {
         delete state.flags[action.flagKey]
@@ -75,6 +76,10 @@ AFRAME.registerState({
       },
       saveMusicBaseVolume: (state, action) => {
         state.musicBaseVolumes[action.audioID]=action.baseVolume
+      },
+      changeURL: (state,action) => {
+        //saveToLocalStorage
+        //changeURL
       },
       saveToLocalStorage: (state,action) => {
         

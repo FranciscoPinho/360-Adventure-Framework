@@ -3,7 +3,7 @@
       "id": "cutscene1",
       "src": "#my-video",
       "video-player": "",
-      "cutscene-event-emitter": {
+      "cutscene-end-transition": {
           "destination":"scenes/scene1.json"
       },
       "music-change-emitter": {
