@@ -61,13 +61,16 @@ AFRAME.registerComponent('pickable', {
             
             el.emit('pickupObject'+objectID)
         }
+        
         AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
+        el.removeAttribute('hoverable')
+        AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
+  
         if(afterPickCutscene)
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         setTimeout(()=>{
             if(sfxSrc)
                 sfxSrc.play()
-            AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
             if(afterPickCutscene){
                 const eventDetail = {
                     origin:el.parentNode,

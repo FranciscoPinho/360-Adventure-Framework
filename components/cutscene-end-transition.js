@@ -27,9 +27,10 @@ AFRAME.registerComponent('cutscene-end-transition', {
                 origin:el,
                 destinationURL:destination
             }
+           
+            el.emit('clickNavigation',eventDetail,true)
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
             AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
-            el.emit('clickNavigation',eventDetail,true)
             this.video.ontimeupdate = null
         }
     }

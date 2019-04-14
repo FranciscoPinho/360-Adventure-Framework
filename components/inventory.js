@@ -104,7 +104,6 @@ AFRAME.registerComponent('inventory', {
         let nrInventoryObjects = appState.inventory.length
         if (nrInventoryObjects === 0  || appState.hoveringObject || appState.cutscenePlaying || appState.dialogueOn)
             return
-
         const { iconHoverSfx, positionType, iconDimensions, horizontalSpacing, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,
             rowHeight, columnWidth, inventoryZDistance } = this.data
         const {camera,raycaster,el,summonSfx} = this

@@ -22,6 +22,10 @@ DOING NOW:
 NEW DESCRIPTION ELEMENTS
 - player choice in cutscene
 - 2d video cutscenes
+- audio
+- numerical input
+- subtitles
+- notification
 
 USEFUL INFO
 

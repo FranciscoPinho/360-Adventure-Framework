@@ -77,11 +77,11 @@ AFRAME.registerComponent('hoverable', {
             return
         const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
         const {itemOnly,feedback,hoverIcon} = this.data
-        if (!el.classList.contains('invObject'))
-            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
+        if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject){
+            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
             return
+        }
         if(appState.dialogueOn || !this.raycaster)
             return
         if(itemOnly && !appState.grabbedObject)
@@ -108,7 +108,8 @@ AFRAME.registerComponent('hoverable', {
         
         if (hoverIcon && !appState.grabbedObject)
             pointer.setAttribute('visible', true)
-        
+        if (!el.classList.contains('invObject'))
+            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
     },
     onLeaveObject() {
         if (!this.el.sceneEl.is('vr-mode'))
