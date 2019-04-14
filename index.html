@@ -26,6 +26,7 @@ For example: Music: https://www.bensound.com-->
     <script src="components/cutscene-end-transition.js"></script>
     <script src="components/navigation-event-emitter.js"></script>
     <script src="components/remove-self-if-laser-available.js"></script>
+    <script src="components/remove-self-if-desktop.js"></script>
     <script src="components/global-state-listener.js"></script>
     <script src="components/asset-loader.js"></script>
     <script src="components/guide-widget.js"></script>
@@ -49,6 +50,8 @@ For example: Music: https://www.bensound.com-->
           <img id="deadpersonImg" src="images/deadperson.png"></img>
           <img id="deermanImg" src="images/deerman.png"></img>
           <img id="personImg" src="images/person.png"></img>
+          <img id="chooseIcon" src="icons/select.png"></img>
+          <img id="previouslyChosenIcon" src="icons/previouslySelected.png"></img>
           <img id="icecubeIcon" src="icons/icecube.jpg"></img>
           <img id="halficecubeIcon" src="icons/halficecube.jpg"></img>
           <img id="puddleIcon" src="icons/puddle.jpg"></img>
@@ -64,12 +67,13 @@ For example: Music: https://www.bensound.com-->
           <a-asset-item id="deer" src="3D/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
       
-      <a-entity id="hand" oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
+      <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
       </a-entity>
-      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
+      <a-entity id="mouseCursor" remove-self-if-laser-available cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
       </a-entity>
       <a-entity id="camera" camera look-controls>
         <a-cursor id="cursor"
+          remove-self-if-desktop
           remove-self-if-laser-available
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
           animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"

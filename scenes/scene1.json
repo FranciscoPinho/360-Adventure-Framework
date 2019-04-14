@@ -39,17 +39,24 @@
             "startEvents":["click","triggerdown"],
             "spawn":{
               "location":"look",
-              "zDistance":"-4",
+              "zDistance":"-5",
               "opacity":0.6
             },
             "sfx":{
               "advanceSfx":"#hover",
               "advanceVolume":1,
               "spawnSfx":"#hover",
-              "spawnVolume":1
+              "spawnVolume":1,
+              "hoverChoiceSfx":"#hover",
+              "hoverChoiceVolume":1,
+              "choiceSfx":"#pickup",
+              "choiceVolume":1
             },
+            "choiceIcon":"#chooseIcon",
+            "previouslyChosenIcon":"#previouslyChosenIcon",
             "examinableObject":true,
-            "removeSelfOnEnd":true,
+            "examinedIcon":"#examinedIcon",
+            "removeSelfOnEnd":false,
             "autoplay":false
           },
           "use-target":{

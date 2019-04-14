@@ -11,6 +11,7 @@ AFRAME.registerComponent('hoverable', {
         this.onHoverObject = this.onHoverObject.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.onIntersect = this.onIntersect.bind(this)
+        this.scaleFeedback = this.scaleFeedback.bind(this)
         this.halveMaterialRGB = this.halveMaterialRGB.bind(this)
         this.revertToOriginalRGB = this.revertToOriginalRGB.bind(this)
         this.onLoseIntersection = this.onLoseIntersection.bind(this)
@@ -46,10 +47,11 @@ AFRAME.registerComponent('hoverable', {
     },
     tick() {
         const {pointer,el,raycaster} = this
+        let appState = AFRAME.scenes[0].systems.state.state
+        if(appState.dialogueOn)
+            return
         if (!el.sceneEl.is('vr-mode') || !pointer.getAttribute('visible'))
             return
-
-        let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen && !appState.grabbedObject)
             return
         if (!raycaster) {
@@ -78,7 +80,7 @@ AFRAME.registerComponent('hoverable', {
                 this.pointer.setAttribute('src',this.data.hoverIcon)
         }
     },
-    onHoverObject() {
+    onHoverObject(evt) {
         if (!this.el.sceneEl.is('vr-mode'))
             return
         const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
@@ -88,8 +90,16 @@ AFRAME.registerComponent('hoverable', {
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
             return
         }
-        if(appState.dialogueOn || !this.raycaster)
+        if(!this.raycaster)
             return
+        if(appState.dialogueOn && !el.classList.contains('playerchoice'))
+            return
+        if(el.classList.contains('playerchoice')){
+            if(this.pointer){
+                el.sceneEl.removeChild(this.pointer)
+                this.pointer=null
+            }
+        }
         if(itemOnly && !appState.grabbedObject)
             return
         if(appState.inventoryOpen){
@@ -132,6 +142,8 @@ AFRAME.registerComponent('hoverable', {
             if(infoBox)
                 infoBox.parentNode.removeChild(infoBox)
         }
+        if (!el.classList.contains('invObject'))
+            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false })
         switch (feedback) {
             case 'scale':
                 scaleFeedback(this.data.scaleFactor,-1)
@@ -145,12 +157,13 @@ AFRAME.registerComponent('hoverable', {
                 break
         }
         
-        pointer.setAttribute('visible', false)
+        if(hoverIcon && !appState.grabbedObject)
+            pointer.setAttribute('visible', false)
 
-        if (!el.classList.contains('invObject'))
-            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false })
+       
     },
     scaleFeedback(scaleFactor,scaleDirection){
+        const {originalScaling,el} = this
         let scale = originalScaling
         let newScaling = {
             x: scaleDirection>0 ? scale.x * scaleFactor: scale.x / scaleFactor,
@@ -198,7 +211,7 @@ AFRAME.registerComponent('hoverable', {
         infoBox.setAttribute("visible",false)
         infoBox.setAttribute("material",{color:"black",opacity:0.3})
         let wrapCount = 40
-        infoBox.setAttribute("text",{width:4,value:desc,wrapCount:wrapCount})
+        infoBox.setAttribute("text",{width:4,value:desc,font:"font/Roboto-msdf.json",wrapCount:wrapCount})
         let inventory = document.querySelector("#inventory")
         if(!inventory)
             return

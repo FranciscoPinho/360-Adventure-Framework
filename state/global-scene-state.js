@@ -11,6 +11,7 @@ AFRAME.registerState({
       grabbedObject:null,
       pickedObjectIDs:[],
       musicRecords:{},
+      dialogueTreeRecords:[],
       musicBaseVolumes:{},
       hoveringObject: false,
       inventoryOpen:false,
@@ -73,6 +74,9 @@ AFRAME.registerState({
       },
       saveMusicRecords: (state, action) => {
         state.musicRecords[action.audioID]=action.resumeTime
+      },
+      saveDialogueTreeRecords: (state, action) => {
+        state.dialogueTreeRecords.push(action.choiceID)
       },
       saveMusicBaseVolume: (state, action) => {
         state.musicBaseVolumes[action.audioID]=action.baseVolume
