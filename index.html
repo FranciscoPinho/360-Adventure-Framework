@@ -7,7 +7,6 @@ For example: Music: https://www.bensound.com-->
     <meta charset="utf-8">
     <title>RealAdventure360</title>
     <meta name="description" content="360 Adventure game">
-    <!--<script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>-->
     <script src="libs/aframe-v0.9.0.min.js"></script>
     <script src="libs/aframe-state-component.min.js"></script> 
     <script src="libs/aframe-slice9-component.min.js"></script>
@@ -17,6 +16,7 @@ For example: Music: https://www.bensound.com-->
     <script src="components/hoverable.js"></script>
     <script src="components/pickable.js"></script>
     <script src="components/grabbable.js"></script>
+    <script src="components/dialogue.js"></script>
     <script src="components/spin.js"></script>
     <script src="components/inventory.js"></script>
     <script src="components/use-target.js"></script>
@@ -28,6 +28,7 @@ For example: Music: https://www.bensound.com-->
     <script src="components/remove-self-if-laser-available.js"></script>
     <script src="components/global-state-listener.js"></script>
     <script src="components/asset-loader.js"></script>
+    <script src="components/guide-widget.js"></script>
     <script src="state/global-scene-state.js"></script>
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="game-logic/handleDropObject.js"></script>
@@ -44,10 +45,10 @@ For example: Music: https://www.bensound.com-->
           <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
           <video id="my-video2" src="videos/beachl.webm"></video>
           <video id="my-video" muted src="videos/botanica.webm"></video>
-          <img id="clickToCutscene" src="images/clicktocutscene.PNG"></img>
-          <img id="deadperson" src="images/deadperson.png"></img>
-          <img id="deerman" src="images/deerman.png"></img>
-          <img id="person" src="images/person.png"></img>
+          <img id="clickToCutsceneImg" src="images/clicktocutscene.PNG"></img>
+          <img id="deadpersonImg" src="images/deadperson.png"></img>
+          <img id="deermanImg" src="images/deerman.png"></img>
+          <img id="personImg" src="images/person.png"></img>
           <img id="icecubeIcon" src="icons/icecube.jpg"></img>
           <img id="halficecubeIcon" src="icons/halficecube.jpg"></img>
           <img id="puddleIcon" src="icons/puddle.jpg"></img>
@@ -56,9 +57,10 @@ For example: Music: https://www.bensound.com-->
           <img id="flameIcon" src="icons/flame.png"></img>
           <img id="cutsceneIcon" src="icons/cutscene.jpg"></img>
           <img id="deadlydeerIcon" src="icons/deadlydeer.jpg"></img>
+          <img id="examineIcon" src="icons/examineIcon.PNG"></img>
+          <img id="examinedIcon" src="icons/examinedIcon.PNG"></img>
           <img id="pickIcon" src="icons/hand-pick.png"></img>
           <img id="deerIcon" src="icons/deer.png"></img>
-          <img id="personIcon" src="icons/person.png"></img>
           <a-asset-item id="deer" src="3D/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
       
@@ -67,12 +69,6 @@ For example: Music: https://www.bensound.com-->
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
       </a-entity>
       <a-entity id="camera" camera look-controls>
-         <!-- <a-entity
-          geometry="primitive: plane; height: auto; width: auto"
-          position="0 0 -5"
-          material="color:black; opacity:0.3"
-          text="width: 4; value: This text will be 4 units wideasasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa .">
-        </a-entity>-->
         <a-cursor id="cursor"
           remove-self-if-laser-available
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"

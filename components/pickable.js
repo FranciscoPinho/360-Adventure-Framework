@@ -7,7 +7,7 @@ AFRAME.registerComponent('pickable', {
         animate:{type:"boolean",default:true},
         animationDuration:{type:"number",default:1000}
     },
-    init:  function () {  
+    init() {  
         this.pickObject = this.pickObject.bind(this)
         const {sfx} = this.data
         if(sfx.sfxSrc){
@@ -15,13 +15,13 @@ AFRAME.registerComponent('pickable', {
             this.sfxSrc.volume = sfx.volume
         }
     },
-    play: function() {
+    play() {
         this.el.addEventListener('click',this.pickObject)
     },
-    pause: function() {
+    pause() {
         this.el.removeEventListener('click',this.pickObject)
     },
-    pickObject: function () {
+    pickObject() {
         const {el,sfxSrc} = this
         if(!el.sceneEl.is('vr-mode'))
             return;
@@ -61,7 +61,7 @@ AFRAME.registerComponent('pickable', {
             
             el.emit('pickupObject'+objectID)
         }
-        
+
         AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
         el.removeAttribute('hoverable')
         AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})

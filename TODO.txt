@@ -5,12 +5,13 @@ DOING NOW:
 1.1 dialogue component needs to have:
 - text itself, divided into multiple parts of x characters (maybe dialogue tree) (array?)
 - newURL on end?
-- newFlag but only add if no newURL, newFlag for branching dialogue
 - when over, remove self
 - triggerdown event handler 
 - autoplay?
 - zDistance from camera?
-- appear near the click, in front of camera or fixed to camera 
+- appear nearClick (check if overlap with object itself and do z+1 if so), where user is looking or fixed to camera 
+- checkOnceRead //  this.el.setAttribute('hoverIcon', 'hoverable', "#examinedIcon");
+1.1.1 voice track to accompany each line (lower volume of background music or) //TODO
 1.2 examinable objects, just objects with new hoverable icon of magnifying glass that on click start dialogue
 1.3 use object lead to dialogue
 2. transitions 
@@ -46,11 +47,15 @@ OnSuccessfulObjectUse - changeVideoSrc, instead of transitioning to a cutscene
 OnPlayerChoice - move to some other cutscene
 
 When can voice tracks be played: (have exclusive voice tracks, voice tracks that lower background volume, whatever else)
-OnBeginScene - to be implemented
-OnEndScene - to be implemented
-OnObjectPickup - to be implemented
+OnDialogue - to be implemented
+(OnObjectPickup - to be implemented
 OnObjectExamination - to be implemented
 OnSuccessfulObjectUse - to be implemented
+OnEndScene - to be implemented
+OnBeginScene - to be implemented
+these are encapsulated on dialogue)
+
+
 OnPlayerChoice
 
 
@@ -59,11 +64,11 @@ When can Player choice appear: (different implementations for both cases)
 - in Cutscene  (here player choice integrated as player-choice-transition component, add flags as necessary)
 
 
-Cutscenes will have 3 different mutually exclusive transition components:
+Cutscenes will have 4 different mutually exclusive transition components:
 cutscene-end-transition (transition into newURL/level or back to some scene after the video ends automatically, newURL takes precedence over scene destination)
 player-choice-transition (pause video at player choice moment and transition to different cutscenes on player choice or resume same)
 dialogue-end-transition (if it's a dialogue only cutscene, video irrelevant, transition into newURL/level or back to some scene after dialogue ends automatically)
-
+changeVideoSrc-transition (if we only want to change the videosource cuz it's the same scenario and then change back to a neutral videosource)
 Interaction components:hoverable,inventory(grabbable,use-effect),pickable,navigation-event-emitter,dialogue
 
 if(inventoryOpen)
@@ -77,6 +82,10 @@ Transitions:
 Flag based transitions: upon certain conditions trigger a transition into something, very powerful allow for in between gameplay transitions into anything
 Dialogue based transitions: after dialogue ends go somewhere possibly
 Navigation based transitions: user clicks on navigation element to go to different environment
-Cutscene based transitions: transition into different stuff from cutscenes, see 3 cutscene transition components
+Cutscene based transitions: transition into different stuff from cutscenes, see 4 cutscene transition components
 OnPickObject: Transition into voice, cutscene or dialogue that automatically transition back into playable scene
 OnObjectExamination: Transition into voice ,cutscene or dialogue that automatically transition back into playable scene
+
+On hoverable component
+-can define different hover icons
+-if item only flag present there is no feedback unless you try to drag an inventory object into the object

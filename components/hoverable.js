@@ -72,6 +72,12 @@ AFRAME.registerComponent('hoverable', {
     onLoseIntersection(evt) {
         this.raycaster = null;
     },
+    update(oldData){
+        if(this.pointer){
+            if(this.data.hoverIcon!=oldData.hoverIcon)
+                this.pointer.setAttribute('src',this.data.hoverIcon)
+        }
+    },
     onHoverObject() {
         if (!this.el.sceneEl.is('vr-mode'))
             return

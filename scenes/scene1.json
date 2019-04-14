@@ -30,10 +30,28 @@
         "a-image": {
           "id": "person",
           "class": "inter",
-          "src": "#person",
+          "src": "#personImg",
           "position": "8 -1.4 -4",
           "rotation": "0 -90 0",
           "scale": "1.5 1.5 1.5",
+          "dialogue":{
+            "dialogueTreeURL":"dialogue/dialogue1.json",
+            "startEvents":["click","triggerdown"],
+            "spawn":{
+              "location":"look",
+              "zDistance":"-4",
+              "opacity":0.6
+            },
+            "sfx":{
+              "advanceSfx":"#hover",
+              "advanceVolume":1,
+              "spawnSfx":"#hover",
+              "spawnVolume":1
+            },
+            "examinableObject":true,
+            "removeSelfOnEnd":true,
+            "autoplay":false
+          },
           "use-target":{
             "stimulus":[
               {
@@ -41,16 +59,16 @@
                 "newFlag": "dead",
                 "inventoryData": {
                   "originalID":"person",
-                  "iconSrc": "#deadperson",
+                  "iconSrc": "#deadpersonImg",
                   "iconID": "deadperson",
-                  "iconDesc":"Dead Guy: This guy is dead..."
+                  "iconDesc":"Dead Agent Smith: This guy is dead, congratulations terrorist..."
                 }
               },
               {
                 "targeted_by":["deer1","deer2"],
                 "newFlag": "deerman",
                 "id":"deerman",
-                "src": "#deerman",
+                "src": "#deermanImg",
                 "scale":"5 5 5",
                 "sfxSrc":"#matchlit",
                 "volume":"0.5",
@@ -60,7 +78,7 @@
                       "targeted_by":["deer1","deer2"],
                       "newFlag": "deadperson",
                       "id":"deadperson",
-                      "src": "#deadperson",
+                      "src": "#deadpersonImg",
                       "scale":"3 3 3"
                     }
                   ]
@@ -74,7 +92,7 @@
               "volume": 1
             },
             "feedback": "color",
-            "itemOnly": "true"
+            "hoverIcon": "#examineIcon"
           }
         }
       },
@@ -82,7 +100,7 @@
         "a-image": {
           "id": "cutscene",
           "class": "inter",
-          "src": "#clickToCutscene",
+          "src": "#clickToCutsceneImg",
           "position": "10 5 -5",
           "scale": "2 2 2",
           "rotation":"0 100 0",

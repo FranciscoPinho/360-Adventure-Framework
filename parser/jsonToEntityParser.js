@@ -60,7 +60,7 @@ childrenJsonToEntities = (child_json)=>{
                     if(Object.keys(transformationAttributes).length && entityName==="a-image")
                         newEntity.setAttribute('material',{transparent:true,shader:"flat",side:"double"})
                 }
-                if(transformationAttributes){
+                if(Object.keys(transformationAttributes).length){
                     if(componentName in transformationAttributes)
                         newEntity.setAttribute(componentName,transformationAttributes[componentName])
                     else newEntity.setAttribute(componentName,components[componentName])

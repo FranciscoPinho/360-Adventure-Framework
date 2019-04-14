@@ -15,6 +15,7 @@ AFRAME.registerComponent('inventory', {
         positionType: {type:"string",default:"laser"} //look laser fixed
     },
     init() {
+      
         this.handleInventory = this.handleInventory.bind(this)
         this.unsummonInventory = this.unsummonInventory.bind(this)
         this.summonInventory = this.summonInventory.bind(this)
@@ -131,7 +132,7 @@ AFRAME.registerComponent('inventory', {
                     dummyNode = document.createElement("a-entity")
                     dummyNode.setAttribute("id", "dummyinventory")
                     dummyNode.setAttribute("visible", false)
-                
+                 
                     if(positionType==="look"){
                         dummyNode.object3D.position.set(0,0,inventoryZDistance)
                         camera.appendChild(dummyNode)
@@ -144,6 +145,7 @@ AFRAME.registerComponent('inventory', {
                         raycaster.appendChild(dummyNode)
                     }
                 }
+                
                 inventoryNode.setAttribute('look-at', "[camera]")
                 el.appendChild(inventoryNode)
                 setTimeout(()=>{

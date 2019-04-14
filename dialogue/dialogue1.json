@@ -1,0 +1,14 @@
+{
+    "dialogueTree":[
+        { "text": "This man is called Agent Smith! Please be respectful to the man." },
+        { "text": "This man is absolutely untouchable, there's nothing you can do to him saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 
+        "choices": [
+            { "text": "What if I combined deers and used it on him", "next": "combine_deers_q", "newFlag":"madman" },
+            { "text": "What if I used a deer on this man", "next": "use_deer_q", "newFlag":"smartman" }
+        ] 
+        },
+        { "label": "combine_deers_q", "text": "You wouldn't dare... Are you a terrorist?", "next": "end" },
+        { "label": "use_deer_q", "text": "Just do it.", "next": "end" },
+        { "label": "end" , "text": "Transmission over" }
+    ]
+}
