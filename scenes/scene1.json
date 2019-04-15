@@ -35,6 +35,7 @@
           "rotation": "0 -90 0",
           "scale": "1.5 1.5 1.5",
           "dialogue":{
+            "dialogueID":"deertalk",
             "dialogueTreeURL":"dialogue/dialogue1.json",
             "startEvents":["click","triggerdown"],
             "spawn":{

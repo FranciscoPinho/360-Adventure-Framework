@@ -1,5 +1,6 @@
 AFRAME.registerComponent('dialogue', {
     schema: {
+        dialogueID:{type:"string"},
         dialogueTreeURL:{type:"string"},
         sfx:{type:"string"},
         spawn:{type:"string"},
@@ -69,7 +70,13 @@ AFRAME.registerComponent('dialogue', {
         this.dialogueTree = dialogue.dialogueTree
         if(spawnSfx)
             spawnSfx.play()
+        try{
         spawnDialogueBox()
+        }
+        catch(e)
+        {
+            console.log(e)
+        }
     },
     spawnDialogueBox () {
         AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:true});
@@ -119,62 +126,67 @@ AFRAME.registerComponent('dialogue', {
     advanceDialogue() {
         if(!this.checkDialogueInFrustrum())
             return
-
-        const {el,dialogueTree,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText} = this
+        const {el,dialogueTree,advanceDialogue,startDialogue,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText} = this
         const {removeSelfOnEnd,examinableObject,startEvents,spawn,examinedIcon} = this.data
+        let currentDialogue = dialogueTree[currentLine]
 
-        if(currentLine===dialogueTree.length-1){
+        if(currentLine===dialogueTree.length || !currentDialogue){
             if(examinableObject)
                 el.setAttribute('hoverable',{hoverIcon:examinedIcon})
             for(let i=0,n=startEvents.length; i<n; i++)
                 el.sceneEl.removeEventListener(startEvents[i], advanceDialogue)
-            dialogueBox.parentNode.removeChild(dialogueBox)
-            AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});
+            if(spawn.location!=="fixed")
+                el.sceneEl.removeChild(dialogueBox)
+            else document.querySelector("#camera").removeChild(dialogueBox)
             if(removeSelfOnEnd)
                 el.removeAttribute('dialogue')
-            else {
+            else 
                 for(let i=0,n=startEvents.length; i<n; i++)
                     el.addEventListener(startEvents[i], startDialogue)
-            }
+            AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});
             return
         }
-        
-        let currentDialogue = dialogueTree[currentLine]
+
         if (!currentDialogue.text) {
             console.error("Invalid dialogue: no text")
             return
         }
+        
         if(advanceSfx)
             advanceSfx.play()
-
+            
         if(currentDialogue.choices){
             updateDialogueBoxText(dialogueBox,currentDialogue.text)
             spawnPlayerChoice(currentDialogue.choices)
             return
         }
         else updateDialogueBoxText(dialogueBox,currentDialogue.text)
-    
+
         currentDialogue.next ? this.currentLine = this.findLabel(currentDialogue.next) :
             this.currentLine = currentLine + 1
     },
     spawnPlayerChoice(choices){
-   
+        let appState = AFRAME.scenes[0].systems.state.state
         const {el,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume} = this
-        const {startEvents,spawn, choiceIcon} = this.data
+        const {startEvents,spawn, choiceIcon, previouslyChosenIcon, dialogueID} = this.data
         let len = choices.length
+        let originalY = dialogueBox.object3D.position.y
         dialogueBox.object3D.position.y=dialogueBox.object3D.position.y+len*0.5
         dialogueBox.setAttribute("material",{color:"black",opacity:spawn.opacity+0.2})
-        //remove general dialogue advancement event listeners
+ 
         for(let i=0,n=startEvents.length; i<n; i++)
             el.sceneEl.removeEventListener(startEvents[i], advanceDialogue)
+
         for(let i=0;i<len;i++){
-            let circle = document.createElement("a-circle")
-            circle.setAttribute("radius", 0.25)
-            circle.setAttribute("material",{opacity:0.8})
+            let choiceData=choices[i]
+            let circle = document.createElement("a-entity")
+            circle.setAttribute("geometry", {primitive:"circle",radius:0.25})
+            let alreadyChosen=appState.exploredTreeChoices.indexOf(choiceData.choiceID)!==-1
+            if(alreadyChosen)
+                circle.setAttribute('material',{src:previouslyChosenIcon,opacity:0.8})
+            else circle.setAttribute('material',{src:choiceIcon,opacity:0.8})
             circle.setAttribute("hoverable",{sfx:{sfxSrc:hoverChoiceSfx,volume:hoverChoiceVolume}})
-            circle.setAttribute("id",choices[i].choiceID)
-            if(choiceIcon)
-                circle.setAttribute('src',choiceIcon)
+            circle.setAttribute("id",choiceData.choiceID)
             circle.classList.add('playerchoice')
             circle.classList.add('inter')
             circle.setAttribute("position",{x:-1.8,y:-0.7-0.8*i,z:0})
@@ -182,13 +194,33 @@ AFRAME.registerComponent('dialogue', {
             let newChoice = document.createElement("a-entity")
             newChoice.setAttribute("material",{color:"grey",opacity:0.8})
             newChoice.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
-            newChoice.setAttribute("text",{width:4,value:choices[i].text,font:"font/Roboto-msdf.json",wrapCount:40})
+            newChoice.setAttribute("text",{width:4,value:choiceData.text,font:"font/Roboto-msdf.json",wrapCount:40})
             newChoice.setAttribute("position",{x:0.6,y:-0.7-0.8*i,z:0})
             dialogueBox.appendChild(newChoice)
+            let choiceHandler = (evt)=>{
+                evt.stopPropagation()
+                if(choiceData.newFlag)
+                    AFRAME.scenes[0].emit('addFlag', {
+                        flagKey:dialogueID,
+                        flagValue:choiceData.newFlag
+                    })
+                if(!alreadyChosen)
+                    AFRAME.scenes[0].emit('addExploredDialogueTreeChoice', { choiceID:choiceData.choiceID})
+                choiceData.next ? this.currentLine = this.findLabel(choiceData.next) :
+                    this.currentLine = currentLine + 1
+                while (dialogueBox.firstChild) {
+                    dialogueBox.removeChild(dialogueBox.firstChild);
+                }
+                dialogueBox.object3D.position.y=originalY
+                advanceDialogue()
+                setTimeout(()=>{
+                    for(let i=0,n=startEvents.length; i<n; i++)
+                        el.sceneEl.addEventListener(startEvents[i], advanceDialogue)
+                },100)
+            }
+            for(let i=0,n=startEvents.length; i<n; i++)
+                circle.addEventListener(startEvents[i],choiceHandler,{once:true})
         }
-         // player chooses and current line changes accordingly
-            //for(let i=0,n=startEvents.length; i<n; i++)
-            //    el.sceneEl.addEventListener(startEvents[i], advanceDialogue)
     },
     updateDialogueBoxText (dialogueBox,text)
     {

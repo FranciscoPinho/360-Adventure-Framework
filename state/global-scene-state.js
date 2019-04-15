@@ -1,6 +1,6 @@
 AFRAME.registerState({
     nonBindedStateKeys: ['combinations','grabbedObject',
-    'hoveringID','flags','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight',
+    'hoveringID','flags','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight','exploredTreeChoices',
     'inventoryOpen','transformedObjects','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
       flags:{},
@@ -11,7 +11,7 @@ AFRAME.registerState({
       grabbedObject:null,
       pickedObjectIDs:[],
       musicRecords:{},
-      dialogueTreeRecords:[],
+      exploredTreeChoices:[],
       musicBaseVolumes:{},
       hoveringObject: false,
       inventoryOpen:false,
@@ -24,6 +24,10 @@ AFRAME.registerState({
       addFlag: (state,action) => {
         state.flags[action.flagKey]=action.flagValue
         //check for transitions here, add possibility to ignore cchecking for transitions here
+      },
+      addExploredDialogueTreeChoice: (state, action) => {
+        if(state.exploredTreeChoices.indexOf(action.choiceID)===-1)
+          state.exploredTreeChoices.push(action.choiceID)
       },
       removeFlag: (state,action) => {
         delete state.flags[action.flagKey]
@@ -74,9 +78,6 @@ AFRAME.registerState({
       },
       saveMusicRecords: (state, action) => {
         state.musicRecords[action.audioID]=action.resumeTime
-      },
-      saveDialogueTreeRecords: (state, action) => {
-        state.dialogueTreeRecords.push(action.choiceID)
       },
       saveMusicBaseVolume: (state, action) => {
         state.musicBaseVolumes[action.audioID]=action.baseVolume
