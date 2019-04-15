@@ -6,7 +6,8 @@ AFRAME.registerComponent('asset-loader', {
         })
         queryResults = document.querySelectorAll('audio')
         queryResults.forEach((audio)=>{
-            audio.load()
+            if(audio.src)
+                audio.load()
         })
     }
 })

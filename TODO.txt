@@ -4,9 +4,7 @@ DOING NOW:
 1. dialogue
 1.1 dialogue component needs to have:
 - newURL on end?
-- when over, remove self
 - autoplay?
-- choices that are one and done and choices that go back to choices and are just greyed out
 1.1.1 voice track to accompany each line (lower volume of background music or) //TODO
 1.2 examinable objects, just objects with new hoverable icon of magnifying glass that on click start dialogue
 1.3 use object lead to dialogue

@@ -38,6 +38,7 @@
             "dialogueID":"deertalk",
             "dialogueTreeURL":"dialogue/dialogue1.json",
             "startEvents":["click","triggerdown"],
+            "advanceEvents":["click","triggerdown"],
             "spawn":{
               "location":"look",
               "zDistance":"-5",

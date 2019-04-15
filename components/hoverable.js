@@ -116,6 +116,8 @@ AFRAME.registerComponent('hoverable', {
             case 'rotate':
                 el.setAttribute('spin', "")
                 break
+            case 'nofeedback':
+                break
             case 'color':
             default:
                 halveMaterialRGB()
@@ -150,6 +152,8 @@ AFRAME.registerComponent('hoverable', {
                 break
             case 'rotate':
                 el.removeAttribute('spin')
+                break
+            case 'nofeedback':
                 break
             case 'color':
             default:
