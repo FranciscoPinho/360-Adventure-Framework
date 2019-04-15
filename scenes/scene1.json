@@ -27,6 +27,41 @@
         }
       },
       {
+        "a-plane":{
+          "id":"invisibleplane",
+          "class":"inter",
+          "geometry": {
+            "primitive": "plane"
+          },
+          "position": "-12 0 -9.974",
+          "rotation": "0 40 0",
+          "scale": "1.5 2 1.5",
+          "invisible-in-vr":"",
+          "hoverable": {
+            "sfx":{
+              "sfxSrc": "#hover",
+              "volume": 1
+            },
+            "feedback": "nofeedback",
+            "hoverIcon": "#examineIcon"
+          },
+          "dialogue":{
+            "dialogueTreeURL":"dialogue/dialogue4.json",
+            "spawn":{
+              "location":"look",
+              "zDistance":"-5",
+              "opacity":0.6
+            },
+            "sfx":{
+              "advanceSfx":"#hover",
+              "advanceVolume":1,
+              "spawnSfx":"#hover",
+              "spawnVolume":1
+            },
+            "examinableObject":true,
+            "examinedIcon":"#examinedIcon"
+          }
+        },
         "a-image": {
           "id": "person",
           "class": "inter",
@@ -49,7 +84,7 @@
               "hoverChoiceSfx":"#hover",
               "hoverChoiceVolume":1,
               "choiceSfx":"#pickup",
-              "choiceVolume":1
+              "choiceVolume":0.3
             },
             "choiceIcon":"#chooseIcon",
             "previouslyChosenIcon":"#previouslyChosenIcon",
@@ -74,11 +109,7 @@
                     "advanceSfx":"#hover",
                     "advanceVolume":1,
                     "spawnSfx":"#hover",
-                    "spawnVolume":1,
-                    "hoverChoiceSfx":"#hover",
-                    "hoverChoiceVolume":1,
-                    "choiceSfx":"#pickup",
-                    "choiceVolume":1
+                    "spawnVolume":1
                   },
                   "removeSelfOnEnd":true,
                   "autoplay":true
@@ -107,8 +138,8 @@
                     "spawnVolume":1,
                     "hoverChoiceSfx":"#hover",
                     "hoverChoiceVolume":1,
-                    "choiceSfx":"#pickup",
-                    "choiceVolume":1
+                    "choiceSfx":"#choiceSfx",
+                    "choiceVolume":0.3
                   },
                   "removeSelfOnEnd":true,
                   "autoplay":true,
@@ -153,7 +184,7 @@
                           "spawnVolume":1,
                           "hoverChoiceSfx":"#hover",
                           "hoverChoiceVolume":1,
-                          "choiceSfx":"#pickup",
+                          "choiceSfx":"#choiceSfx",
                           "choiceVolume":1
                         },
                         "removeSelfOnEnd":true,

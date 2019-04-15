@@ -191,7 +191,7 @@ AFRAME.registerComponent('dialogue', {
     },
     spawnPlayerChoice(choices){
         let appState = AFRAME.scenes[0].systems.state.state
-        const {el,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume,currentLine} = this
+        const {el,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume,currentLine,choiceSfx} = this
         const {advanceEvents,spawn, choiceIcon, previouslyChosenIcon} = this.data
         let len = choices.length
         let originalY = dialogueBox.object3D.position.y
@@ -224,6 +224,8 @@ AFRAME.registerComponent('dialogue', {
             dialogueBox.appendChild(newChoice)
             let choiceHandler = (evt)=>{
                 evt.stopPropagation()
+                if(choiceSfx)
+                    choiceSfx.play()
                 if(choiceData.newFlag)
                     AFRAME.scenes[0].emit('addFlag', {
                         flagKey:choiceData.choiceID,
@@ -237,7 +239,7 @@ AFRAME.registerComponent('dialogue', {
                     dialogueBox.removeChild(dialogueBox.firstChild);
                 }
                 dialogueBox.object3D.position.y=originalY
-                
+               
                 advanceDialogue()
                 
                 setTimeout(()=>{

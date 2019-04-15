@@ -9,9 +9,9 @@ AFRAME.registerComponent('invisible-in-vr', {
             makeVisible,
             makeInvisible
         } = this
-        window.addEventListener('vrdisplayactivate', makeVisible);
-        el.sceneEl.addEventListener('enter-vr', makeVisible);
-        el.sceneEl.addEventListener('exit-vr', makeInvisible)
+        window.addEventListener('vrdisplayactivate', makeInvisible);
+        el.sceneEl.addEventListener('enter-vr', makeInvisible);
+        el.sceneEl.addEventListener('exit-vr', makeVisible)
     },
     pause() {
         const {
@@ -19,9 +19,9 @@ AFRAME.registerComponent('invisible-in-vr', {
             makeVisible,
             makeInvisible
         } = this
-        el.sceneEl.removeEventListener('enter-vr', makeVisible);
-        el.sceneEl.removeEventListener('exit-vr', makeInvisible)
-        window.removeEventListener('vrdisplayactivate', makeVisible);
+        el.sceneEl.removeEventListener('enter-vr', makeInvisible);
+        el.sceneEl.removeEventListener('exit-vr', makeVisible)
+        window.removeEventListener('vrdisplayactivate', makeInvisible);
     },
     makeVisible() {
         this.el.setAttribute('visible', true)
