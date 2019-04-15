@@ -71,6 +71,8 @@ AFRAME.registerState({
       },
       updateDialogueOn: (state,action) => {
         state.dialogueOn = action.dialogueOn
+        state.hoveringID = null
+        state.hoveringObject=false
       },
       updateCutscenePlaying: (state,action) => {
         state.cutscenePlaying = action.cutscenePlaying

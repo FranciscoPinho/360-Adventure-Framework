@@ -73,6 +73,7 @@ AFRAME.registerComponent('hoverable', {
     },
     onLoseIntersection(evt) {
         this.raycaster = null;
+        AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false })
     },
     update(oldData){
         if(this.pointer){
@@ -86,7 +87,7 @@ AFRAME.registerComponent('hoverable', {
         const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
         const {itemOnly,feedback,hoverIcon} = this.data
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject){
+        if (appState.inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !appState.grabbedObject){
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
             return
         }
@@ -137,7 +138,7 @@ AFRAME.registerComponent('hoverable', {
         const {feedback,hoverIcon} = this.data
         let appState = AFRAME.scenes[0].systems.state.state
 
-        if (appState.inventoryOpen && !el.classList.contains('invObject') && !appState.grabbedObject)
+        if (appState.inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !appState.grabbedObject)
             return
         if(appState.inventoryOpen){
             let infoBox = document.querySelector("#inventoryinfo")

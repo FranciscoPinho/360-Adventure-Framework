@@ -4,6 +4,7 @@ AFRAME.registerComponent('pickable', {
         inventoryData:{type:"string"},
         newFlag:{type:"string",default:"picked"},
         afterPickCutscene:{type:"string",default:""},
+        afterPickDialogue:{type:"string",default:""},
         animate:{type:"boolean",default:true},
         animationDuration:{type:"number",default:1000}
     },
@@ -30,13 +31,16 @@ AFRAME.registerComponent('pickable', {
             return
         let objectID = el.getAttribute('id')
         el.sceneEl.removeChild(document.querySelector('#'+objectID+"pointer"))
-        const {inventoryData,newFlag,afterPickCutscene,animate,animationDuration} = this.data
+        el.removeAttribute('hoverable')
+        AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
+        const {inventoryData,newFlag,afterPickCutscene,afterPickDialogue,animate,animationDuration} = this.data
         let object = {
             iconID:inventoryData.iconID,
             iconSrc:inventoryData.iconSrc,
             iconDesc:inventoryData.iconDesc
         }
         let timeOut = 0
+        
         if(animate){
            const {x,y,z} = el.getAttribute('scale')
          
@@ -63,9 +67,7 @@ AFRAME.registerComponent('pickable', {
         }
 
         AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
-        el.removeAttribute('hoverable')
-        AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})
-  
+ 
         if(afterPickCutscene)
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         setTimeout(()=>{
@@ -79,6 +81,10 @@ AFRAME.registerComponent('pickable', {
                 AFRAME.scenes[0].emit('addFlag', {flagKey:objectID,flagValue:newFlag});
                 el.emit('clickNavigation',eventDetail,true)
                 return
+            }
+            else if(afterPickDialogue){
+                el.parentNode.removeChild(el);
+                el.sceneEl.setAttribute('dialogue',afterPickDialogue)
             }
             else el.parentNode.removeChild(el);
         },timeOut)

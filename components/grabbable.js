@@ -85,6 +85,9 @@ AFRAME.registerComponent('grabbable', {
             this.raycaster = null;
     },
     onDetectButtonDown(evt) {
+        let appState = AFRAME.scenes[0].systems.state.state
+        if(appState.dialogueOn)
+            return
         const {el,raycaster} = this
         if (!raycaster)
             return;

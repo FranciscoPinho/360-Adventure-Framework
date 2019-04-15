@@ -60,11 +60,17 @@ childrenJsonToEntities = (child_json)=>{
                     if(Object.keys(transformationAttributes).length && entityName==="a-image")
                         newEntity.setAttribute('material',{transparent:true,shader:"flat",side:"double"})
                 }
-                if(Object.keys(transformationAttributes).length){
-                    if(componentName in transformationAttributes)
-                        newEntity.setAttribute(componentName,transformationAttributes[componentName])
-                    else newEntity.setAttribute(componentName,components[componentName])
-                }
+                if(transformationAttributes)
+                    if(Object.keys(transformationAttributes).length){
+                        if(componentName in transformationAttributes)
+                            newEntity.setAttribute(componentName,transformationAttributes[componentName])
+                        else {
+                            if("dialogue" in components && componentName==="hoverable")
+                                continue
+                            if(componentName!=="dialogue")
+                                newEntity.setAttribute(componentName,components[componentName])
+                        }
+                    }
                 else newEntity.setAttribute(componentName,components[componentName])
             }
             finalNodes.push({

@@ -1,19 +1,18 @@
 AFRAME.registerComponent('dialogue', {
     schema: {
-        dialogueID:{type:"string"},
         dialogueTreeURL:{type:"string"},
         sfx:{type:"string"},
         spawn:{type:"string"},
-        startEvents:{type:"array"},
-        advanceEvents:{type:"array"},
+        startEvents:{type:"array", default:["click","triggerdown"]},
+        advanceEvents:{type:"array", default:["click","triggerdown"]},
         examinableObject:{type:"boolean",default:false},
         removeSelfOnEnd:{type:"boolean",default:false},
         autoplay:{type:"boolean",default:false},
         pauseBackgroundSong:{type:"boolean",default:false},
-        lowerBackgroundSongVolume:{type:"boolean",default:false},
         choiceIcon:{type:"string",default:"#choiceIcon"},
         previouslyChosenIcon:{type:"string",default:"#previouslyChosenIcon"},
-        examinedIcon:{type:"string",default:"#examinedIcon"}
+        examinedIcon:{type:"string",default:"#examinedIcon"},
+        newURL:{stype:"string",default:"false"}
     },
     init() {  
         this.startDialogue = this.startDialogue.bind(this)
@@ -22,8 +21,7 @@ AFRAME.registerComponent('dialogue', {
         this.spawnDialogueBox = this.spawnDialogueBox.bind(this)
         this.spawnPlayerChoice = this.spawnPlayerChoice.bind(this)
         this.newMat = new THREE.Matrix4();
-        this.voiceOver = document.querySelector("#dialogueVoiceOver")
-        const {sfx} = this.data
+        const {sfx,autoplay} = this.data
         if(sfx.advanceSfx){
             this.advanceSfx = document.querySelector(sfx.advanceSfx)
             this.advanceSfx.volume = sfx.advanceVolume
@@ -40,44 +38,49 @@ AFRAME.registerComponent('dialogue', {
             this.hoverChoiceSfx = sfx.hoverChoiceSfx
             this.hoverChoiceVolume = sfx.hoverChoiceVolume
         }
+      
     },
     play() {
         const {el,startDialogue,advanceDialogue} = this
-        const {startEvents,advanceEvents} = this.data
-        if(!this.currentLine)
+        const {startEvents,advanceEvents,autoplay} = this.data
+        if(!this.currentLine && !autoplay)
             for(let i=0,n=startEvents.length; i<n; i++)
                 el.addEventListener(startEvents[i], startDialogue)
-        else
+        if(this.currentLine && !autoplay)
             for(let i=0,n=advanceEvents.length; i<n; i++)
                 el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
+        if(autoplay && this.el.sceneEl.is('vr-mode'))
+            startDialogue()
+        else this.el.addEventListener('enter-vr',startDialogue,{once:true})
     },
     pause() {
         const {el,startDialogue,advanceDialogue} = this
         const {startEvents,advanceEvents} = this.data
-        if(!this.currentLine)
-            for(let i=0,n=startEvents.length; i<n; i++)
-                el.removeEventListener(startEvents[i], startDialogue)
-        else
-            for(let i=0,n=advanceEvents.length; i<n; i++)
-                el.sceneEl.removeEventListener(advanceEvents[i], advanceDialogue)
+        for(let i=0,n=startEvents.length; i<n; i++)
+            el.removeEventListener(startEvents[i], startDialogue)
+        for(let i=0,n=advanceEvents.length; i<n; i++)
+            el.sceneEl.removeEventListener(advanceEvents[i], advanceDialogue)
     },
     async startDialogue() {
         const {el,startDialogue,spawnSfx,spawnDialogueBox} = this
-        const {startEvents,dialogueTreeURL} = this.data
-        for(let i=0,n=startEvents.length; i<n; i++)
-            el.removeEventListener(startEvents[i], startDialogue)
+        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay} = this.data
+        if(!autoplay)
+            for(let i=0,n=startEvents.length; i<n; i++)
+                el.removeEventListener(startEvents[i], startDialogue)
         this.currentLine = 0;
         const response = await fetch(dialogueTreeURL)
         const dialogue = await response.json()
         this.dialogueTree = dialogue.dialogueTree
         if(spawnSfx)
             spawnSfx.play()
+        if(pauseBackgroundSong)
+            el.sceneEl.emit('music-pause')
         spawnDialogueBox()
     },
     spawnDialogueBox () {
         AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:true});
         this.dialogueBox = document.createElement("a-entity")
-        const {dialogueBox,el,advanceDialogue} = this
+        const {dialogueBox,el,advanceDialogue,dialogueTree,currentLine} = this
         const {spawn,advanceEvents}=this.data
         let zDistance = spawn.zDistance ? spawn.zDistance : -5
         let opacity = spawn.opacity ? spawn.opacity : 0.3
@@ -101,44 +104,52 @@ AFRAME.registerComponent('dialogue', {
                 setTimeout(()=>{
                     this.newMat.copy(dummyNode.object3D.matrixWorld)
                     dialogueBox.object3D.position.setFromMatrixPosition(this.newMat)
-                    advanceDialogue()  
-                    dialogueBox.setAttribute("visible",true)  
-                    for(let i=0,n=advanceEvents.length; i<n; i++)
-                        el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
+                    dialogueBox.setAttribute('visible',true)
+                    advanceDialogue()
+                    if(!dialogueTree[currentLine].choices) 
+                        for(let i=0,n=advanceEvents.length; i<n; i++)
+                            el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
                     camera.removeChild(dummyNode)
                 },100)
             break
             case "fixed":
                 dialogueBox.object3D.position.set(0,0,zDistance)
                 camera.appendChild(dialogueBox)
-                advanceDialogue()  
-                dialogueBox.setAttribute("visible",true)  
-                for(let i=0,n=advanceEvents.length; i<n; i++)
-                    el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
+                dialogueBox.setAttribute('visible',true)
+                advanceDialogue()
+                if(!dialogueTree[currentLine].choices)     
+                    for(let i=0,n=advanceEvents.length; i<n; i++)
+                        el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
             break
         }
     },
     advanceDialogue() {
         if(!this.checkDialogueInFrustrum())
             return
-        const {el,dialogueTree,voiceOver,advanceDialogue,startDialogue,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText} = this
-        const {removeSelfOnEnd,examinableObject,startEvents,advanceEvents,spawn,examinedIcon} = this.data
+        const {el,dialogueTree,advanceDialogue,startDialogue,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText} = this
+        const {removeSelfOnEnd,examinableObject,startEvents,advanceEvents,spawn,examinedIcon,pauseBackgroundSong,newURL,autoplay} = this.data
         let currentDialogue = dialogueTree[currentLine]
 
         if(currentLine===dialogueTree.length || !currentDialogue){
+            AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});
+            if(this.voiceOver){
+                document.querySelector('a-assets').removeChild(this.voiceOver)
+                this.voiceOver = undefined
+            }
+            if(pauseBackgroundSong)
+                el.sceneEl.emit('music-resume')
             if(examinableObject)
                 el.setAttribute('hoverable',{hoverIcon:examinedIcon})
             for(let i=0,n=advanceEvents.length; i<n; i++)
                 el.sceneEl.removeEventListener(advanceEvents[i], advanceDialogue)
-            if(spawn.location!=="fixed")
-                el.sceneEl.removeChild(dialogueBox)
-            else document.querySelector("#camera").removeChild(dialogueBox)
+            dialogueBox.parentNode.removeChild(dialogueBox)
             if(removeSelfOnEnd)
                 el.removeAttribute('dialogue')
-            else 
+            else if(!autoplay)
                 for(let i=0,n=startEvents.length; i<n; i++)
                     el.addEventListener(startEvents[i], startDialogue)
-            AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});
+            if(newURL)
+                AFRAME.scenes[0].emit('changeURL',{url:newURL})
             return
         }
 
@@ -150,16 +161,22 @@ AFRAME.registerComponent('dialogue', {
         if(advanceSfx)
             advanceSfx.play()
 
-        if (currentDialogue.voiceTrack) {
-            if (voiceOver.duration > 0 && !voiceOver.paused) {
-                voiceOver.pause()
-                voiceOver.duration = 0
+        if(this.voiceOver)
+            if (this.voiceOver.duration > 0 && !this.voiceOver.paused) {
+                this.voiceOver.pause()
+                this.voiceOver.duration = 0
             }
-            voiceOver.src = currentDialogue.voiceTrack
+
+        if (currentDialogue.voiceTrack) {
+            if(!this.voiceOver){
+                this.voiceOver = document.createElement("audio")
+                document.querySelector('a-assets').appendChild(this.voiceOver)
+            }
+            this.voiceOver.src = currentDialogue.voiceTrack
             if (currentDialogue.voiceVolume)
-                voiceOver.volume = currentDialogue.voiceVolume
-            else voiceOver.volume = 1
-            voiceOver.play()
+                this.voiceOver.volume = currentDialogue.voiceVolume
+            else this.voiceOver.volume = 1
+            this.voiceOver.play()
         }
 
         if(currentDialogue.choices){
@@ -174,12 +191,13 @@ AFRAME.registerComponent('dialogue', {
     },
     spawnPlayerChoice(choices){
         let appState = AFRAME.scenes[0].systems.state.state
-        const {el,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume} = this
-        const {advanceEvents,spawn, choiceIcon, previouslyChosenIcon, dialogueID} = this.data
+        const {el,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume,currentLine} = this
+        const {advanceEvents,spawn, choiceIcon, previouslyChosenIcon} = this.data
         let len = choices.length
         let originalY = dialogueBox.object3D.position.y
         dialogueBox.object3D.position.y=dialogueBox.object3D.position.y+len*0.5
-        dialogueBox.setAttribute("material",{color:"black",opacity:spawn.opacity+0.2})
+        let opacity = spawn.opacity ? spawn.opacity : 0.3
+        dialogueBox.setAttribute("material",{color:"black",opacity:opacity+0.2})
  
         for(let i=0,n=advanceEvents.length; i<n; i++)
             el.sceneEl.removeEventListener(advanceEvents[i], advanceDialogue)
@@ -208,7 +226,7 @@ AFRAME.registerComponent('dialogue', {
                 evt.stopPropagation()
                 if(choiceData.newFlag)
                     AFRAME.scenes[0].emit('addFlag', {
-                        flagKey:dialogueID,
+                        flagKey:choiceData.choiceID,
                         flagValue:choiceData.newFlag
                     })
                 if(!alreadyChosen)
@@ -219,10 +237,13 @@ AFRAME.registerComponent('dialogue', {
                     dialogueBox.removeChild(dialogueBox.firstChild);
                 }
                 dialogueBox.object3D.position.y=originalY
+                
                 advanceDialogue()
+                
                 setTimeout(()=>{
-                    for(let i=0,n=advanceEvents.length; i<n; i++)
-                        el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
+                    if(dialogueBox)
+                        for(let i=0,n=advanceEvents.length; i<n; i++)
+                            el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
                 },100)
             }
             for(let i=0,n=advanceEvents.length; i<n; i++)
@@ -231,11 +252,10 @@ AFRAME.registerComponent('dialogue', {
     },
     updateDialogueBoxText (dialogueBox,text)
     {
+
         dialogueBox.setAttribute('visible',false)
-        if(!text)
-            return
         dialogueBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
-        dialogueBox.setAttribute('text',{width:4,value:text,wrapCount:40})
+        dialogueBox.setAttribute('text',{width:4,value:text ? text:"Choose wisely",wrapCount:40})
         dialogueBox.setAttribute('visible',true)
     },
     findLabel (next) {

@@ -60,10 +60,12 @@ AFRAME.registerComponent('inventory', {
             if (evt.key !== "j" && evt.key !== "J")
                 return
         }
+       
         let isRefresh = evt.type==="inventoryRefresh"
 
         let appState = AFRAME.scenes[0].systems.state.state
-
+        //console.log("InventoryOpen:",appState.inventoryOpen," HoveringObject:",
+        //appState.hoveringObject," IDHovering:",appState.hoveringID," CutscenePlaying:",appState.cutscenePlaying)
         if (appState.inventoryOpen) {
             unsummonInventory(isRefresh,appState)
             if(!isRefresh)

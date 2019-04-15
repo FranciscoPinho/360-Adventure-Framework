@@ -29,18 +29,16 @@ AFRAME.registerComponent('use-target', {
                 break
             }
         }
-        this.el.sceneEl.emit('inventoryRefresh')
     },
     updateFromStimulus: function (stimulus,usedObjectID) {
         const {el} = this
-        AFRAME.scenes[0].emit('removeFromInventory', {
-            object: { iconID: usedObjectID}
-        })
-        AFRAME.scenes[0].emit('addFlag', {
-            flagKey:el.getAttribute('id'),
-            flagValue:stimulus.newFlag
-        })
-        const {inventoryData,src} = stimulus
+      
+        if(stimulus.newFlag)
+            AFRAME.scenes[0].emit('addFlag', {
+                flagKey:el.getAttribute('id'),
+                flagValue:stimulus.newFlag
+            })
+        const {inventoryData,src,dialogue,afterStimulusDialogue} = stimulus
         if(stimulus.sfxSrc){
             let audio = document.querySelector(stimulus.sfxSrc)
             if(stimulus.volume)
@@ -48,6 +46,9 @@ AFRAME.registerComponent('use-target', {
             audio.play()
         }
         if(stimulus.inventoryData){
+            AFRAME.scenes[0].emit('removeFromInventory', {
+                object: { iconID: usedObjectID}
+            })
             el.parentNode.removeChild(el)
             AFRAME.scenes[0].emit('addToInventory', {
                 object: {
@@ -57,18 +58,36 @@ AFRAME.registerComponent('use-target', {
                 },
                 alreadyPickedID: inventoryData.originalID
             })
+            el.sceneEl.emit('inventoryRefresh')
+            if(afterStimulusDialogue)
+                el.sceneEl.setAttribute('dialogue',afterStimulusDialogue)
+            return
         }
         else if(src){
+            AFRAME.scenes[0].emit('removeFromInventory', {
+                object: { iconID: usedObjectID}
+            })
             AFRAME.scenes[0].emit('updateTransformedObjects', {
                 original:el.getAttribute('id'),
                 transformation:stimulus
             })
+            if(el.getAttribute('dialogue')){
+                el.removeAttribute('dialogue')
+                el.emit('mouseleave')
+                el.removeAttribute('hoverable')
+            }
             for(let key in stimulus){
                 if(key==="targeted_by" || key==="newFlag")
                     continue
                 el.setAttribute(key,stimulus[key])
             } 
+            el.sceneEl.emit('trackpaddown')
+            if(afterStimulusDialogue)
+                el.sceneEl.setAttribute('dialogue',afterStimulusDialogue)
+            return
         }
-        //else if (dialogue)
+        else if (dialogue){
+            el.sceneEl.setAttribute('dialogue',dialogue)
+        }
     }
   });

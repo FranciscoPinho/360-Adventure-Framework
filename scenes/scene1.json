@@ -35,10 +35,7 @@
           "rotation": "0 -90 0",
           "scale": "1.5 1.5 1.5",
           "dialogue":{
-            "dialogueID":"deertalk",
             "dialogueTreeURL":"dialogue/dialogue1.json",
-            "startEvents":["click","triggerdown"],
-            "advanceEvents":["click","triggerdown"],
             "spawn":{
               "location":"look",
               "zDistance":"-5",
@@ -57,12 +54,36 @@
             "choiceIcon":"#chooseIcon",
             "previouslyChosenIcon":"#previouslyChosenIcon",
             "examinableObject":true,
+            "pauseBackgroundSong":true,
             "examinedIcon":"#examinedIcon",
             "removeSelfOnEnd":false,
             "autoplay":false
           },
           "use-target":{
             "stimulus":[
+              {
+                "targeted_by": "flame",
+                "dialogue":{
+                  "dialogueTreeURL":"dialogue/dialogue2.json",
+                  "spawn":{
+                    "location":"look",
+                    "zDistance":"-5",
+                    "opacity":0.6
+                  },
+                  "sfx":{
+                    "advanceSfx":"#hover",
+                    "advanceVolume":1,
+                    "spawnSfx":"#hover",
+                    "spawnVolume":1,
+                    "hoverChoiceSfx":"#hover",
+                    "hoverChoiceVolume":1,
+                    "choiceSfx":"#pickup",
+                    "choiceVolume":1
+                  },
+                  "removeSelfOnEnd":true,
+                  "autoplay":true
+                }
+              },
               {
                 "targeted_by": "deadlydeer",
                 "newFlag": "dead",
@@ -71,6 +92,27 @@
                   "iconSrc": "#deadpersonImg",
                   "iconID": "deadperson",
                   "iconDesc":"Dead Agent Smith: This guy is dead, congratulations terrorist..."
+                },
+                "afterStimulusDialogue":{
+                  "dialogueTreeURL":"dialogue/choice1.json",
+                  "spawn":{
+                    "location":"look",
+                    "zDistance":"-5",
+                    "opacity":0.6
+                  },
+                  "sfx":{
+                    "advanceSfx":"#hover",
+                    "advanceVolume":1,
+                    "spawnSfx":"#hover",
+                    "spawnVolume":1,
+                    "hoverChoiceSfx":"#hover",
+                    "hoverChoiceVolume":1,
+                    "choiceSfx":"#pickup",
+                    "choiceVolume":1
+                  },
+                  "removeSelfOnEnd":true,
+                  "autoplay":true,
+                  "choiceIcon":"#chooseIcon"
                 }
               },
               {
@@ -79,6 +121,14 @@
                 "id":"deerman",
                 "src": "#deermanImg",
                 "scale":"5 5 5",
+                "hoverable": {
+                  "sfx":{
+                    "sfxSrc": "#hover",
+                    "volume": 1
+                  },
+                  "feedback": "color",
+                  "itemOnly":true
+                },
                 "sfxSrc":"#matchlit",
                 "volume":"0.5",
                 "use-target":{
@@ -88,7 +138,28 @@
                       "newFlag": "deadperson",
                       "id":"deadperson",
                       "src": "#deadpersonImg",
-                      "scale":"3 3 3"
+                      "scale":"3 3 3",
+                      "afterStimulusDialogue":{
+                        "dialogueTreeURL":"dialogue/choice1.json",
+                        "spawn":{
+                          "location":"look",
+                          "zDistance":"-5",
+                          "opacity":0.6
+                        },
+                        "sfx":{
+                          "advanceSfx":"#hover",
+                          "advanceVolume":1,
+                          "spawnSfx":"#hover",
+                          "spawnVolume":1,
+                          "hoverChoiceSfx":"#hover",
+                          "hoverChoiceVolume":1,
+                          "choiceSfx":"#pickup",
+                          "choiceVolume":1
+                        },
+                        "removeSelfOnEnd":true,
+                        "autoplay":true,
+                        "choiceIcon":"#chooseIcon"
+                      }
                     }
                   ]
                 }
@@ -152,6 +223,26 @@
               "iconSrc": "#deerIcon",
               "iconID": "deer1",
               "iconDesc":"Deer: I wonder what happens when two deers join forces..."
+            },
+            "afterPickDialogue":{
+              "dialogueTreeURL":"dialogue/dialogue3.json",
+              "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+              },
+              "sfx":{
+                "advanceSfx":"#hover",
+                "advanceVolume":1,
+                "spawnSfx":"#hover",
+                "spawnVolume":1,
+                "hoverChoiceSfx":"#hover",
+                "hoverChoiceVolume":1,
+                "choiceSfx":"#pickup",
+                "choiceVolume":1
+              },
+              "removeSelfOnEnd":true,
+              "autoplay":true
             }
           },
           "hoverable": {

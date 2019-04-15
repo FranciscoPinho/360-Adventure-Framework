@@ -1,13 +1,6 @@
 TODO: Proof of concept document
 
 DOING NOW:
-1. dialogue
-1.1 dialogue component needs to have:
-- newURL on end?
-- autoplay?
-1.1.1 voice track to accompany each line (lower volume of background music or) //TODO
-1.2 examinable objects, just objects with new hoverable icon of magnifying glass that on click start dialogue
-1.3 use object lead to dialogue
 2. transitions 
 2.1 make objects visible after certain conditions (navigation sphere after puzzle solved for exmaple)
 2.2 transition into cutscene
@@ -24,12 +17,11 @@ NEW DESCRIPTION ELEMENTS
 USEFUL INFO
 
 When can dialogue be presented:
-OnBeginScene: have a cutscene with dialogue then transition into normal gameplay. Cutscenes of dialogue or of video.
-OnEndScene: transition into dialogue with flags and then transition into whatever/transition into cutscene with dialogue
-OnObjectExamination: onclick this object start dialogue
-OnSuccessfulObjectUse
-OnPickObject
-OnPlayerChoice
+OnBeginScene: have a cutscene with dialogue then transition into normal gameplay. Cutscenes of dialogue or of video. - half done
+OnEndScene: transition into dialogue with flags and then transition into whatever/transition into cutscene with dialogue - half done
+OnObjectExamination: onclick this object start dialogue - DONE
+OnSuccessfulObjectUse - DONE
+OnPickObject- DONE
 
 When can cutscenes be played:
 OnBeginScene - Start with cutscenes and transition to playable scene
