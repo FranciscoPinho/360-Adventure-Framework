@@ -58,9 +58,10 @@ AFRAME.registerComponent('use-target', {
                 },
                 alreadyPickedID: inventoryData.originalID
             })
-            el.sceneEl.emit('inventoryRefresh')
+           
             if(afterStimulusDialogue)
                 el.sceneEl.setAttribute('dialogue',afterStimulusDialogue)
+            el.sceneEl.emit('inventoryRefresh')
             return
         }
         else if(src){

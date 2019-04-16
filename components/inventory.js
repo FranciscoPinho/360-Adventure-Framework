@@ -152,7 +152,7 @@ AFRAME.registerComponent('inventory', {
                 el.appendChild(inventoryNode)
                 setTimeout(()=>{
                     if(!isRefresh)
-                        this.newMat.copy(dummyNode.object3D.matrixWorld)
+                        this.newMat.copy(dummyNode.object3D.matrixWorld)  
                     inventoryNode.object3D.position.setFromMatrixPosition(this.newMat)
                     inventoryNode.setAttribute("visible", true)
                 },100)

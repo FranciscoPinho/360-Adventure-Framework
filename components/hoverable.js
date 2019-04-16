@@ -50,6 +50,8 @@ AFRAME.registerComponent('hoverable', {
         let appState = AFRAME.scenes[0].systems.state.state
         if(appState.dialogueOn)
             return
+        if(!pointer || !el)
+            return
         if (!el.sceneEl.is('vr-mode') || !pointer.getAttribute('visible'))
             return
         if (appState.inventoryOpen && !appState.grabbedObject)
