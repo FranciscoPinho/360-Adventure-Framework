@@ -5,10 +5,11 @@
       "video-player": "",
       "cutscene-end-transition": {
           "destination":"scenes/scene1.json",
-          "endTime":"2.5"
+          "endTime":""
       },
       "music-change-emitter": {
         "newsource": "#cutscenemusic",
+        "volume":0.2,
         "cacheDuration":"false"
       },
       "children": [
