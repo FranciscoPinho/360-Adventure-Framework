@@ -2,7 +2,8 @@ AFRAME.registerComponent('cutscene-end-transition', {
     schema: {
         destination:{type:'string',default:""},
         newURL:{type:'string',default:""},
-        newFlag:{type:'string',default:"seen"}
+        newFlag:{type:'string',default:"seen"},
+        endTime:{type:'number'}
     },
     init: function () {
         this.onVideoFrame = this.onVideoFrame.bind(this);
@@ -16,7 +17,12 @@ AFRAME.registerComponent('cutscene-end-transition', {
     },
     onVideoFrame: function (event) {
         const {el,video} = this
-        if(video.currentTime>=video.duration){
+        let endPriorToEnd = false
+        if(this.data.endTime){
+            if(video.currentTime>=this.data.endTime)
+                endPriorToEnd=true
+        }
+        if(video.currentTime>=video.duration || endPriorToEnd){
             const {newURL,destination,newFlag}=this.data;
             if(newURL){
                 AFRAME.scenes[0].emit('changeURL',{url:newURL,flagKey:el.getAttribute('id'),flagValue:newFlag})

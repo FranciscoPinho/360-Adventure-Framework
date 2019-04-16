@@ -23,6 +23,7 @@ AFRAME.registerState({
     handlers: {
       addFlag: (state,action) => {
         state.flags[action.flagKey]=action.flagValue
+        //if(!state.cutscenePlaying)
         //check for transitions here, add possibility to ignore cchecking for transitions here
       },
       addExploredDialogueTreeChoice: (state, action) => {

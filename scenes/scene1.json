@@ -83,7 +83,7 @@
               "spawnVolume":1,
               "hoverChoiceSfx":"#hover",
               "hoverChoiceVolume":1,
-              "choiceSfx":"#pickup",
+              "choiceSfx":"#choiceSfx",
               "choiceVolume":0.3
             },
             "choiceIcon":"#chooseIcon",

@@ -10,7 +10,8 @@ DOING NOW:
 NEW DESCRIPTION ELEMENTS
 - player choice in cutscene
 - 2d video cutscenes
-- audio
+- audio on end scene and on begin scene
+- present evidence, as a choice in dialogue, have the dialogue box and the inventory below for the player to choose
 - numerical input
 - subtitles
 
@@ -24,21 +25,21 @@ OnSuccessfulObjectUse - DONE
 OnPickObject- DONE
 
 When can cutscenes be played:
-OnBeginScene - Start with cutscenes and transition to playable scene
-OnEndScene - Define a new url on cutscene event emitter vs regular destination
+OnBeginScene - Start with cutscenes and transition to playable scene - done
+OnEndScene - Define a new url on cutscene event emitter vs regular destination - half done
 OnObjectPickup - afterPickCutscene element inside pickable component //force state to check transitions only after cutsceneplayed=false
-OnObjectExamination - To be implemented
+OnObjectExamination - changeVideoSrc, instead of transitioning to a cutscene
 OnSuccessfulObjectUse - changeVideoSrc, instead of transitioning to a cutscene
-OnPlayerChoice - move to some other cutscene
+OnPlayerChoice - move to some other cutscene after player choice or keep going in the same, changeVideoSrc?
 
 When can voice tracks be played: (have exclusive voice tracks, voice tracks that lower background volume, whatever else)
-OnDialogue - to be implemented
-(OnObjectPickup - to be implemented
-OnObjectExamination - to be implemented
-OnSuccessfulObjectUse - to be implemented
+OnDialogue - Done
+(OnObjectPickup - Done
+OnObjectExamination - Done
+OnSuccessfulObjectUse - Done
+these are encapsulated on dialogue)
 OnEndScene - to be implemented
 OnBeginScene - to be implemented
-these are encapsulated on dialogue)
 
 
 OnPlayerChoice

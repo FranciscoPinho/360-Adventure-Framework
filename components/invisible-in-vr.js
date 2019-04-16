@@ -12,6 +12,8 @@ AFRAME.registerComponent('invisible-in-vr', {
         window.addEventListener('vrdisplayactivate', makeInvisible);
         el.sceneEl.addEventListener('enter-vr', makeInvisible);
         el.sceneEl.addEventListener('exit-vr', makeVisible)
+        if(el.sceneEl.is('vr-mode'))
+            this.el.setAttribute('visible',false)
     },
     pause() {
         const {

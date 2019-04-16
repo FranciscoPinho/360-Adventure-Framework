@@ -11,6 +11,7 @@
         },
         "children": [{
             "a-sphere": {
+                "id":"navSphere",
                 "class": "inter",
                 "navigation-event-emitter": {
                     "destination": "scenes/scene1.json"
@@ -22,6 +23,7 @@
                 },
                 "children": [{
                     "a-entity": {
+                        "id":"deerstatic",
                         "gltf-model": "#deer",
                         "position": "20 -5.5 -12",
                         "scale": "0.01 0.01 0.01",

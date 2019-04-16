@@ -4,11 +4,8 @@
       "src": "#my-video2",
       "video-player": "",
       "cutscene-end-transition": {
-        "destination":"scenes/scene2.json"
-      },
-      "music-change-emitter": {
-        "newsource": "#cutscenemusic",
-        "cacheDuration":"false"
+        "destination":"scenes/scene2.json",
+        "endTime":"4"
       }
     }
   }
