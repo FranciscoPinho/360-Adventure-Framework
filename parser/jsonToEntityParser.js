@@ -1,12 +1,20 @@
 //only parses the top level elements of the json, the videosphere, combinations, transitions and add to inventory
 jsonToEntity = (env_json)=>{
-    if(!('a-videosphere' in env_json)){
-        console.error("Invalid scene, needs to have a videosphere")
+    if(!('a-videosphere' in env_json) && !('a-image' in env_json)){
+        console.error("Invalid scene, needs to have a videosphere or 360 image")
         return
     }
-  
+    let elementType
+    'a-videosphere' in env_json ? elementType='a-videosphere':elementType='a-image'
     let appState = AFRAME.scenes[0].systems.state.state
-    if(appState.parsedSceneIDs.indexOf(env_json['a-videosphere'].id)===-1){
+    let sceneID = env_json[elementType].id
+    
+    if(!sceneID){
+        console.error("Invalid scene, needs attribute id")
+        return
+    }
+
+    if(appState.parsedSceneIDs.indexOf(sceneID)===-1){
         if('combinations' in env_json){
             AFRAME.scenes[0].emit('updateCombinations', {newCombinations:env_json['combinations']});
         }
@@ -18,11 +26,11 @@ jsonToEntity = (env_json)=>{
                 AFRAME.scenes[0].emit('addToInventory', {object: env_json['addToInventory'][i]});
             }
         }
-        AFRAME.scenes[0].emit('updateParsedSceneIDs', {parsedSceneID: env_json['a-videosphere'].id});
+        AFRAME.scenes[0].emit('updateParsedSceneIDs', {parsedSceneID: sceneID});
     }
     
-    let components = env_json['a-videosphere']
-    let newEntity = document.createElement('a-videosphere')
+    let components = env_json[elementType]
+    let newEntity = document.createElement(elementType)
    
     let jsonChildren
     for (const componentName in components){
@@ -49,11 +57,13 @@ childrenJsonToEntities = (child_json)=>{
             let components = child_json[i][entityName]
             let newEntity = document.createElement(entityName)
             let jsonChildren, transformationAttributes
+                
             for (const componentName in components){
                 if(componentName==="children"){
                     jsonChildren = components[componentName]
                     continue
                 }
+            
                 if(componentName==="id"){
                     let objectID = components[componentName]
                     transformationAttributes = checkForPreviouslyTransformed(appState,objectID)

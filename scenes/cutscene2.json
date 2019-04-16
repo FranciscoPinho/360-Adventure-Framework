@@ -5,7 +5,7 @@
       "video-player": "",
       "cutscene-end-transition": {
         "destination":"scenes/scene2.json",
-        "endTime":"4"
+        "endTime":"2"
       }
     }
   }

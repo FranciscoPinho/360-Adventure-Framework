@@ -33,11 +33,13 @@ AFRAME.registerComponent('grabbable', {
             this.sfxSrc = document.querySelector(sfx.sfxSrc)
             this.sfxSrc.volume = sfx.volume
         }
+        this.appState = AFRAME.scenes[0].systems.state.state
         this.MixedReality=false
         let HMD = AFRAME.utils.device.getVRDisplay().displayName
         if(HMD)
             if(HMD.includes("Windows"))
                 this.MixedReality=true
+            
     },
     play() {
         const {el,onIntersect,onLoseIntersection,onDetectButtonDown,onDetectButtonUp} = this
@@ -85,10 +87,9 @@ AFRAME.registerComponent('grabbable', {
             this.raycaster = null;
     },
     onDetectButtonDown(evt) {
-        let appState = AFRAME.scenes[0].systems.state.state
+        const {el,raycaster,appState} = this
         if(appState.dialogueOn)
             return
-        const {el,raycaster} = this
         if (!raycaster)
             return;
         let intersection = raycaster.components.raycaster.getIntersection(el);
@@ -116,10 +117,11 @@ AFRAME.registerComponent('grabbable', {
         }
     },
     grab(newParent) {
-        const {originalParent,el} = this
+        const {originalParent,el,appState} = this
         this.grabbing=true
         originalParent.remove(el)
         el.emit('mouseleave')
+        document.querySelector("#"+appState.activeBackgroundID).setAttribute('material',{opacity:1})
         setTimeout(()=>{
             newParent.add(el)
             el.setAttribute('look-at', "[camera]")
@@ -131,11 +133,12 @@ AFRAME.registerComponent('grabbable', {
         },10)
     },
     ungrab(){
-        const {originalParent,el,originalPosition,originalScaling,originalRotation} = this
+        const {originalParent,el,originalPosition,originalScaling,originalRotation,appState} = this
         el.object3D.parent.remove(el)
         originalParent.add(el)
         this.raycaster=null
         this.grabbing=false
+        document.querySelector("#"+appState.activeBackgroundID).setAttribute('material',{opacity:0.5})
         AFRAME.scenes[0].emit('updateGrabbedObject', {grabbedObject:null})
         el.classList.add("inter");
         el.removeAttribute('look-at')

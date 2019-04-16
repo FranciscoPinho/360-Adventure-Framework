@@ -40,6 +40,7 @@ AFRAME.registerComponent('navigation-manager', {
     injectNewEnvironmentDOM (scene,newEnvironment) {
         let appState = AFRAME.scenes[0].systems.state.state;
         let destination = scene.appendChild(newEnvironment["parentNode"])
+        AFRAME.scenes[0].emit('updateActiveBackgroundID', { activeBackgroundID:destination.getAttribute('id')})
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
             let queue = []

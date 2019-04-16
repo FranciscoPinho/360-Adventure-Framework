@@ -69,6 +69,10 @@
           "position": "8 -1.4 -4",
           "rotation": "0 -90 0",
           "scale": "1.5 1.5 1.5",
+          "material":{
+            "shader":"flat",
+            "alphaTest":0.5
+          },
           "dialogue":{
             "dialogueTreeURL":"dialogue/dialogue1.json",
             "spawn":{
@@ -215,6 +219,9 @@
           "position": "10 5 -5",
           "scale": "2 2 2",
           "rotation":"0 100 0",
+          "material":{
+            "shader":"flat"
+          },
           "pickable": {
             "sfx":{
               "sfxSrc": "#pickup",

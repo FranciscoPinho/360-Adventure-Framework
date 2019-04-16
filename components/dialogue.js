@@ -62,8 +62,11 @@ AFRAME.registerComponent('dialogue', {
             el.sceneEl.removeEventListener(advanceEvents[i], advanceDialogue)
     },
     async startDialogue() {
+        let appState = AFRAME.scenes[0].systems.state.state
         const {el,startDialogue,spawnSfx,spawnDialogueBox} = this
-        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay} = this.data
+        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay,examinableObject} = this.data
+        if(examinableObject && appState.inventoryOpen)
+            return
         if(!autoplay)
             for(let i=0,n=startEvents.length; i<n; i++)
                 el.removeEventListener(startEvents[i], startDialogue)

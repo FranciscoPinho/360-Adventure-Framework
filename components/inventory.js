@@ -98,6 +98,7 @@ AFRAME.registerComponent('inventory', {
                 console.error("Invalid inventory position type")
                 break
         }
+        document.querySelector("#"+appState.activeBackgroundID).setAttribute('material',{opacity:1})
         document.querySelectorAll("a-scene > .pointerinventory").forEach((node) => node.parentNode.removeChild(node))  
         if(appState.hoveringObject){
             document.querySelector("#"+appState.hoveringID).emit("mouseenter")
@@ -125,7 +126,7 @@ AFRAME.registerComponent('inventory', {
         inventoryNode.setAttribute("id", "inventory")
         inventoryNode.setAttribute("visible", false)
         inventoryNode.setAttribute("slice9", { width: inventoryWidth, height: inventoryHeight, left: 20, right: 43, top: 20, bottom: 43, src: "textures/inventory.png" })
-
+        document.querySelector("#"+appState.activeBackgroundID).setAttribute('material',{opacity:0.5})
         switch(positionType){
             case "laser":
             case "look":

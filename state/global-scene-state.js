@@ -11,6 +11,7 @@ AFRAME.registerState({
       grabbedObject:null,
       pickedObjectIDs:[],
       musicRecords:{},
+      activeBackgroundID:"",
       exploredTreeChoices:[],
       musicBaseVolumes:{},
       hoveringObject: false,
@@ -88,6 +89,9 @@ AFRAME.registerState({
       changeURL: (state,action) => {
         //saveToLocalStorage
         //changeURL
+      },
+      updateActiveBackgroundID: (state,action) => {
+        state.activeBackgroundID = action.activeBackgroundID
       },
       saveToLocalStorage: (state,action) => {
         
