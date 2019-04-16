@@ -121,7 +121,9 @@ AFRAME.registerComponent('grabbable', {
         this.grabbing=true
         originalParent.remove(el)
         el.emit('mouseleave')
-        document.querySelector("#"+appState.activeBackgroundID).setAttribute('material',{opacity:1})
+        let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+        if(activeBackground)
+            activeBackground.setAttribute('material',{opacity:1})
         setTimeout(()=>{
             newParent.add(el)
             el.setAttribute('look-at', "[camera]")
@@ -138,7 +140,9 @@ AFRAME.registerComponent('grabbable', {
         originalParent.add(el)
         this.raycaster=null
         this.grabbing=false
-        document.querySelector("#"+appState.activeBackgroundID).setAttribute('material',{opacity:0.5})
+        let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+        if(activeBackground)
+            activeBackground.setAttribute('material',{opacity:0.5})
         AFRAME.scenes[0].emit('updateGrabbedObject', {grabbedObject:null})
         el.classList.add("inter");
         el.removeAttribute('look-at')
