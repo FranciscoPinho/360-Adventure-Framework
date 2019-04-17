@@ -24,8 +24,9 @@ AFRAME.registerComponent('cutscene-end-transition', {
         }
         if(video.currentTime>=video.duration || endPriorToEnd){
             const {newURL,destination,newFlag}=this.data;
+            AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
             if(newURL){
-                AFRAME.scenes[0].emit('changeURL',{url:newURL,flagKey:el.getAttribute('id'),flagValue:newFlag})
+                AFRAME.scenes[0].emit('changeURL',{url:newURL})
                 this.video.ontimeupdate = null
                 return
             }
@@ -33,10 +34,9 @@ AFRAME.registerComponent('cutscene-end-transition', {
                 origin:el,
                 destinationURL:destination
             }
-           
             el.emit('clickNavigation',eventDetail,true)
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
-            AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
+  
             this.video.ontimeupdate = null
         }
     }

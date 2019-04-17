@@ -374,17 +374,17 @@
     {
       "on": {
         "person": "dead",
-        "blackPuddle": "created"
+        "blackPuddle": "inInventory"
       },
       "gotoCutscene": "scenes/cutscene3.json",
       "carryInventory":false
     },
     {
       "on": {
-        "person": ["","deerman"],
+        "person": ["deerman",""],
         "cutscene1": "seen"
       },
-      "gotoURL": "goodending.html",
+      "activateDialogue": "goodending.html",
       "carryInventory":true
     }
   ]

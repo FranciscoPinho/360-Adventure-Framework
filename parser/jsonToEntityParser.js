@@ -19,7 +19,7 @@ jsonToEntity = (env_json)=>{
             AFRAME.scenes[0].emit('updateCombinations', {newCombinations:env_json['combinations']});
         }
         if('transitions' in env_json){
-            
+            AFRAME.scenes[0].emit('updateTransitions', {newTransitions:env_json['transitions']});
         }
         if('addToInventory' in env_json){
             for(let i=0, n=env_json['addToInventory'].length; i<n; i++){
