@@ -1,5 +1,9 @@
 {
     "dialogueTree":[
         { "text": "Nice job inspecting an in video element"}
+    ],
+    "badEndDialogueTree":[
+        { "text": "On the way to the bad ending, you were a bad man"}
     ]
+    
 }

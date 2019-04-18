@@ -10,6 +10,11 @@
       "volume": 0.05,
       "cacheDuration": "true"
     },
+    "scripted-audio-player": {
+      "src":"#beginAudio",
+      "autoplay":true,
+      "removeOnEnd":true
+    },
     "children": [
       {
         "a-sphere": {

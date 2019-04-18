@@ -20,6 +20,10 @@ AFRAME.registerComponent('guide-widget', {
         this.frustumWidth = this.frustumHeight * (this.width / this.height);
         this.windowHalfX = this.width/2
         this.windowHalfY = this.height/2;
+        let isVr = this.el.sceneEl.is('vr-mode')
+        this.marginXThresholdFactor = this.width * ( isVr ? 0.15 : 0.38);
+        this.marginYThresholdFactor = this.height * ( isVr ? 0.35 : 0.4);
+        this.visibilityThreshold = isVr ? 0.5 : 1;
         this.createArrow()
     },
     play(){
@@ -45,8 +49,14 @@ AFRAME.registerComponent('guide-widget', {
         setTimeout(()=>cameraDOM.appendChild(guideEl),200)
     },
     updateVars(){
+        let isVr = this.el.sceneEl.is('vr-mode')
         this.width =  window.innerWidth
         this.height = window.innerHeight
+
+        this.marginXThresholdFactor = this.width * ( isVr ? 0.15 : 0.38);
+        this.marginYThresholdFactor = this.height * ( isVr ? 0.35 : 0.4);
+        this.visibilityThreshold = isVr ? 0.5 : 1;
+
         this.frustumHeight = -5 * Math.tan(this.fov * 0.5 * (Math.PI / 180));
         this.frustumWidth = this.frustumHeight * (this.width / this.height);
         this.windowHalfX = this.width/2
@@ -70,16 +80,16 @@ AFRAME.registerComponent('guide-widget', {
             var target360XPosition = (behind ? -1 : 1) * targetPosition.x;
             var target360YPosition = (behind ? -1 : 1) * targetPosition.y;
 
-            var screenX = target360XPosition;
-            var screenY = target360YPosition;
+            var screenX = target360XPosition * this.marginXThresholdFactor;
+            var screenY = target360YPosition * this.marginYThresholdFactor;
             var rotation = Math.atan2(screenX, screenY);
-            if (!behind && Math.abs(targetPosition.x)<8 && Math.abs(targetPosition.y)<10) {
+            if (!behind && Math.abs(targetPosition.x)<this.visibilityThreshold && Math.abs(targetPosition.y)<this.visibilityThreshold) {
                 guideEl.object3D.visible = false
             }
             else{
                 guideEl.object3D.visible = true
-                var distHeight = Math.abs(Math.cos(rotation));
-                var distWidth = Math.abs(Math.cos(this.behindAng + rotation));
+                var distHeight = Math.abs(this.marginYThresholdFactor / Math.cos(rotation));
+                var distWidth = Math.abs(this.marginXThresholdFactor / Math.cos(this.behindAng + rotation));
                 var dist = Math.min(distWidth, distHeight);
 
                 var v = new THREE.Vector3(screenX, screenY, 0);

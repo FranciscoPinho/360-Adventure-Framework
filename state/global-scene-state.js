@@ -57,15 +57,21 @@ AFRAME.registerState({
           state.exclusiveAudioPlaying = true
           for(let i=0,len=state.audiosPlaying.length;i<len;i++){
             let audio = state.audiosPlaying[i]
-            let el = document.querySelector(audio.elementID)
+            let el = document.querySelector("#"+audio.elementID)
             if(el)
               el.emit('stop-audio')
-            state.audiosPlaying.splice(i,1)
           }
+          state.audiosPlaying = []
         }
         state.audiosPlaying.push(action.audio)
       },
       removeAudioPlaying: (state,action) => {
+        if(action.exclusive){
+          state.exclusiveAudioPlaying = false
+          state.audiosPlaying = []
+          return
+        }
+
         for(let i=0,len=state.audiosPlaying.length;i<len;i++){
           let audio = state.audiosPlaying[i]
           if(audio.audioID===action.audioID){
@@ -73,8 +79,6 @@ AFRAME.registerState({
             break
           }
         }
-        if(action.exclusive)
-          state.exclusiveAudioPlaying = false
       },
       updateTransformedObjects: (state,action) => {
         state.transformedObjects[action.original]=action.transformation

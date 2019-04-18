@@ -4,7 +4,8 @@
       "src": "#my-video",
       "video-player": "",
       "cutscene-end-transition": {
-          "newUrl":"badending.html"
+          "newUrl":"badending.html",
+          "endTime":"4"
       },
       "music-change-emitter": {
         "newsource": "#cutscenemusic",
@@ -17,6 +18,27 @@
             "position": "53 -5.5 -12",
             "scale": "0.01 0.01 0.01",
             "rotation": "-0.19 110 0.005"
+          }
+        },
+        {
+          "a-entity":{
+            "dialogue":{
+              "dialogueTreeURL":"dialogue/dialogue4.json",
+              "dialogueTreeName":"bandEndDialogueTree",
+              "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+              },
+              "sfx":{
+                "advanceSfx":"#hover",
+                "advanceVolume":1,
+                "spawnSfx":"#hover",
+                "spawnVolume":1
+              },
+              "removeSelfOnEnd":true,
+              "autoplay":true
+            }
           }
         }
       ]

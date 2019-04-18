@@ -1,14 +1,14 @@
 {
     "dialogueTree":[
-        { "text": "This man is called Agent Smith! Please be respectful to the man.", "voiceTrack":"voiceover/d1l1.wav", "voiceVolume":0.2 },
-        { "label":"choices","text": "This man is absolutely untouchable, there's nothing you can do to him",  "voiceTrack":"voiceover/d1l2.wav", "voiceVolume":0.2 ,
+        { "text": "This man is called Agent Smith! Please be respectful to the man.", "voiceTrack":"dialogue-voiceover/d1l1.wav", "voiceVolume":0.2 },
+        { "label":"choices","text": "This man is absolutely untouchable, there's nothing you can do to him",  "voiceTrack":"dialogue-voiceover/d1l2.wav", "voiceVolume":0.2 , "voiceOnce":true,
         "choices": [
             { "choiceID":"askcombine","text": "A) What if I combined deers and used it on him", "next": "combine_deers_q", "newFlag":"madman" },
             { "choiceID":"askdeerman","text": "B) What if I used a deer on this man", "next": "use_deer_q", "newFlag":"smartman" },
             { "choiceID":"nothingToSay","text": "C) I got nothing to say", "next": "end" }
         ] 
         },
-        { "label": "combine_deers_q", "text": "You wouldn't dare... Are you a terrorist?", "voiceTrack":"voiceover/d1askcombine.wav", "voiceVolume":0.3 ,"next": "choices" },
+        { "label": "combine_deers_q", "text": "You wouldn't dare... Are you a terrorist?", "voiceTrack":"dialogue-voiceover/d1askcombine.wav", "voiceVolume":0.3 ,"next": "choices" },
         { "label": "use_deer_q", "text": "Just do it.", "next": "choices" },
         { "label": "end" , "text": "Transmission over" }
     ]

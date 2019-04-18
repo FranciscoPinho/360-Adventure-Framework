@@ -1,6 +1,7 @@
 AFRAME.registerComponent('dialogue', {
     schema: {
         dialogueTreeURL:{type:"string"},
+        dialogueTreeName:{type:"string"},
         sfx:{type:"string"},
         spawn:{type:"string"},
         startEvents:{type:"array", default:["click","triggerdown"]},
@@ -21,7 +22,7 @@ AFRAME.registerComponent('dialogue', {
         this.spawnDialogueBox = this.spawnDialogueBox.bind(this)
         this.spawnPlayerChoice = this.spawnPlayerChoice.bind(this)
         this.newMat = new THREE.Matrix4();
-        const {sfx,autoplay} = this.data
+        const {sfx} = this.data
         if(sfx.advanceSfx){
             this.advanceSfx = document.querySelector(sfx.advanceSfx)
             this.advanceSfx.volume = sfx.advanceVolume
@@ -38,6 +39,7 @@ AFRAME.registerComponent('dialogue', {
             this.hoverChoiceSfx = sfx.hoverChoiceSfx
             this.hoverChoiceVolume = sfx.hoverChoiceVolume
         }
+        this.voiceOnceLines=[]
       
     },
     play() {
@@ -64,7 +66,7 @@ AFRAME.registerComponent('dialogue', {
     async startDialogue() {
         let appState = AFRAME.scenes[0].systems.state.state
         const {el,startDialogue,spawnSfx,spawnDialogueBox} = this
-        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay,examinableObject} = this.data
+        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay,examinableObject,dialogueTreeName} = this.data
         if(examinableObject && appState.inventoryOpen)
             return
         if(!autoplay)
@@ -73,7 +75,9 @@ AFRAME.registerComponent('dialogue', {
         this.currentLine = 0;
         const response = await fetch(dialogueTreeURL)
         const dialogue = await response.json()
-        this.dialogueTree = dialogue.dialogueTree
+        if(dialogueTreeName)
+            this.dialogueTree = dialogue[dialogueTreeName]
+        else this.dialogueTree = dialogue.dialogueTree
         if(spawnSfx)
             spawnSfx.play()
         if(pauseBackgroundSong)
@@ -138,6 +142,7 @@ AFRAME.registerComponent('dialogue', {
             if(this.voiceOver){
                 document.querySelector('a-assets').removeChild(this.voiceOver)
                 this.voiceOver = undefined
+                this.voiceOnceLines = []
             }
             if(pauseBackgroundSong)
                 el.sceneEl.emit('music-resume')
@@ -173,14 +178,22 @@ AFRAME.registerComponent('dialogue', {
 
         if (currentDialogue.voiceTrack) {
             if(!this.voiceOver){
-                this.voiceOver = document.createElement("audio")
-                document.querySelector('a-assets').appendChild(this.voiceOver)
+                if(currentDialogue.voiceTrack.includes('#'))
+                    this.voiceOver = document.querySelector(currentDialogue.voiceTrack)
+                else {
+                    this.voiceOver = document.createElement("audio")
+                    document.querySelector('a-assets').appendChild(this.voiceOver)
+                }
             }
-            this.voiceOver.src = currentDialogue.voiceTrack
-            if (currentDialogue.voiceVolume)
-                this.voiceOver.volume = currentDialogue.voiceVolume
-            else this.voiceOver.volume = 1
-            this.voiceOver.play()
+            if(this.voiceOnceLines.indexOf(currentDialogue.voiceTrack)===-1){
+                this.voiceOver.src = currentDialogue.voiceTrack
+                if (currentDialogue.voiceVolume)
+                    this.voiceOver.volume = currentDialogue.voiceVolume
+                else this.voiceOver.volume = 1
+                this.voiceOver.play()
+                if(currentDialogue.voiceOnce)
+                    this.voiceOnceLines.push(currentDialogue.voiceTrack)
+            }
         }
 
         if(currentDialogue.choices){
