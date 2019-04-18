@@ -1,11 +1,11 @@
 //only parses the top level elements of the json, the videosphere, combinations, transitions and add to inventory
 jsonToEntity = (env_json)=>{
-    if(!('a-videosphere' in env_json) && !('a-image' in env_json)){
-        console.error("Invalid scene, needs to have a videosphere or 360 image")
+    if(!('a-videosphere' in env_json) && !('a-sky' in env_json)){
+        console.error("Invalid scene, needs to have a-videosphere with 360 video src or a-sky with 360 image src")
         return
     }
     let elementType
-    'a-videosphere' in env_json ? elementType='a-videosphere':elementType='a-image'
+    'a-videosphere' in env_json ? elementType='a-videosphere':elementType='a-sky'
     let appState = AFRAME.scenes[0].systems.state.state
     let sceneID = env_json[elementType].id
     

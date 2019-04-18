@@ -1,20 +1,22 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['combinations','grabbedObject',
+    nonBindedStateKeys: ['combinations','grabbedObject','transitions',
     'hoveringID','flags','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight','exploredTreeChoices',
     'inventoryOpen','transformedObjects','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
-      flags:{},
-      inventory:[],
-      combinations:[],
-      transitions:[],
-      parsedSceneIDs:[],
-      transformedObjects:{},
-      grabbedObject:null,
-      pickedObjectIDs:[],
+      flags:{},  //needs to be saved to local storage
+      inventory:[], //needs to be saved to local storage
+      combinations:[], //needs to be saved to local storage
+      transitions:[], //needs to be saved to local storage
+      parsedSceneIDs:[], //needs to be saved to local storage
+      transformedObjects:{}, //needs to be saved to local storage
+      pickedObjectIDs:[],  //needs to be saved to local storage
+      exploredTreeChoices:[],  //needs to be saved to local storage
+      activeLevelURL:"index.html", //needs to be saved to local storage
+      activeBackgroundURL:"", //needs to be saved to local storage
+      activeBackgroundID:"",  
       musicRecords:{},
-      audiosPlaying:[],
-      activeBackgroundID:"",
-      exploredTreeChoices:[],
+      grabbedObject:null,
+      audiosPlaying:[], 
       musicBaseVolumes:{},
       hoveringObject: false,
       inventoryOpen:false,
@@ -22,32 +24,42 @@ AFRAME.registerState({
       hoveringID:null,
       cutscenePlaying:false,
       exclusivePlaying:false,
-      dialogueOn:false
+      dialogueOn:false,
+      saveToLocalStorageKeys:['flags','inventory','combinations','transitions',
+      'parsedSceneIDs','transformedObjects','pickedObjectIDs','exploredTreeChoices','activeBackgroundURL']
     },
     handlers: {
       addFlag: (state,action) => {
         state.flags[action.flagKey]=action.flagValue
-        //if(!state.cutscenePlaying && state.exclusivePlaying)
-        //check for transitions here, add possibility to ignore cchecking for transitions here
-        //do transitions listener element in scene
+        localStorage.setItem('flags',state.flags)
       },
       addExploredDialogueTreeChoice: (state, action) => {
-        if(state.exploredTreeChoices.indexOf(action.choiceID)===-1)
+        if(state.exploredTreeChoices.indexOf(action.choiceID)===-1){
           state.exploredTreeChoices.push(action.choiceID)
+          localStorage.setItem('exploredTreeChoices',state.exploredTreeChoices)
+        } 
       },
       removeFlag: (state,action) => {
         delete state.flags[action.flagKey]
+        localStorage.setItem('flags',state.flags)
       },
       addToInventory: (state,action) => {
         state.inventory.push(action.object)
         state.flags[action.object.iconID] = "inInventory"
-        if(action.alreadyPickedID)
+        if(action.alreadyPickedID){
           state.pickedObjectIDs.push(action.alreadyPickedID)
+          localStorage.setItem('pickedObjectIDs',state.pickedObjectIDs)
+        }
+        localStorage.setItem('inventory',state.inventory)
+        localStorage.setItem('flags',state.flags)
       },
       removeFromInventory: (state,action) => {
         for(let i=0, n=state.inventory.length;i<n;i++){
             if(state.inventory[i].iconID===action.object.iconID){
               state.inventory.splice(i,1)
+              state.flags[action.object.iconID] = "used"
+              localStorage.setItem('inventory',state.inventory)
+              localStorage.setItem('flags',state.flags)
               return
             }
         }
@@ -82,18 +94,22 @@ AFRAME.registerState({
       },
       updateTransformedObjects: (state,action) => {
         state.transformedObjects[action.original]=action.transformation
+        localStorage.setItem('transformedObjects',state.transformedObjects)
       },
       updateParsedSceneIDs: (state,action) => {
         state.parsedSceneIDs.push(action.parsedSceneID)
+        localStorage.setItem('parsedSceneIDs',state.parsedSceneIDs)
       },
       updateGrabbedObject: (state,action) => {
         state.grabbedObject = action.grabbedObject
       },
       updateCombinations: (state,action) => {
         state.combinations = state.combinations.concat(action.newCombinations)
+        localStorage.setItem('combinations',state.combinations)
       },
       updateTransitions: (state,action) => {
         state.transitions = state.transitions.concat(action.newTransitions)
+        localStorage.setItem('transitions',state.transitions)
       },
       updateInventoryState: (state,action) => {
         state.inventoryOpen = action.inventoryOpen
@@ -123,17 +139,29 @@ AFRAME.registerState({
         state.musicBaseVolumes[action.audioID]=action.baseVolume
       },
       changeURL: (state,action) => {
-        //saveToLocalStorage
-        //changeURL
+        state.saveToLocalStorageKeys.forEach((key)=>{
+          localStorage.setItem(key,state[key])
+        })
+        localStorage.removeItem('activeBackgroundURL')
+        localStorage.setItem('activeLevelURL',action.newURL)
+        window.location.replace(action.newURL)
       },
       updateActiveBackgroundID: (state,action) => {
         state.activeBackgroundID = action.activeBackgroundID
+        state.activeBackgroundURL = action.activeBackgroundURL
+        localStorage.setItem('activeBackgroundURL',state.activeBackgroundURL)
       },
-      saveToLocalStorage: (state,action) => {
-        
+      saveToLocalStorage: (state) => {
+        state.saveToLocalStorageKeys.forEach((key)=>{
+            localStorage.setItem(key,state[key])
+        })
       },
-      loadFromLocalStorage: (state,action) => {
-
+      loadFromLocalStorage: (state) => {
+        state.saveToLocalStorageKeys.forEach((key)=>{
+            let loadedItem = localStorage.getItem(key)
+            if(loadedItem)
+              state[key] = loadedItem
+        })
       },
     }
 });

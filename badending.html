@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  
+  <!--You can use this music for free in your multimedia project (online videos (Youtube, Facebook,...), websites, animations, etc.) as long as you credit Bensound.com (in the description for a video). 
+For example: Music: https://www.bensound.com-->
+  <head>
+    <meta charset="utf-8">
+    <title>RealAdventure360</title>
+    <meta name="description" content="360 Adventure game">
+    <script src="libs/aframe-v0.9.0.min.js"></script>
+    <script src="libs/aframe-state-component.min.js"></script> 
+    <script src="libs/aframe-slice9-component.min.js"></script>
+    <script src="libs/aframe-look-at-component.min.js"></script>
+    <script src="components/video-player.js"></script>
+    <script src="components/video-looper.js"></script>
+    <script src="components/hoverable.js"></script>
+    <script src="components/pickable.js"></script>
+    <script src="components/grabbable.js"></script>
+    <script src="components/dialogue.js"></script>
+    <script src="components/transitions-manager.js"></script>
+    <script src="components/spin.js"></script>
+    <script src="components/inventory.js"></script>
+    <script src="components/invisible-in-vr.js"></script>
+    <script src="components/use-target.js"></script>
+    <script src="components/music-manager.js"></script>
+    <script src="components/music-change-emitter.js"></script>
+    <script src="components/navigation-manager.js"></script>
+    <script src="components/cutscene-end-transition.js"></script>
+    <script src="components/navigation-event-emitter.js"></script>
+    <script src="components/scripted-audio-player.js"></script>
+    <script src="components/remove-self-if-laser-available.js"></script>
+    <script src="components/remove-self-if-desktop.js"></script>
+    <script src="components/global-state-listener.js"></script>
+    <script src="components/asset-loader.js"></script>
+    <script src="components/guide-widget.js"></script>
+    <script src="state/global-scene-state.js"></script>
+    <script src="parser/jsonToEntityParser.js"></script>
+    <script src="game-logic/handleDropObject.js"></script>
+    
+  </head>
+  <body>
+    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false" navigation-manager="initialEnv:scenes/scene1.json" music-manager transitions-manager>
+      <a-assets timeout="5000">
+          <audio id="matchlit" src="sfx/matchlit.wav"></audio>
+          <audio id="oilsfx" src="sfx/oil.wav"></audio>
+          <audio id="music" src="audio/lounge.mp3"></audio>
+          <audio id="hover" src="sfx/hover.mp3"></audio>
+          <img crossorigin="anonymous" id="city" src="360images/city.jpg"></img>
+          <img crossorigin="anonymous" id="deadpersonImg" src="images/deadperson.png"></img>
+          <img crossorigin="anonymous" id="chooseIcon" src="icons/select.png"></img>
+          <img crossorigin="anonymous" id="previouslyChosenIcon" src="icons/previouslySelected.png"></img>
+          <img crossorigin="anonymous" id="icecubeIcon" src="icons/icecube.jpg"></img>
+          <img crossorigin="anonymous" id="halficecubeIcon" src="icons/halficecube.jpg"></img>
+          <img crossorigin="anonymous" id="puddleIcon" src="icons/puddle.jpg"></img>
+          <img crossorigin="anonymous" id="oilIcon" src="icons/oil.png"></img>
+          <img crossorigin="anonymous" id="blackPuddleIcon" src="icons/blackpuddle.png"></img>
+          <img crossorigin="anonymous" id="flameIcon" src="icons/flame.png"></img>
+          <img crossorigin="anonymous" id="cutsceneIcon" src="icons/cutscene.jpg"></img>
+          <img crossorigin="anonymous" id="deadlydeerIcon" src="icons/deadlydeer.jpg"></img>
+          <img crossorigin="anonymous" id="examineIcon" src="icons/examineIcon.PNG"></img>
+          <img crossorigin="anonymous" id="examinedIcon" src="icons/examinedIcon.PNG"></img>
+          <img crossorigin="anonymous" id="pickIcon" src="icons/hand-pick.png"></img>
+          <img crossorigin="anonymous" id="deerIcon" src="icons/deer.png"></img>
+      </a-assets>
+      
+      <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
+      </a-entity>
+      <a-entity id="mouseCursor" remove-self-if-laser-available cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
+      </a-entity>
+      <a-entity id="camera" camera look-controls>
+        <a-cursor id="cursor"
+          remove-self-if-desktop
+          remove-self-if-laser-available
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
+          animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+          rayOrigin="mouse"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          raycaster="objects: .inter"></a-cursor>
+      </a-entity>
+    </a-scene>
+ 
+  </body>
+</html>

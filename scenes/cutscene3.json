@@ -24,7 +24,7 @@
           "a-entity":{
             "dialogue":{
               "dialogueTreeURL":"dialogue/dialogue4.json",
-              "dialogueTreeName":"bandEndDialogueTree",
+              "dialogueTreeName":"badEndDialogueTree",
               "spawn":{
                 "location":"look",
                 "zDistance":"-5",

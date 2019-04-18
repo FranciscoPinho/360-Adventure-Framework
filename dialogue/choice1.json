@@ -2,8 +2,8 @@
     "dialogueTree":[
         {   
             "choices": [
-                { "choiceID":"showremorse","text": "A) Show remorse for your actions","newFlag":"remorse" },
-                { "choiceID":"shownoremorse","text": "B) Show no remorse", "newFlag":"noremorse" }
+                { "choiceID":"showremorse","text": "A) Show remorse for your actions"},
+                { "choiceID":"shownoremorse","text": "B) Show no remorse" }
             ] 
         }
     ]

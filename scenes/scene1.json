@@ -382,19 +382,30 @@
   ],
   "transitions": [
     {
-      "on": {
-        "person": "dead",
-        "blackPuddle": "inInventory"
-      },
+      "transitionID":"badend",
+      "on":[ 
+        {
+          "person": "dead",
+          "shownoremorse": "chosen",
+          "blackPuddle": "inInventory"
+        }
+      ],
       "gotoCutscene": "scenes/cutscene3.json",
       "carryInventory":false
     },
     {
-      "on": {
-        "person": ["deerman",""],
-        "cutscene1": "seen"
-      },
-      "activateDialogue": "goodending.html",
+      "transitionID":"goodend",
+      "on":[
+        {
+          "person": ["deerman",""],
+          "cutscene1": "seen"
+        },
+        {
+          "person": "dead",
+          "showremorse": "chosen"
+        }
+      ],
+      "newURL": "goodending.html",
       "carryInventory":true
     }
   ]

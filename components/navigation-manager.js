@@ -7,8 +7,13 @@ AFRAME.registerComponent('navigation-manager', {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
+
     }, 
     play() {
+        let loadedEnv = localStorage.getItem('activeBackgroundURL')
+        if(loadedEnv){
+            this.data.initialEnv = loadedEnv
+        }
         if(this.data.initialEnv){
             this.setInitialEnvironment = this.setInitialEnvironment.bind(this)
             this.setInitialEnvironment()
@@ -34,13 +39,13 @@ AFRAME.registerComponent('navigation-manager', {
         })
         setTimeout(()=>{
             scene.removeChild(origin)
-            injectNewEnvironmentDOM(scene,newEnvironment,false)
+            injectNewEnvironmentDOM(scene,newEnvironment,destinationURL)
         },this.data.dur)
     },
-    injectNewEnvironmentDOM (scene,newEnvironment) {
+    injectNewEnvironmentDOM (scene,newEnvironment,destinationURL) {
         let appState = AFRAME.scenes[0].systems.state.state;
         let destination = scene.appendChild(newEnvironment["parentNode"])
-        AFRAME.scenes[0].emit('updateActiveBackgroundID', { activeBackgroundID:destination.getAttribute('id')})
+        AFRAME.scenes[0].emit('updateActiveBackgroundID', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
             let queue = []
@@ -69,7 +74,7 @@ AFRAME.registerComponent('navigation-manager', {
         const env_json = await response.json()
         const scene = this.el
         let newEnvironment = jsonToEntity(env_json)
-        this.injectNewEnvironmentDOM(scene,newEnvironment)
+        this.injectNewEnvironmentDOM(scene,newEnvironment,initialEnv)
     },
     setFadeInOrOut(direction,targetEl) {
         // Only set up once.

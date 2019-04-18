@@ -244,11 +244,11 @@ AFRAME.registerComponent('dialogue', {
                 evt.stopPropagation()
                 if(choiceSfx)
                     choiceSfx.play()
-                if(choiceData.newFlag)
-                    AFRAME.scenes[0].emit('addFlag', {
-                        flagKey:choiceData.choiceID,
-                        flagValue:choiceData.newFlag
-                    })
+                
+                AFRAME.scenes[0].emit('addFlag', {
+                    flagKey:choiceData.choiceID,
+                    flagValue:"chosen"
+                })
                 if(!alreadyChosen)
                     AFRAME.scenes[0].emit('addExploredDialogueTreeChoice', { choiceID:choiceData.choiceID})
                 choiceData.next ? this.currentLine = this.findLabel(choiceData.next) :

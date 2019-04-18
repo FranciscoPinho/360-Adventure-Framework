@@ -1,0 +1,29 @@
+{
+    "a-sky": {
+        "id": "scene3",
+        "src": "#360beach",
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume":0.5,
+            "cacheDuration":"true"
+        },
+        "dialogue":{
+            "dialogueTreeURL":"dialogue/dialogue4.json",
+            "dialogueTreeName":"goodEndCongratulations",
+            "spawn":{
+              "location":"look",
+              "zDistance":"-5",
+              "opacity":0.6
+            },
+            "sfx":{
+              "advanceSfx":"#hover",
+              "advanceVolume":1,
+              "spawnSfx":"#hover",
+              "spawnVolume":1
+            },
+            "removeSelfOnEnd":true,
+            "autoplay":true
+        }
+    }
+}

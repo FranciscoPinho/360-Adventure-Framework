@@ -4,6 +4,12 @@
     ],
     "badEndDialogueTree":[
         { "text": "On the way to the bad ending, you were a bad man"}
+    ],
+    "badEndText":[
+        {"text": "On the bad ending, you're in hell"}
+    ],
+    "goodEndCongratulations":[
+        { "text": "You were a good guy and thus have reached paradise"}
     ]
     
 }
