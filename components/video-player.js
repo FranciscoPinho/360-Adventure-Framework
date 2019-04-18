@@ -27,7 +27,7 @@ AFRAME.registerComponent('video-player', {
     },
     playVideo()  {
         const {video,playVideo} = this
-        video.readyState === 4 ? video.play() : setTimeout(playVideo,50)
+        video.readyState === 4 ? video.play() : setTimeout(()=>playVideo(),50)
     },
     pauseVideo() {
       this.video.pause()

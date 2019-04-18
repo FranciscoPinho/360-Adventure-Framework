@@ -70,7 +70,7 @@ AFRAME.registerComponent('scripted-audio-player', {
         const {audio,isPlayingAudio,resumeAudio,playAudio} = this
         const {delaySeconds,autoplay} = this.data
         if(isPlayingAudio)
-          audio.play()
+          audio.readyState === 4 ? audio.play() : setTimeout(()=>resumeAudio(),50)
         else {
           if(autoplay)
             if(delaySeconds)
@@ -89,10 +89,13 @@ AFRAME.registerComponent('scripted-audio-player', {
       }
       if(el.sceneEl.is('vr-mode')){  
         const {audio} = this
-        audio.currentTime=0
-        this.isPlayingAudio=true
-        AFRAME.scenes[0].emit('addAudioPlaying',{audio:{audioID:src,elementID:el.getAttribute('id')},exclusive:exclusive})
-        audio.play() 
+        if(audio.readyState === 4){
+          this.isPlayingAudio=true
+          AFRAME.scenes[0].emit('addAudioPlaying',{audio:{audioID:src,elementID:el.getAttribute('id')},exclusive:exclusive})
+          audio.currentTime=0
+          audio.play()
+        }
+        else setTimeout(()=>playAudio(evt),50)
       }
     },
     pauseAudio() {
