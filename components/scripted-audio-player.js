@@ -3,7 +3,7 @@ AFRAME.registerComponent('scripted-audio-player', {
       src:{type:"string"},
       autoplay:{type:"boolean",default:false},
       delaySeconds:{type:"number",default:0},
-      startEvents:{type:"array",default:['triggerdown,click']},
+      startEvents:{type:"array",default:['triggerdown','click']},
       removeOnEnd:{type:"boolean",default:false},
       volume:{type:"number",default:1},
       exclusive:{type:"boolean",default:false},
@@ -84,6 +84,7 @@ AFRAME.registerComponent('scripted-audio-player', {
       if(appState.exclusiveAudioPlaying)
         return
       if(evt.type==="triggerdown" || evt.type==="click"){
+        console.log(appState)
         if(appState.dialogueOn || appState.inventoryOpen || appState.cutscenePlaying)
           return
       }

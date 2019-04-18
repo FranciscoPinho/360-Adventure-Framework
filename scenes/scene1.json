@@ -7,13 +7,14 @@
     "music-change-emitter": {
       "newsource": "#music",
       "loop": "true",
-      "volume": 0.05,
+      "volume": 0.1,
       "cacheDuration": "true"
     },
     "scripted-audio-player": {
       "src":"#beginAudio",
       "autoplay":true,
-      "removeOnEnd":true
+      "removeOnEnd":true,
+      "volume":0.03
     },
     "children": [
       {
@@ -316,6 +317,10 @@
               "iconID": "deer2",
               "iconDesc":"Deer: I wonder what happens when two deers join forces..."
             }
+          },
+          "scripted-audio-player": {
+            "src":"#clickAudio",
+            "volume":0.03
           },
           "hoverable": {
             "sfx":{
