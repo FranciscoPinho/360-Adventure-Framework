@@ -26,7 +26,7 @@ AFRAME.registerState({
       cutscenePlaying:false,
       exclusivePlaying:false,
       dialogueOn:false,
-      saveToLocalStorageKeys:['flags','inventory','combinations','transitions','examinedObjects',
+      saveToLocalStorageKeys:['flags','inventory','combinations','transitions','examinedObjects','activeLevelURL',
       'parsedSceneIDs','transformedObjects','pickedObjectIDs','exploredTreeChoices','activeBackgroundURL']
     },
     handlers: {
@@ -174,7 +174,11 @@ AFRAME.registerState({
             if(!loadedItem)
               return
             state[key] = JSON.parse(loadedItem)
-        }) 
+        })
+        if(state.activeLevelURL){
+          if(!window.location.pathname.includes(state.activeLevelURL))
+            window.location.replace(state.activeLevelURL)
+        }
       },
     }
 });
