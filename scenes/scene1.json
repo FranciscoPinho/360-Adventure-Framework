@@ -387,11 +387,11 @@
         {
           "person": "dead",
           "shownoremorse": "chosen",
-          "blackPuddle": "inInventory"
+          "blackpuddle": "inInventory"
         }
       ],
-      "gotoCutscene": "scenes/cutscene3.json",
-      "carryInventory":false
+      "goToCutscene": "scenes/cutscene3.json",
+      "clearInventory":false
     },
     {
       "transitionID":"goodend",
@@ -402,11 +402,12 @@
         },
         {
           "person": "dead",
-          "showremorse": "chosen"
+          "showremorse": "chosen",
+          "activeBackgroundID":"scene2"
         }
       ],
       "newURL": "goodending.html",
-      "carryInventory":true
+      "clearInventory":true
     }
   ]
 }

@@ -4,7 +4,7 @@
       "src": "#my-video",
       "video-player": "",
       "cutscene-end-transition": {
-          "newUrl":"badending.html",
+          "newURL":"badending.html",
           "endTime":"4"
       },
       "music-change-emitter": {
@@ -13,15 +13,8 @@
       },
       "children": [
         {
-          "a-entity": {
-            "gltf-model": "#deer",
-            "position": "53 -5.5 -12",
-            "scale": "0.01 0.01 0.01",
-            "rotation": "-0.19 110 0.005"
-          }
-        },
-        {
           "a-entity":{
+            "id":"dialogue",
             "dialogue":{
               "dialogueTreeURL":"dialogue/dialogue4.json",
               "dialogueTreeName":"badEndDialogueTree",

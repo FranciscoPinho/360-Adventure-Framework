@@ -11,6 +11,7 @@ AFRAME.registerState({
       transformedObjects:{}, //needs to be saved to local storage
       pickedObjectIDs:[],  //needs to be saved to local storage
       exploredTreeChoices:[],  //needs to be saved to local storage
+      examinedObjects:[], //needs to be saved to local storage
       activeLevelURL:"index.html", //needs to be saved to local storage
       activeBackgroundURL:"", //needs to be saved to local storage
       activeBackgroundID:"",  
@@ -25,44 +26,52 @@ AFRAME.registerState({
       cutscenePlaying:false,
       exclusivePlaying:false,
       dialogueOn:false,
-      saveToLocalStorageKeys:['flags','inventory','combinations','transitions',
+      saveToLocalStorageKeys:['flags','inventory','combinations','transitions','examinedObjects',
       'parsedSceneIDs','transformedObjects','pickedObjectIDs','exploredTreeChoices','activeBackgroundURL']
     },
     handlers: {
       addFlag: (state,action) => {
         state.flags[action.flagKey]=action.flagValue
-        localStorage.setItem('flags',state.flags)
+        localStorage.setItem('flags',JSON.stringify(state.flags))
       },
       addExploredDialogueTreeChoice: (state, action) => {
         if(state.exploredTreeChoices.indexOf(action.choiceID)===-1){
           state.exploredTreeChoices.push(action.choiceID)
-          localStorage.setItem('exploredTreeChoices',state.exploredTreeChoices)
+          localStorage.setItem('exploredTreeChoices',JSON.stringify(state.exploredTreeChoices))
         } 
       },
       removeFlag: (state,action) => {
         delete state.flags[action.flagKey]
-        localStorage.setItem('flags',state.flags)
+        localStorage.setItem('flags',JSON.stringify(state.flags))
       },
       addToInventory: (state,action) => {
         state.inventory.push(action.object)
         state.flags[action.object.iconID] = "inInventory"
         if(action.alreadyPickedID){
           state.pickedObjectIDs.push(action.alreadyPickedID)
-          localStorage.setItem('pickedObjectIDs',state.pickedObjectIDs)
+          localStorage.setItem('pickedObjectIDs',JSON.stringify(state.pickedObjectIDs))
         }
-        localStorage.setItem('inventory',state.inventory)
-        localStorage.setItem('flags',state.flags)
+        localStorage.setItem('inventory',JSON.stringify(state.inventory))
+        localStorage.setItem('flags',JSON.stringify(state.flags))
+      },
+      addExaminedObjects: (state,action) => {
+        state.examinedObjects.push(action.examinedObject)
+        localStorage.setItem('examinedObjects',JSON.stringify(state.examinedObjects))
       },
       removeFromInventory: (state,action) => {
         for(let i=0, n=state.inventory.length;i<n;i++){
             if(state.inventory[i].iconID===action.object.iconID){
               state.inventory.splice(i,1)
               state.flags[action.object.iconID] = "used"
-              localStorage.setItem('inventory',state.inventory)
-              localStorage.setItem('flags',state.flags)
+              localStorage.setItem('inventory',JSON.stringify(state.inventory))
+              localStorage.setItem('flags',JSON.stringify(state.flags))
               return
             }
         }
+      },
+      clearInventory: (state,action) => {
+        state.inventory = []
+        localStorage.removeItem('inventory')
       },
       addAudioPlaying: (state,action) => {
         if(action.exclusive){
@@ -94,22 +103,26 @@ AFRAME.registerState({
       },
       updateTransformedObjects: (state,action) => {
         state.transformedObjects[action.original]=action.transformation
-        localStorage.setItem('transformedObjects',state.transformedObjects)
+        localStorage.setItem('transformedObjects',JSON.stringify(state.transformedObjects))
       },
       updateParsedSceneIDs: (state,action) => {
         state.parsedSceneIDs.push(action.parsedSceneID)
-        localStorage.setItem('parsedSceneIDs',state.parsedSceneIDs)
+        localStorage.setItem('parsedSceneIDs',JSON.stringify(state.parsedSceneIDs))
       },
       updateGrabbedObject: (state,action) => {
         state.grabbedObject = action.grabbedObject
       },
       updateCombinations: (state,action) => {
         state.combinations = state.combinations.concat(action.newCombinations)
-        localStorage.setItem('combinations',state.combinations)
+        localStorage.setItem('combinations',JSON.stringify(state.combinations))
       },
       updateTransitions: (state,action) => {
         state.transitions = state.transitions.concat(action.newTransitions)
-        localStorage.setItem('transitions',state.transitions)
+        localStorage.setItem('transitions',JSON.stringify(state.transitions))
+      },
+      removeTransition:(state,action) => {
+        state.transitions.splice(action.transitionIndex,1)
+        localStorage.setItem('transitions',JSON.stringify(state.transitions))
       },
       updateInventoryState: (state,action) => {
         state.inventoryOpen = action.inventoryOpen
@@ -130,7 +143,6 @@ AFRAME.registerState({
       },
       updateCutscenePlaying: (state,action) => {
         state.cutscenePlaying = action.cutscenePlaying
-        //check for transitions if cutscenePlaying turns to false
       },
       saveMusicRecords: (state, action) => {
         state.musicRecords[action.audioID]=action.resumeTime
@@ -140,28 +152,29 @@ AFRAME.registerState({
       },
       changeURL: (state,action) => {
         state.saveToLocalStorageKeys.forEach((key)=>{
-          localStorage.setItem(key,state[key])
+          localStorage.setItem(key,JSON.stringify(state[key]))
         })
         localStorage.removeItem('activeBackgroundURL')
-        localStorage.setItem('activeLevelURL',action.newURL)
+        localStorage.setItem('activeLevelURL',JSON.stringify(action.newURL))
         window.location.replace(action.newURL)
       },
       updateActiveBackgroundID: (state,action) => {
         state.activeBackgroundID = action.activeBackgroundID
         state.activeBackgroundURL = action.activeBackgroundURL
-        localStorage.setItem('activeBackgroundURL',state.activeBackgroundURL)
+        localStorage.setItem('activeBackgroundURL',JSON.stringify(state.activeBackgroundURL))
       },
       saveToLocalStorage: (state) => {
         state.saveToLocalStorageKeys.forEach((key)=>{
-            localStorage.setItem(key,state[key])
+            localStorage.setItem(key,JSON.stringify(state[key]))
         })
       },
       loadFromLocalStorage: (state) => {
         state.saveToLocalStorageKeys.forEach((key)=>{
             let loadedItem = localStorage.getItem(key)
-            if(loadedItem)
-              state[key] = loadedItem
-        })
+            if(!loadedItem)
+              return
+            state[key] = JSON.parse(loadedItem)
+        }) 
       },
     }
 });

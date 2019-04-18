@@ -7,12 +7,14 @@ AFRAME.registerComponent('navigation-manager', {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
-
+        if (performance.navigation.type == 1) {
+            AFRAME.scenes[0].emit('loadFromLocalStorage')
+        }
     }, 
     play() {
         let loadedEnv = localStorage.getItem('activeBackgroundURL')
         if(loadedEnv){
-            this.data.initialEnv = loadedEnv
+            this.data.initialEnv = JSON.parse(loadedEnv)
         }
         if(this.data.initialEnv){
             this.setInitialEnvironment = this.setInitialEnvironment.bind(this)
@@ -67,6 +69,11 @@ AFRAME.registerComponent('navigation-manager', {
                 }
             }
         }
+        appState.examinedObjects.forEach((obj)=>{
+            let el = document.querySelector('#'+obj.elID)
+            if(el)
+                el.setAttribute('hoverable',{hoverIcon:obj.hoverIcon})
+        })    
     },
     async setInitialEnvironment() {
         const {initialEnv} = this.data

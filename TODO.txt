@@ -3,9 +3,7 @@ TODO: Proof of concept document
 DOING NOW:
 2. transitions 
 2.1 make objects visible after certain conditions (navigation sphere after puzzle solved for exmaple)
-2.2 transition into cutscene
 2.3 transition into dialogue
-2.4 transition into newURL/level
 2.5 transition into audio
 
 NEW DESCRIPTION ELEMENTS

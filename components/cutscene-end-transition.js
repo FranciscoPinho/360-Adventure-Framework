@@ -26,7 +26,7 @@ AFRAME.registerComponent('cutscene-end-transition', {
             const {newURL,destination,newFlag}=this.data;
             AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
             if(newURL){
-                AFRAME.scenes[0].emit('changeURL',{url:newURL})
+                AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
                 this.video.ontimeupdate = null
                 return
             }

@@ -13,7 +13,7 @@ AFRAME.registerComponent('dialogue', {
         choiceIcon:{type:"string",default:"#choiceIcon"},
         previouslyChosenIcon:{type:"string",default:"#previouslyChosenIcon"},
         examinedIcon:{type:"string",default:"#examinedIcon"},
-        newURL:{stype:"string",default:"false"}
+        newURL:{stype:"string",default:""}
     },
     init() {  
         this.startDialogue = this.startDialogue.bind(this)
@@ -51,9 +51,11 @@ AFRAME.registerComponent('dialogue', {
         if(this.currentLine && !autoplay)
             for(let i=0,n=advanceEvents.length; i<n; i++)
                 el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
-        if(autoplay && this.el.sceneEl.is('vr-mode'))
+        let isVr = el.sceneEl.is('vr-mode')
+        if(autoplay && isVr)
             startDialogue()
-        else this.el.addEventListener('enter-vr',startDialogue,{once:true})
+        if(autoplay && !isVr)
+            el.sceneEl.addEventListener('enter-vr',startDialogue,{once:true})
     },
     pause() {
         const {el,startDialogue,advanceDialogue} = this
@@ -146,8 +148,10 @@ AFRAME.registerComponent('dialogue', {
             }
             if(pauseBackgroundSong)
                 el.sceneEl.emit('music-resume')
-            if(examinableObject)
+            if(examinableObject){
+                AFRAME.scenes[0].emit('addExaminedObjects',{examinedObject:{hoverIcon:examinedIcon,elID:el.getAttribute('id')}})
                 el.setAttribute('hoverable',{hoverIcon:examinedIcon})
+            }
             for(let i=0,n=advanceEvents.length; i<n; i++)
                 el.sceneEl.removeEventListener(advanceEvents[i], advanceDialogue)
             if(dialogueBox)
@@ -159,7 +163,8 @@ AFRAME.registerComponent('dialogue', {
                 for(let i=0,n=startEvents.length; i<n; i++)
                     el.addEventListener(startEvents[i], startDialogue)
             if(newURL)
-                AFRAME.scenes[0].emit('changeURL',{url:newURL})
+                AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
+            
             return
         }
 
@@ -184,10 +189,10 @@ AFRAME.registerComponent('dialogue', {
                 else {
                     this.voiceOver = document.createElement("audio")
                     document.querySelector('a-assets').appendChild(this.voiceOver)
+                    this.voiceOver.src = currentDialogue.voiceTrack
                 }
             }
             if(this.voiceOnceLines.indexOf(currentDialogue.voiceTrack)===-1){
-                this.voiceOver.src = currentDialogue.voiceTrack
                 if (currentDialogue.voiceVolume)
                     this.voiceOver.volume = currentDialogue.voiceVolume
                 else this.voiceOver.volume = 1
@@ -244,7 +249,6 @@ AFRAME.registerComponent('dialogue', {
                 evt.stopPropagation()
                 if(choiceSfx)
                     choiceSfx.play()
-                
                 AFRAME.scenes[0].emit('addFlag', {
                     flagKey:choiceData.choiceID,
                     flagValue:"chosen"
