@@ -84,7 +84,6 @@ AFRAME.registerComponent('scripted-audio-player', {
       if(appState.exclusiveAudioPlaying)
         return
       if(evt.type==="triggerdown" || evt.type==="click"){
-        console.log(appState)
         if(appState.dialogueOn || appState.inventoryOpen || appState.cutscenePlaying)
           return
       }

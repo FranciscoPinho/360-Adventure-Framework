@@ -1,6 +1,5 @@
 TODO: Proof of concept document
-test scripted-audio-player
-(autoplay,exclusive,onclick)
+
 DOING NOW:
 2. transitions 
 2.1 make objects visible after certain conditions (navigation sphere after puzzle solved for exmaple)
@@ -40,7 +39,6 @@ OnObjectExamination - Done
 OnSuccessfulObjectUse - Done
 these are encapsulated on dialogue)
 OnEndScene - done
-onTransition - done
 OnBeginScene - done
 
 
