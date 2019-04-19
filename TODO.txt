@@ -3,11 +3,13 @@ TODO: Proof of concept document
 NEXT:
 - player choice in cutscene
 - 2d video cutscenes
+- main menu
 - changeVideoSrc
 
 NEW DESCRIPTION ELEMENTS
 - present evidence, as a choice in dialogue, have the dialogue box and the inventory below for the player to choose
 - numerical input
+- keyframes for invisible examinables/other objects maybe
 - subtitles
 
 USEFUL INFO

@@ -389,6 +389,11 @@
           "person": "dead",
           "shownoremorse": "chosen",
           "blackpuddle": "inInventory"
+        },
+        {
+          "deerman": "deadperson",
+          "shownoremorse": "chosen",
+          "blackpuddle": "inInventory"
         }
       ],
       "goToCutscene": "scenes/cutscene3.json",

@@ -1,0 +1,74 @@
+{
+    "a-sky": {
+        "id": "scene3",
+        "src": "#360beach",
+        "children":[
+            {
+                "a-text":
+                {
+                    "id":"title",
+                    "position":"2 3 -5",
+                    "scale":"-2 2 2", 
+                    "value":"Very cool game title",
+                    "color":"#000"
+
+                }
+            },
+            {
+                "a-plane":
+                {
+                    "id":"newgame",
+                    "class":"inter",
+                    "position":"0 1 -6",
+                    "scale":"-3 0.5 1", 
+                    "hoverable":"",
+                    "material":{
+                        "color":"purple"
+                    },
+                    "menu-button":{
+                        "buttonFunction":"newgame",
+                        "level1URL":"level1.html"
+                    }
+                }
+            },
+            {
+                "a-plane":
+                {
+                    "id":"loadgame",
+                    "class":"inter",
+                    "position":"0 0 -6",
+                    "scale":"-3 0.5 1", 
+                    "hoverable":"",
+                    "material":{
+                        "color":"purple"
+                    },
+                    "menu-button":{
+                        "buttonFunction":"load"
+                    }
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"newgametext",
+                    "position":"1.2 1 -6",
+                    "scale":"-2 2 2", 
+                    "value":"New Game",
+                    "color":"#000"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"loadgametext",
+                    "position":"1.2 0 -6",
+                    "scale":"-2 2 2", 
+                    "value":"Load Game",
+                    "color":"#000"
+
+                }
+            }
+        ]
+    }
+}

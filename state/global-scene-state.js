@@ -15,7 +15,7 @@ AFRAME.registerState({
       visibilityRecords:{}, //needs to be saved to local storage
       removableAudiosPlayed:{}, //needs to be saved to local storage
       removableDialoguesRead:{}, //needs to be saved to local storage
-      activeLevelURL:"index.html", //needs to be saved to local storage
+      activeLevelURL:"", //needs to be saved to local storage
       activeBackgroundURL:"", //needs to be saved to local storage
       activeBackgroundID:"",  
       musicRecords:{},
@@ -196,10 +196,11 @@ AFRAME.registerState({
               return
             state[key] = JSON.parse(loadedItem)
         })
-        if(state.activeLevelURL){
-          if(!window.location.pathname.includes(state.activeLevelURL))
-            window.location.replace(state.activeLevelURL)
-        }
+        if(!action.fromMenu)
+          if(state.activeLevelURL){
+            if(!window.location.pathname.includes(state.activeLevelURL))
+              window.location.replace(state.activeLevelURL)
+          }
       },
     }
 });

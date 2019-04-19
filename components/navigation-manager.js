@@ -1,21 +1,24 @@
 AFRAME.registerComponent('navigation-manager', {
     schema:{
         dur: {type:'number', default: 1000},
-        initialEnv:{type:'string'}
+        initialEnv:{type:'string'},
+        menu:{type:'boolean',default:false}
     },
     init() {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
-        if (performance.navigation.type == 1) {
-            AFRAME.scenes[0].emit('loadFromLocalStorage')
+        if (performance.navigation.type == 1 || performance.navigation.type == 0) {
+            AFRAME.scenes[0].emit('loadFromLocalStorage',{fromMenu:this.data.menu})
         }
     }, 
     play() {
-        let loadedEnv = localStorage.getItem('activeBackgroundURL')
-        if(loadedEnv){
-            this.data.initialEnv = JSON.parse(loadedEnv)
-        }
+        if(!this.data.menu){
+            let loadedEnv = localStorage.getItem('activeBackgroundURL')
+            if(loadedEnv){
+                this.data.initialEnv = JSON.parse(loadedEnv)
+            }
+        }   
         if(this.data.initialEnv){
             this.setInitialEnvironment = this.setInitialEnvironment.bind(this)
             this.setInitialEnvironment()
@@ -47,7 +50,8 @@ AFRAME.registerComponent('navigation-manager', {
     injectNewEnvironmentDOM (scene,newEnvironment,destinationURL) {
         let appState = AFRAME.scenes[0].systems.state.state;
         let destination = scene.appendChild(newEnvironment["parentNode"])
-        AFRAME.scenes[0].emit('updateActiveBackgroundID', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
+        if(!this.data.menu)
+            AFRAME.scenes[0].emit('updateActiveBackgroundID', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
             let queue = []
