@@ -189,7 +189,7 @@ AFRAME.registerState({
             localStorage.setItem(key,JSON.stringify(state[key]))
         })
       },
-      loadFromLocalStorage: (state) => {
+      loadFromLocalStorage: (state,action) => {
         state.saveToLocalStorageKeys.forEach((key)=>{
             let loadedItem = localStorage.getItem(key)
             if(!loadedItem)
