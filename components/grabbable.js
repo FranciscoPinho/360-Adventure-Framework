@@ -141,7 +141,7 @@ AFRAME.registerComponent('grabbable', {
         this.raycaster=null
         this.grabbing=false
         let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
-        if(activeBackground)
+        if(activeBackground && appState.inventoryOpen)
             activeBackground.setAttribute('material',{opacity:0.5})
         AFRAME.scenes[0].emit('updateGrabbedObject', {grabbedObject:null})
         el.classList.add("inter");

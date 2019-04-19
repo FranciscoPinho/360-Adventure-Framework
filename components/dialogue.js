@@ -157,14 +157,17 @@ AFRAME.registerComponent('dialogue', {
             if(dialogueBox)
                 if(dialogueBox.parentNode)
                     dialogueBox.parentNode.removeChild(dialogueBox)
-            if(removeSelfOnEnd)
+            if(removeSelfOnEnd){
+                let elementID = el.getAttribute('id')
+                if(elementID)
+                    AFRAME.scenes[0].emit('addRemovableDialogue',{elementID:elementID})
                 el.removeAttribute('dialogue')
+            }
             else if(!autoplay)
                 for(let i=0,n=startEvents.length; i<n; i++)
                     el.addEventListener(startEvents[i], startDialogue)
             if(newURL)
                 AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
-            
             return
         }
 

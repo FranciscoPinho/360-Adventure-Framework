@@ -27,7 +27,7 @@ AFRAME.registerComponent('navigation-event-emitter', {
         
         if(firstdestination){
             if(!appState.flags[el.getAttribute('id')]){
-                AFRAME.scenes[0].emit('addFlag', {flagKey: el.getAttribute('id'), flagValue:true});
+                AFRAME.scenes[0].emit('addFlag', {flagKey: el.getAttribute('id'), flagValue:"visited"});
                 eventDetail.destinationURL = firstdestination
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }

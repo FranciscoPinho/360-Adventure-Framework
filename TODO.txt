@@ -1,31 +1,34 @@
 TODO: Proof of concept document
 
-DOING NOW:
-2. transitions 
-2.1 make objects visible after certain conditions (navigation sphere after puzzle solved for exmaple)
-2.3 transition into dialogue
-2.5 transition into audio
-
-NEW DESCRIPTION ELEMENTS
+NEXT:
 - player choice in cutscene
 - 2d video cutscenes
+- changeVideoSrc
+
+NEW DESCRIPTION ELEMENTS
 - present evidence, as a choice in dialogue, have the dialogue box and the inventory below for the player to choose
 - numerical input
 - subtitles
 
 USEFUL INFO
+TRANSITIONS on flags:
+- Can clear or not inventory
+- can go to: cutscene || dialogue || playAudio || newURL || change visibility of objects with scripted-invisibility component
+
 
 When can dialogue be presented:
-OnBeginScene: have a cutscene with dialogue then transition into normal gameplay. Cutscenes of dialogue or of video. - half done
-OnEndScene: transition into dialogue with flags and then transition into whatever/transition into cutscene with dialogue - half done
+OnBeginScene: have a cutscene with dialogue then transition into normal gameplay. Cutscenes of dialogue or of video. - done
+OnEndScene: transition into dialogue with flags and then transition into whatever/transition into cutscene with dialogue - done
 OnObjectExamination: onclick this object start dialogue - DONE
 OnSuccessfulObjectUse - DONE
 OnPickObject- DONE
 
 When can cutscenes be played:
 OnBeginScene - Start with cutscenes and transition to playable scene - done
-OnEndScene - Define a new url on cutscene event emitter vs regular destination - half done
-OnObjectPickup - afterPickCutscene element inside pickable component //force state to check transitions only after cutsceneplayed=false
+OnEndScene - Define a new url on cutscene event emitter vs regular destination - done
+OnObjectPickup - afterPickCutscene element inside pickable component - done
+
+//todo
 OnObjectExamination - changeVideoSrc, instead of transitioning to a cutscene
 OnSuccessfulObjectUse - changeVideoSrc, instead of transitioning to a cutscene
 OnPlayerChoice - move to some other cutscene after player choice or keep going in the same, changeVideoSrc?
@@ -40,18 +43,15 @@ OnEndScene - done
 OnBeginScene - done
 
 
-OnPlayerChoice
-
-
 When can Player choice appear: (different implementations for both cases)
 - in Dialogue (here player choice integrated in dialogue component, add flags as necessary)
 - in Cutscene  (here player choice integrated as player-choice-transition component, add flags as necessary)
 
 
-Cutscenes will have 4 different mutually exclusive transition components:
+Cutscenes will have 3 different mutually exclusive transition components:
 cutscene-end-transition (transition into newURL/level or back to some scene after the video ends automatically, newURL takes precedence over scene destination)
 player-choice-transition (pause video at player choice moment and transition to different cutscenes on player choice or resume same)
-dialogue-end-transition (if it's a dialogue only cutscene, video irrelevant, transition into newURL/level or back to some scene after dialogue ends automatically)
+dialogue (if it's a dialogue only cutscene, video irrelevant, transition into newURL/level or back to some scene after dialogue ends automatically)
 changeVideoSrc-transition (if we only want to change the videosource cuz it's the same scenario and then change back to a neutral videosource)
 Interaction components:hoverable,inventory(grabbable,use-effect),pickable,navigation-event-emitter,dialogue
 
@@ -66,9 +66,9 @@ Transitions:
 Flag based transitions: upon certain conditions trigger a transition into something, very powerful allow for in between gameplay transitions into anything
 Dialogue based transitions: after dialogue ends go somewhere possibly
 Navigation based transitions: user clicks on navigation element to go to different environment
-Cutscene based transitions: transition into different stuff from cutscenes, see 4 cutscene transition components
-OnPickObject: Transition into voice, cutscene or dialogue that automatically transition back into playable scene
-OnObjectExamination: Transition into voice ,cutscene or dialogue that automatically transition back into playable scene
+Cutscene based transitions: transition into different stuff from cutscenes, see 3 cutscene transition components
+OnPickObject: Transition into cutscene or dialogue(voiced or not) that automatically transition back into playable scene
+OnObjectExamination: Transition into cutscene or dialogue(voiced or not) that automatically transition back into playable scene
 
 On hoverable component
 -can define different hover icons

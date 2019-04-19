@@ -13,7 +13,7 @@
     "scripted-audio-player": {
       "src":"#beginAudio",
       "autoplay":true,
-      "removeOnEnd":true,
+      "removeSelfOnEnd":true,
       "volume":0.03
     },
     "children": [
@@ -21,6 +21,7 @@
         "a-sphere": {
           "id":"sphere1",
           "class": "inter",
+          "scripted-invisibility":"",
           "navigation-event-emitter": {
             "firstdestination": "scenes/cutscene2.json",
             "destination": "scenes/scene2.json"
@@ -157,7 +158,7 @@
                 }
               },
               {
-                "targeted_by":["deer1","deer2"],
+                "targeted_by":["deer1Icon","deer2Icon"],
                 "newFlag": "deerman",
                 "id":"deerman",
                 "src": "#deermanImg",
@@ -175,7 +176,7 @@
                 "use-target":{
                   "stimulus":[
                     {
-                      "targeted_by":["deer1","deer2"],
+                      "targeted_by":["deer1Icon","deer2Icon"],
                       "newFlag": "deadperson",
                       "id":"deadperson",
                       "src": "#deadpersonImg",
@@ -235,7 +236,7 @@
             },
             "inventoryData": {
               "iconSrc": "#cutsceneIcon",
-              "iconID": "cutscene",
+              "iconID": "cutsceneIcon",
               "iconDesc":"Cutscene?: A completely useless item, enjoy"
             },
             "afterPickCutscene": "scenes/cutscene1.json"
@@ -265,7 +266,7 @@
             },
             "inventoryData": {
               "iconSrc": "#deerIcon",
-              "iconID": "deer1",
+              "iconID": "deer1Icon",
               "iconDesc":"Deer: I wonder what happens when two deers join forces..."
             },
             "afterPickDialogue":{
@@ -314,7 +315,7 @@
             },
             "inventoryData": {
               "iconSrc": "#deerIcon",
-              "iconID": "deer2",
+              "iconID": "deer2Icon",
               "iconDesc":"Deer: I wonder what happens when two deers join forces..."
             }
           },
@@ -408,6 +409,59 @@
       ],
       "newURL": "goodending.html",
       "clearInventory":true
+    },
+    {
+      "transitionID":"sphereVisible",
+      "on":[
+        {
+          "deer1":"picked"
+        },
+        {
+          "deer2":"picked"
+        }
+      ],
+      "makeVisible":"sphere1"
+    },
+    {
+      "transitionID":"dialogueDisplay",
+      "on":[
+        {
+          "person":"deerman"
+        }
+      ],
+      "goToDialogue":{
+        "dialogueTreeURL":"dialogue/dialogue4.json",
+        "dialogueTreeName":"deermanTransformed",
+        "spawn":{
+          "location":"look",
+          "zDistance":"-5",
+          "opacity":0.6
+        },
+        "sfx":{
+          "advanceSfx":"#hover",
+          "advanceVolume":1,
+          "spawnSfx":"#hover",
+          "spawnVolume":1
+        },
+        "autoplay":true,
+        "removeSelfOnEnd":true
+      }
+    },
+    {
+      "transitionID":"audioTransition",
+      "on":[
+        {
+          "sphere1":"visited",
+          "cutscene2":"seen"
+        }
+      ],
+      "playAudio":{
+        "src":"general-voiceover/invisible-fabric.wav",
+        "autoplay":true,
+        "exclusive":true,
+        "removeSelfOnEnd":true,
+        "volume":0.2
+      }
     }
   ]
 }

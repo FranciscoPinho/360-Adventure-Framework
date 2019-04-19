@@ -10,6 +10,9 @@
     ],
     "goodEndCongratulations":[
         { "text": "You were a good guy and thus have reached paradise"}
+    ],
+    "deermanTransformed":[
+        { "text": "This man is now faster and more efficient, a truly invincible agent smith", "voiceTrack":"dialogue-voiceover/deerman.wav", "voiceVolume":0.2}
     ]
     
 }

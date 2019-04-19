@@ -38,6 +38,14 @@ jsonToEntity = (env_json)=>{
             jsonChildren = components[componentName]
             continue
         }
+        if(componentName==="scripted-audio-player"){
+            if(appState.removableAudiosPlayed[sceneID])
+                continue
+        }
+        if(componentName==="dialogue"){
+            if(appState.removableDialoguesRead[sceneID])
+                continue
+        }
         newEntity.setAttribute(componentName,components[componentName])
     }
     newEntity.setAttribute('material',{shader:"flat",side:"back",color:"#fff"})
@@ -57,15 +65,22 @@ childrenJsonToEntities = (child_json)=>{
             let components = child_json[i][entityName]
             let newEntity = document.createElement(entityName)
             let jsonChildren, transformationAttributes
-                
+            let objectID = components['id']
             for (const componentName in components){
                 if(componentName==="children"){
                     jsonChildren = components[componentName]
                     continue
                 }
-            
+                if(componentName==="scripted-audio-player"){
+                    if(appState.removableAudiosPlayed[objectID])
+                        continue
+                }
+                if(componentName==="dialogue"){
+                    if(appState.removableDialoguesRead[objectID])
+                        continue
+                }
                 if(componentName==="id"){
-                    let objectID = components[componentName]
+                   
                     transformationAttributes = checkForPreviouslyTransformed(appState,objectID)
                     if(Object.keys(transformationAttributes).length && entityName==="a-image")
                         newEntity.setAttribute('material',{transparent:true,shader:"flat",side:"double"})

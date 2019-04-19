@@ -4,7 +4,7 @@ AFRAME.registerComponent('scripted-audio-player', {
       autoplay:{type:"boolean",default:false},
       delaySeconds:{type:"number",default:0},
       startEvents:{type:"array",default:['triggerdown','click']},
-      removeOnEnd:{type:"boolean",default:false},
+      removeSelfOnEnd:{type:"boolean",default:false},
       volume:{type:"number",default:1},
       exclusive:{type:"boolean",default:false},
       newFlag:{type:"string",default:"heard"},
@@ -102,14 +102,14 @@ AFRAME.registerComponent('scripted-audio-player', {
       this.audio.pause()
     },
     stopAudio() {
-      const {exclusive,autoplay,removeOnEnd} = this.data
+      const {exclusive,autoplay,removeSelfOnEnd} = this.data
       const {audio,el,onSoundEnded}=this
       if(exclusive || !audio)
         return
       audio.pause()
       audio.currentTime = 0
       this.isPlayingAudio=false
-      if(autoplay && removeOnEnd){
+      if(autoplay && removeSelfOnEnd){
         audio.removeEventListener('ended',onSoundEnded)
         audio.parentNode.removeChild(audio)
         el.removeAttribute('scripted-audio-player')
@@ -117,11 +117,14 @@ AFRAME.registerComponent('scripted-audio-player', {
     },
     onSoundEnded(){
       const {el,audio,onSoundEnded} = this
-      const {exclusive,removeOnEnd,newFlag,newURL} = this.data
+      const {exclusive,removeSelfOnEnd,newFlag,newURL} = this.data
       this.isPlayingAudio=false
       AFRAME.scenes[0].emit('addFlag',{flagKey:audio.id,flagValue:newFlag})
       AFRAME.scenes[0].emit('removeAudioPlaying',{audioID:audio.id,exclusive:exclusive})
-      if(removeOnEnd){
+      if(removeSelfOnEnd){
+        let elementID = el.getAttribute('id')
+        if(elementID)
+          AFRAME.scenes[0].emit('addRemovableAudio',{elementID:elementID})
         audio.removeEventListener('ended',onSoundEnded)
         audio.parentNode.removeChild(audio)
         el.removeAttribute('scripted-audio-player')

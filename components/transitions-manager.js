@@ -50,16 +50,16 @@ AFRAME.registerComponent('transitions-manager', {
             
                 }
                 if(allConditions){
-                    alreadyMadeTransitions.push(transition.transitionID,i)
+                    alreadyMadeTransitions.push(transition.transitionID)
                     makeTransition(transition)
                     return
                 }
             }
         }
     },
-    makeTransition(transition,transitionIndex){
+    makeTransition(transition){
         const {el,appState}=this
-        AFRAME.scenes[0].emit('removeTransition',{transitionIndex:transitionIndex})
+        AFRAME.scenes[0].emit('removeTransition',{transitionID:transition.transitionID})
         if(transition.clearInventory){
             AFRAME.scenes[0].emit('clearInventory')
         }
@@ -73,6 +73,26 @@ AFRAME.registerComponent('transitions-manager', {
         }
         else if(transition.newURL)
             AFRAME.scenes[0].emit('changeURL',{newURL:transition.newURL})
-            
+        else if(transition.makeVisible){
+            let obj
+            transition.makeVisible.includes("#") ? 
+            obj = document.querySelector(transition.makeVisible) :
+            obj = document.querySelector("#"+transition.makeVisible)
+            if(obj)
+                obj.emit('force-visibility')
+           
+        }
+        else if(transition.makeInvisible){
+            let obj
+            transition.makeInvisible.includes("#") ? 
+            obj = document.querySelector(transition.makeInvisible) :
+            obj = document.querySelector("#"+transition.makeInvisible)
+            if(obj)
+                obj.emit('force-invisibility')
+        }
+        else if(transition.goToDialogue)
+            el.sceneEl.setAttribute("dialogue",transition.goToDialogue)
+        else if(transition.playAudio)
+            el.sceneEl.setAttribute("scripted-audio-player",transition.playAudio)
     }
   })

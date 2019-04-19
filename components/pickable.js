@@ -67,7 +67,8 @@ AFRAME.registerComponent('pickable', {
         }
 
         AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
- 
+        AFRAME.scenes[0].emit('addFlag', {flagKey:objectID,flagValue:newFlag});
+
         if(afterPickCutscene)
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         setTimeout(()=>{
@@ -78,7 +79,6 @@ AFRAME.registerComponent('pickable', {
                     origin:el.parentNode,
                     destinationURL:afterPickCutscene
                 }
-                AFRAME.scenes[0].emit('addFlag', {flagKey:objectID,flagValue:newFlag});
                 el.emit('clickNavigation',eventDetail,true)
                 return
             }

@@ -1,6 +1,6 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['combinations','grabbedObject','transitions',
-    'hoveringID','flags','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight','exploredTreeChoices',
+    nonBindedStateKeys: ['combinations','grabbedObject','transitions','inventory','removableAudiosPlayed','removableDialoguesRead',
+    'hoveringID','flags','visibilityRecords','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight','exploredTreeChoices',
     'inventoryOpen','transformedObjects','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
       flags:{},  //needs to be saved to local storage
@@ -12,6 +12,9 @@ AFRAME.registerState({
       pickedObjectIDs:[],  //needs to be saved to local storage
       exploredTreeChoices:[],  //needs to be saved to local storage
       examinedObjects:[], //needs to be saved to local storage
+      visibilityRecords:{}, //needs to be saved to local storage
+      removableAudiosPlayed:{}, //needs to be saved to local storage
+      removableDialoguesRead:{}, //needs to be saved to local storage
       activeLevelURL:"index.html", //needs to be saved to local storage
       activeBackgroundURL:"", //needs to be saved to local storage
       activeBackgroundID:"",  
@@ -26,10 +29,18 @@ AFRAME.registerState({
       cutscenePlaying:false,
       exclusivePlaying:false,
       dialogueOn:false,
-      saveToLocalStorageKeys:['flags','inventory','combinations','transitions','examinedObjects','activeLevelURL',
+      saveToLocalStorageKeys:['flags','removableAudiosPlayed','removableDialoguesRead','visibilityRecords','inventory','combinations','transitions','examinedObjects','activeLevelURL',
       'parsedSceneIDs','transformedObjects','pickedObjectIDs','exploredTreeChoices','activeBackgroundURL']
     },
     handlers: {
+      addRemovableAudio: (state,action) => {
+        state.removableAudiosPlayed[action.elementID]=true
+        localStorage.setItem('removableAudiosPlayed',JSON.stringify(state.removableAudiosPlayed))
+      },
+      addRemovableDialogue: (state,action) => {
+        state.removableDialoguesRead[action.elementID]=true
+        localStorage.setItem('removableDialoguesPlayed',JSON.stringify(state.removableDialoguesRead))
+      },
       addFlag: (state,action) => {
         state.flags[action.flagKey]=action.flagValue
         localStorage.setItem('flags',JSON.stringify(state.flags))
@@ -101,6 +112,10 @@ AFRAME.registerState({
           }
         }
       },
+      updateVisibilityRecords: (state,action) => {
+        state.visibilityRecords[action.objectID]=action.visibility
+        localStorage.setItem('visibilityRecords', JSON.stringify(state.visibilityRecords))
+      },
       updateTransformedObjects: (state,action) => {
         state.transformedObjects[action.original]=action.transformation
         localStorage.setItem('transformedObjects',JSON.stringify(state.transformedObjects))
@@ -121,7 +136,13 @@ AFRAME.registerState({
         localStorage.setItem('transitions',JSON.stringify(state.transitions))
       },
       removeTransition:(state,action) => {
-        state.transitions.splice(action.transitionIndex,1)
+        for(let i=0,len=state.transitions.length;i<len;i++){
+          let transition = state.transitions[i]
+          if(transition.transitionID===action.transitionID){
+            state.transitions.splice(i,1)
+            break
+          }
+        }
         localStorage.setItem('transitions',JSON.stringify(state.transitions))
       },
       updateInventoryState: (state,action) => {
