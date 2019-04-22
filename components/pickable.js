@@ -43,7 +43,7 @@ AFRAME.registerComponent('pickable', {
         
         if(animate){
            const {x,y,z} = el.getAttribute('scale')
-         
+            
             el.setAttribute('animation__pickup__scaling', {
                 property: 'scale',
                 startEvents: 'pickupObject'+objectID,
@@ -64,6 +64,7 @@ AFRAME.registerComponent('pickable', {
             timeOut = animationDuration
             
             el.emit('pickupObject'+objectID)
+            AFRAME.scenes[0].emit('updatePickAnimationPlaying', {playing:true});
         }
 
         AFRAME.scenes[0].emit('addToInventory', {object: object, alreadyPickedID:objectID});
@@ -74,6 +75,7 @@ AFRAME.registerComponent('pickable', {
         setTimeout(()=>{
             if(sfxSrc)
                 sfxSrc.play()
+            AFRAME.scenes[0].emit('updatePickAnimationPlaying', {playing:false});
             if(afterPickCutscene){
                 const eventDetail = {
                     origin:el.parentNode,

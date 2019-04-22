@@ -9,20 +9,20 @@ AFRAME.registerComponent('music-manager', {
     },
     play () {
         const {el,onMusicChange,onMusicPause,onMusicResume} = this
-        el.addEventListener('enter-vr',onMusicResume)
-        el.addEventListener('exit-vr',onMusicPause)
-        el.addEventListener('music-change',onMusicChange)
-        el.addEventListener('music-pause',onMusicPause)
-        el.addEventListener('music-resume',onMusicResume)
+        el.sceneEl.addEventListener('enter-vr',onMusicResume)
+        el.sceneEl.addEventListener('exit-vr',onMusicPause)
+        el.sceneEl.addEventListener('music-change',onMusicChange)
+        el.sceneEl.addEventListener('music-pause',onMusicPause)
+        el.sceneEl.addEventListener('music-resume',onMusicResume)
     },
     pause() {
         const {el,musicSrcDOM,onMusicChange,onMusicPause,onMusicResume} = this
         musicSrcDOM.removeEventListener('ended', onSoundEnded)
-        el.removeEventListener('enter-vr',onMusicResume)
-        el.removeEventListener('exit-vr',onMusicPause)
-        el.removeEventListener('music-change',onMusicChange)
-        el.removeEventListener('music-pause',onMusicPause)
-        el.removeEventListener('music-resume',onMusicResume)
+        el.sceneEl.removeEventListener('enter-vr',onMusicResume)
+        el.sceneEl.removeEventListener('exit-vr',onMusicPause)
+        el.sceneEl.removeEventListener('music-change',onMusicChange)
+        el.sceneEl.removeEventListener('music-pause',onMusicPause)
+        el.sceneEl.removeEventListener('music-resume',onMusicResume)
     },
     onSoundEnded(evt) {
         evt.stopPropagation() 
@@ -68,12 +68,19 @@ AFRAME.registerComponent('music-manager', {
         },1000)
     },
     onMusicResume(evt) { 
+        if(evt.type==="enter-vr" && this.paused)
+            return
         evt.stopPropagation()
         this.fadeInAudio()
+        if(evt.type==="music-resume")
+            this.paused=false
     },
     onMusicPause(evt) { 
         evt.stopPropagation()
         this.fadeOutAudio(false)
+        if(evt.type==="music-pause")
+            this.paused = true
+
     },
     fadeInAudio() {
         const {musicSrcID,musicSrcDOM,onSoundEnded} = this

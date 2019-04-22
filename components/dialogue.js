@@ -192,9 +192,11 @@ AFRAME.registerComponent('dialogue', {
                 else {
                     this.voiceOver = document.createElement("audio")
                     document.querySelector('a-assets').appendChild(this.voiceOver)
-                    this.voiceOver.src = currentDialogue.voiceTrack
                 }
             }
+            if(currentDialogue.voiceTrack.includes('#'))
+                    this.voiceOver = document.querySelector(currentDialogue.voiceTrack)
+            else this.voiceOver.src = currentDialogue.voiceTrack
             if(this.voiceOnceLines.indexOf(currentDialogue.voiceTrack)===-1){
                 if (currentDialogue.voiceVolume)
                     this.voiceOver.volume = currentDialogue.voiceVolume

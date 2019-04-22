@@ -18,6 +18,7 @@ AFRAME.registerState({
       activeLevelURL:"", //needs to be saved to local storage
       activeBackgroundURL:"", //needs to be saved to local storage
       activeBackgroundID:"",  
+      pickAnimationPlaying:false,
       musicRecords:{},
       grabbedObject:null,
       audiosPlaying:[], 
@@ -183,6 +184,9 @@ AFRAME.registerState({
         state.activeBackgroundID = action.activeBackgroundID
         state.activeBackgroundURL = action.activeBackgroundURL
         localStorage.setItem('activeBackgroundURL',JSON.stringify(state.activeBackgroundURL))
+      },
+      updatePickAnimationPlaying: (state,action) => {
+        state.pickAnimationPlaying = action.playing
       },
       saveToLocalStorage: (state) => {
         state.saveToLocalStorageKeys.forEach((key)=>{

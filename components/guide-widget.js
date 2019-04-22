@@ -29,6 +29,8 @@ AFRAME.registerComponent('guide-widget', {
     },
     pause(){
         const {el,updateVars} = this
+        if(this.guideEl.parentNode)
+            this.guideEl.parentNode.removeChild(this.guideEl)
         el.sceneEl.removeEventListener('enter-vr', updateVars);
         el.sceneEl.removeEventListener('exit-vr', updateVars)
     },

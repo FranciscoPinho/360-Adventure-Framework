@@ -1,7 +1,6 @@
 TODO: Proof of concept document
 
 NEXT:
-- 2d video cutscenes
 - changeVideoSrc
 
 NEW DESCRIPTION ELEMENTS
@@ -14,8 +13,8 @@ USEFUL INFO
 TRANSITIONS on flags:
 - Can clear or not inventory
 - can go to: cutscene || dialogue || playAudio || newURL || change visibility of objects with scripted-invisibility component || unpause video
-
--player choice in cutscenes cannot coexist with video loop
+|| inject new element
+-player choice in cutscenes cannot coexist with video loop or cutscene-end-transition
 
 When can dialogue be presented:
 OnBeginScene: have a cutscene with dialogue then transition into normal gameplay. Cutscenes of dialogue or of video. - done
@@ -28,11 +27,11 @@ When can cutscenes be played:
 OnBeginScene - Start with cutscenes and transition to playable scene - done
 OnEndScene - Define a new url on cutscene event emitter vs regular destination - done
 OnObjectPickup - afterPickCutscene element inside pickable component - done
-
+OnPlayerChoice - move to some other cutscene after player choice by changing scene or url - done
 //todo
-OnObjectExamination - changeVideoSrc, instead of transitioning to a cutscene
-OnSuccessfulObjectUse - changeVideoSrc, instead of transitioning to a cutscene
-OnPlayerChoice - move to some other cutscene after player choice or keep going in the same, changeVideoSrc?
+OnObjectExamination - changeVideoSrc, instead of transitioning to a cutscene (saves on having to remake entire scenes with the same objects but different background videos)
+OnSuccessfulObjectUse - changeVideoSrc, instead of transitioning to a cutscene (saves on having to remake entire scenes with the same objects but different background videos)
+
 
 When can voice tracks be played: (have exclusive voice tracks, voice tracks that lower background volume, whatever else)
 OnDialogue - Done

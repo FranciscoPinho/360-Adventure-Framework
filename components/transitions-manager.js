@@ -6,7 +6,9 @@ AFRAME.registerComponent('transitions-manager', {
     }, 
     tick(){
         const {appState,alreadyMadeTransitions,makeTransition}=this
-        if(appState.inventoryOpen || appState.cutscenePlaying || appState.exclusivePlaying || appState.dialogueOn || !appState.transitions.length)
+        if(appState.pickAnimationPlaying || appState.inventoryOpen || 
+            appState.cutscenePlaying || appState.exclusivePlaying || 
+            appState.dialogueOn || !appState.transitions.length)
             return
         
         for(let i=0,len=appState.transitions.length;i<len;i++){
@@ -97,6 +99,50 @@ AFRAME.registerComponent('transitions-manager', {
         else if(transition.currentVid==="unpause"){
             el.sceneEl.emit('resume-video')
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
+        }
+        else if(transition.injectFlatVideo){
+            let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+            if(activeBackground){
+                let flatvideo = document.createElement("a-video")
+                for(const key in transition.injectFlatVideo){
+                    if(key==="zDistance")
+                        continue
+                    if(key==="position"){
+                        let zDistance
+                        let newMat = new THREE.Matrix4();
+                        let position = transition.injectFlatVideo[key]
+                        if(position==="look"){
+                            flatvideo.setAttribute('look-at', "[camera]")
+                            flatvideo.setAttribute('visible',false)
+                            zDistance = transition.injectFlatVideo["zDistance"] ? transition.injectFlatVideo["zDistance"] : -8
+                            flatvideo.setAttribute("guide-widget",{zDistance:zDistance})
+                            let dummyNode = document.createElement("a-entity")
+                            dummyNode.setAttribute("visible", false)
+                            dummyNode.object3D.position.set(0,0,zDistance)
+                            camera.appendChild(dummyNode)
+                            el.sceneEl.appendChild(flatvideo)
+                            setTimeout(()=>{
+                                newMat.copy(dummyNode.object3D.matrixWorld)
+                                flatvideo.object3D.position.setFromMatrixPosition(newMat)
+                                flatvideo.setAttribute('visible',true)
+                                camera.removeChild(dummyNode)
+                            },100)
+                        }
+                        else {
+                            flatvideo.setAttribute(key,transition.injectFlatVideo[key])
+                            zDistance = position.split(' ')[2]
+                            let numericZ = parseInt(zDistance)
+                            if(numericZ)
+                                flatvideo.setAttribute("guide-widget",{zDistance:numericZ})
+                            activeBackground.appendChild(flatvideo)
+                        }
+                        continue
+                    }
+                    flatvideo.setAttribute(key,transition.injectFlatVideo[key])
+                }
+               
+            }
+
         }
     }
   })

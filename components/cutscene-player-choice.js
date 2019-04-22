@@ -20,14 +20,14 @@ AFRAME.registerComponent('cutscene-player-choice', {
       const {el,video,choiceActivated} = this
       if(video.currentTime>=triggerTimestamp && !choiceActivated){
         AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
+        AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
         el.setAttribute('dialogue',choices)
         video.pause()
         this.choiceActivated = true
         el.removeAttribute('cutscene-player-choice')
       }
       else if(video.currentTime>=video.duration){
-        const {newURL,destination,newFlag}=this.data;
-        AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
+        const {newURL,destination}=this.data;
         if(newURL){
             AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
             this.video.ontimeupdate = null

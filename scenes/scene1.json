@@ -2,7 +2,9 @@
   "a-videosphere": {
     "id": "scene1",
     "src": "#my-video",
-    "video-player": "",
+    "video-player": {
+      "videoVolume":0
+    },
     "video-looper": "",
     "music-change-emitter": {
       "newsource": "#music",
@@ -414,6 +416,28 @@
       ],
       "newURL": "goodending.html",
       "clearInventory":true
+    },
+    {
+      "transitionID":"deerSadness",
+      "on":[
+        {
+          "deer1":"picked",
+          "deer2":"picked"
+        }
+      ],
+      "injectFlatVideo":{
+          "id":"2dvid",
+          "src":"#flatvid",
+          "video-player":{
+            "flatCutscene":true,
+            "pauseBackgroundSong":true,
+            "removeEntityOnEnd":true
+          },
+          "zDistance":-8,
+          "width":8,
+          "height":4.5,
+          "position":"look"
+      }
     },
     {
       "transitionID":"sphereVisible",
