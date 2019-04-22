@@ -31,6 +31,7 @@ AFRAME.registerComponent('use-target', {
         }
     },
     updateFromStimulus: function (stimulus,usedObjectID) {
+        let appState = AFRAME.scenes[0].systems.state.state
         const {el} = this
       
         if(stimulus.newFlag)
@@ -38,7 +39,7 @@ AFRAME.registerComponent('use-target', {
                 flagKey:el.getAttribute('id'),
                 flagValue:stimulus.newFlag
             })
-        const {inventoryData,src,dialogue,afterStimulusDialogue} = stimulus
+        const {inventoryData,src,dialogue,afterStimulusDialogue,afterStimulusChangeVidSrc} = stimulus
         if(stimulus.sfxSrc){
             let audio = document.querySelector(stimulus.sfxSrc)
             if(stimulus.volume)
@@ -59,9 +60,20 @@ AFRAME.registerComponent('use-target', {
                 alreadyPickedID: inventoryData.originalID
             })
            
-            if(afterStimulusDialogue)
+            if(afterStimulusDialogue){
                 el.sceneEl.setAttribute('dialogue',afterStimulusDialogue)
-            el.sceneEl.emit('inventoryRefresh')
+                el.sceneEl.emit('inventoryRefresh')
+            }
+            else if(afterStimulusChangeVidSrc){
+                el.sceneEl.emit('triggerdown')
+                let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+                if(activeBackground){
+                    activeBackground.removeAttribute('video-player')
+                    activeBackground.setAttribute('src',afterStimulusChangeVidSrc.newSrc)
+                    activeBackground.setAttribute('video-player',{cutscene:afterStimulusChangeVidSrc.cutscene,pauseBackgroundSong:afterStimulusChangeVidSrc.pauseBackgroundSong})
+                }
+            }
+           
             return
         }
         else if(src){
@@ -85,6 +97,14 @@ AFRAME.registerComponent('use-target', {
             el.sceneEl.emit('trackpaddown')
             if(afterStimulusDialogue)
                 el.sceneEl.setAttribute('dialogue',afterStimulusDialogue)
+            else if(afterStimulusChangeVidSrc){
+                let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+                if(activeBackground){
+                    activeBackground.removeAttribute('video-player')
+                    activeBackground.setAttribute('src',afterStimulusChangeVidSrc.newSrc)
+                    activeBackground.setAttribute('video-player',{cutscene:afterStimulusChangeVidSrc.cutscene,pauseBackgroundSong:afterStimulusChangeVidSrc.pauseBackgroundSong})
+                }
+            }
             return
         }
         else if (dialogue){

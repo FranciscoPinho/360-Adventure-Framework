@@ -100,6 +100,14 @@ AFRAME.registerComponent('transitions-manager', {
             el.sceneEl.emit('resume-video')
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         }
+        else if(transition.changeVideoSrc){   
+            let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+            if(activeBackground){
+                activeBackground.removeAttribute('video-player')
+                activeBackground.setAttribute('src',transition.changeVideoSrc.newSrc)
+                activeBackground.setAttribute('video-player',{cutscene:transition.changeVideoSrc.cutscene,pauseBackgroundSong:transition.changeVideoSrc.pauseBackgroundSong})
+            }
+        }
         else if(transition.injectFlatVideo){
             let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
             if(activeBackground){
