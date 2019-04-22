@@ -35,12 +35,13 @@ For example: Music: https://www.bensound.com-->
     <script src="components/asset-loader.js"></script>
     <script src="components/guide-widget.js"></script>
     <script src="state/global-scene-state.js"></script>
+    <script src="components/cutscene-player-choice.js"></script>
     <script src="parser/jsonToEntityParser.js"></script>
     <script src="game-logic/handleDropObject.js"></script>
     
   </head>
   <body>
-    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:scenes/scene1.json" music-manager transitions-manager>
+    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:scenes/cutscenewithchoice.json" music-manager transitions-manager>
       <a-assets timeout="5000">
           <audio id="matchlit" src="sfx/matchlit.wav"></audio>
           <audio id="oilsfx" src="sfx/oil.wav"></audio>

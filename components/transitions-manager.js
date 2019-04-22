@@ -63,10 +63,10 @@ AFRAME.registerComponent('transitions-manager', {
         if(transition.clearInventory){
             AFRAME.scenes[0].emit('clearInventory')
         }
-        if(transition.goToCutscene){
+        if(transition.goToDestination){
             const eventDetail = {
                 origin:document.querySelector("#"+appState.activeBackgroundID),
-                destinationURL:transition.goToCutscene
+                destinationURL:transition.goToDestination
             }
             el.emit('clickNavigation',eventDetail,true)
             el.removeEventListener('click',this.clickNavigation)
@@ -94,5 +94,9 @@ AFRAME.registerComponent('transitions-manager', {
             el.sceneEl.setAttribute("dialogue",transition.goToDialogue)
         else if(transition.playAudio)
             el.sceneEl.setAttribute("scripted-audio-player",transition.playAudio)
+        else if(transition.currentVid==="unpause"){
+            el.sceneEl.emit('resume-video')
+            AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
+        }
     }
   })

@@ -13,6 +13,14 @@
     ],
     "deermanTransformed":[
         { "text": "This man is now faster and more efficient, a truly invincible agent smith", "voiceTrack":"dialogue-voiceover/deerman.wav", "voiceVolume":0.2}
+    ],
+    "choseA":[
+        { "text": "You chose A during the cutscene, so now you're here in the outcome of choosing A"}
+    ],
+    "choseB":[
+        { "text": "You chose B during the cutscene, so now you're here in the outcome of choosing B"}
+    ],
+    "choseC":[
+        { "text": "You chose C during the cutscene, in C the same video continues playing until the end"}
     ]
-    
 }

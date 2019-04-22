@@ -1,0 +1,35 @@
+{
+    "a-videosphere": {
+      "id": "choseB",
+      "src": "#my-video2",
+      "video-player": "",
+      "music-change-emitter": {
+        "newsource": "#cutscenemusic",
+        "cacheDuration":"false"
+      },
+      "children": [
+        {
+          "a-entity":{
+            "id":"dialogue",
+            "dialogue":{
+              "dialogueTreeURL":"dialogue/dialogue4.json",
+              "dialogueTreeName":"choseB",
+              "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+              },
+              "sfx":{
+                "advanceSfx":"#hover",
+                "advanceVolume":1,
+                "spawnSfx":"#hover",
+                "spawnVolume":1
+              },
+              "removeSelfOnEnd":true,
+              "autoplay":true
+            }
+          }
+        }
+      ]
+    }
+  }

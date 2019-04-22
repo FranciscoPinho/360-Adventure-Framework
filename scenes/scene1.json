@@ -343,7 +343,7 @@
   ],
   "combinations": [
     {
-      "mix":["deer1","deer2"],
+      "mix":["deer1Icon","deer2Icon"],
       "result":{
          "iconSrc":"#deadlydeerIcon",
          "iconID":"deadlydeer",
@@ -396,7 +396,7 @@
           "blackpuddle": "inInventory"
         }
       ],
-      "goToCutscene": "scenes/cutscene3.json",
+      "goToDestination": "scenes/cutscene3.json",
       "clearInventory":false
     },
     {

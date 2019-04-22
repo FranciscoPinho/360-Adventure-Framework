@@ -1,9 +1,7 @@
 TODO: Proof of concept document
 
 NEXT:
-- player choice in cutscene
 - 2d video cutscenes
-- main menu
 - changeVideoSrc
 
 NEW DESCRIPTION ELEMENTS
@@ -15,8 +13,9 @@ NEW DESCRIPTION ELEMENTS
 USEFUL INFO
 TRANSITIONS on flags:
 - Can clear or not inventory
-- can go to: cutscene || dialogue || playAudio || newURL || change visibility of objects with scripted-invisibility component
+- can go to: cutscene || dialogue || playAudio || newURL || change visibility of objects with scripted-invisibility component || unpause video
 
+-player choice in cutscenes cannot coexist with video loop
 
 When can dialogue be presented:
 OnBeginScene: have a cutscene with dialogue then transition into normal gameplay. Cutscenes of dialogue or of video. - done
@@ -50,7 +49,7 @@ When can Player choice appear: (different implementations for both cases)
 - in Cutscene  (here player choice integrated as player-choice-transition component, add flags as necessary)
 
 
-Cutscenes will have 3 different mutually exclusive transition components:
+Cutscenes different ways of transitioning:
 cutscene-end-transition (transition into newURL/level or back to some scene after the video ends automatically, newURL takes precedence over scene destination)
 player-choice-transition (pause video at player choice moment and transition to different cutscenes on player choice or resume same)
 dialogue (if it's a dialogue only cutscene, video irrelevant, transition into newURL/level or back to some scene after dialogue ends automatically)
@@ -65,12 +64,13 @@ else
 -everything is active
 
 Transitions:
-Flag based transitions: upon certain conditions trigger a transition into something, very powerful allow for in between gameplay transitions into anything
+Flag based transitions (player choice here): upon certain conditions trigger a transition into something, very powerful allow for in between gameplay transitions into anything
 Dialogue based transitions: after dialogue ends go somewhere possibly
 Navigation based transitions: user clicks on navigation element to go to different environment
-Cutscene based transitions: transition into different stuff from cutscenes, see 3 cutscene transition components
+Cutscene based transitions: transition into different stuff from cutscenes
 OnPickObject: Transition into cutscene or dialogue(voiced or not) that automatically transition back into playable scene
 OnObjectExamination: Transition into cutscene or dialogue(voiced or not) that automatically transition back into playable scene
+
 
 On hoverable component
 -can define different hover icons

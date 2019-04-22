@@ -11,7 +11,6 @@ AFRAME.registerComponent('video-looper', {
       this.video.ontimeupdate=this.onTrackedVideoFrame
     },
     pause: function () {
-      this.el.removeEventListener('loaded',this.loaded)
       this.video.ontimeupdate=undefined
     },
     onTrackedVideoFrame: function (event) {

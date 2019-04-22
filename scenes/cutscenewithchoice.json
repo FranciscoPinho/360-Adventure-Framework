@@ -1,0 +1,60 @@
+{
+    "a-videosphere": {
+        "id": "cutscenewithchoice",
+        "src": "#my-video",
+        "video-player": {
+            "cutscene":true
+        },
+        "music-change-emitter": {
+            "newsource": "#cutscenemusic",
+            "volume": 0.2,
+            "cacheDuration": "false"
+        },
+        "cutscene-player-choice": {
+            "triggerTimestamp": "4",
+            "destination":"scenes/scene1.json",
+            "choices": {
+                "dialogueTreeURL": "dialogue/choicecutscene1.json",
+                "sfx": {
+                    "advanceSfx": "#hover",
+                    "advanceVolume": 1,
+                    "spawnSfx": "#hover",
+                    "spawnVolume": 1,
+                    "choiceSfx": "#choiceSfx",
+                    "choiceVolume": 0.3
+                },
+                "removeSelfOnEnd": true,
+                "autoplay":true
+            }
+        }
+    },
+    "transitions": [
+        {
+            "transitionID": "choseA",
+            "on": [
+                {
+                    "choiceA": "chosen"
+                }
+            ],
+            "goToDestination": "scenes/choseA.json"
+        },
+        {
+            "transitionID": "choseB",
+            "on": [
+                {
+                    "choiceB": "chosen"
+                }
+            ],
+            "goToDestination": "scenes/choseB.json"
+        },
+        {
+            "transitionID": "choseC",
+            "on": [
+                {
+                    "choiceC": "chosen"
+                }
+            ],
+            "currentVid":"unpause"
+        }
+    ]
+}

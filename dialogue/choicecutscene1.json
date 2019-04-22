@@ -1,0 +1,11 @@
+{
+    "dialogueTree":[
+        {   
+            "choices": [
+                { "choiceID":"choiceA","text": "A)"},
+                { "choiceID":"choiceB","text": "B)"},
+                { "choiceID":"choiceC","text":"C)"}
+            ] 
+        }
+    ]
+}
