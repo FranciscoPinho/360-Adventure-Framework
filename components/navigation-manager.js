@@ -49,9 +49,15 @@ AFRAME.registerComponent('navigation-manager', {
     },
     injectNewEnvironmentDOM (scene,newEnvironment,destinationURL) {
         let appState = AFRAME.scenes[0].systems.state.state;
+        let localStorageBackgroundSrc = localStorage.getItem("activeBackgroundSrc")
+        if(localStorageBackgroundSrc){
+            newEnvironment["parentNode"].setAttribute('src',JSON.parse(localStorageBackgroundSrc))
+            if(newEnvironment["parentNode"].getAttribute('video-player'))
+                newEnvironment["parentNode"].setAttribute('video-player',"")
+        }
         let destination = scene.appendChild(newEnvironment["parentNode"])
         if(!this.data.menu)
-            AFRAME.scenes[0].emit('updateActiveBackgroundID', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
+            AFRAME.scenes[0].emit('updateActiveBackground', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
             let queue = []

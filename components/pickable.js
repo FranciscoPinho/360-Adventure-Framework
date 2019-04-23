@@ -3,8 +3,6 @@ AFRAME.registerComponent('pickable', {
         sfx:{type:"string"},
         inventoryData:{type:"string"},
         newFlag:{type:"string",default:"picked"},
-        afterPickCutscene:{type:"string",default:""},
-        afterPickDialogue:{type:"string",default:""},
         animate:{type:"boolean",default:true},
         animationDuration:{type:"number",default:1000}
     },
@@ -76,19 +74,7 @@ AFRAME.registerComponent('pickable', {
             if(sfxSrc)
                 sfxSrc.play()
             AFRAME.scenes[0].emit('updatePickAnimationPlaying', {playing:false});
-            if(afterPickCutscene){
-                const eventDetail = {
-                    origin:el.parentNode,
-                    destinationURL:afterPickCutscene
-                }
-                el.emit('clickNavigation',eventDetail,true)
-                return
-            }
-            else if(afterPickDialogue){
-                el.parentNode.removeChild(el);
-                el.sceneEl.setAttribute('dialogue',afterPickDialogue)
-            }
-            else el.parentNode.removeChild(el);
+            el.parentNode.removeChild(el);
         },timeOut)
     }
       

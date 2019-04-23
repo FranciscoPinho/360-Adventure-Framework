@@ -16,7 +16,7 @@
       "src":"#beginAudio",
       "autoplay":true,
       "removeSelfOnEnd":true,
-      "volume":0.03
+      "volume":0.1
     },
     "children": [
       {
@@ -136,27 +136,6 @@
                   "iconSrc": "#deadpersonImg",
                   "iconID": "deadperson",
                   "iconDesc":"Dead Agent Smith: This guy is dead, congratulations terrorist..."
-                },
-                "afterStimulusDialogue":{
-                  "dialogueTreeURL":"dialogue/choice1.json",
-                  "spawn":{
-                    "location":"look",
-                    "zDistance":"-5",
-                    "opacity":0.6
-                  },
-                  "sfx":{
-                    "advanceSfx":"#hover",
-                    "advanceVolume":1,
-                    "spawnSfx":"#hover",
-                    "spawnVolume":1,
-                    "hoverChoiceSfx":"#hover",
-                    "hoverChoiceVolume":1,
-                    "choiceSfx":"#choiceSfx",
-                    "choiceVolume":0.3
-                  },
-                  "removeSelfOnEnd":true,
-                  "autoplay":true,
-                  "choiceIcon":"#chooseIcon"
                 }
               },
               {
@@ -165,10 +144,6 @@
                 "id":"deerman",
                 "src": "#deermanImg",
                 "scale":"5 5 5",
-                "afterStimulusChangeVidSrc":{
-                  "newSrc":"#my-video2",
-                  "cutscene":"false"
-                },
                 "hoverable": {
                   "sfx":{
                     "sfxSrc": "#hover",
@@ -186,28 +161,7 @@
                       "newFlag": "deadperson",
                       "id":"deadperson",
                       "src": "#deadpersonImg",
-                      "scale":"3 3 3",
-                      "afterStimulusDialogue":{
-                        "dialogueTreeURL":"dialogue/choice1.json",
-                        "spawn":{
-                          "location":"look",
-                          "zDistance":"-5",
-                          "opacity":0.6
-                        },
-                        "sfx":{
-                          "advanceSfx":"#hover",
-                          "advanceVolume":1,
-                          "spawnSfx":"#hover",
-                          "spawnVolume":1,
-                          "hoverChoiceSfx":"#hover",
-                          "hoverChoiceVolume":1,
-                          "choiceSfx":"#choiceSfx",
-                          "choiceVolume":1
-                        },
-                        "removeSelfOnEnd":true,
-                        "autoplay":true,
-                        "choiceIcon":"#chooseIcon"
-                      }
+                      "scale":"3 3 3"
                     }
                   ]
                 }
@@ -244,8 +198,7 @@
               "iconSrc": "#cutsceneIcon",
               "iconID": "cutsceneIcon",
               "iconDesc":"Cutscene?: A completely useless item, enjoy"
-            },
-            "afterPickCutscene": "scenes/cutscene1.json"
+            }
           },
           "hoverable": {
             "sfx":{
@@ -274,26 +227,6 @@
               "iconSrc": "#deerIcon",
               "iconID": "deer1Icon",
               "iconDesc":"Deer: I wonder what happens when two deers join forces..."
-            },
-            "afterPickDialogue":{
-              "dialogueTreeURL":"dialogue/dialogue3.json",
-              "spawn":{
-                "location":"look",
-                "zDistance":"-5",
-                "opacity":0.6
-              },
-              "sfx":{
-                "advanceSfx":"#hover",
-                "advanceVolume":1,
-                "spawnSfx":"#hover",
-                "spawnVolume":1,
-                "hoverChoiceSfx":"#hover",
-                "hoverChoiceVolume":1,
-                "choiceSfx":"#pickup",
-                "choiceVolume":1
-              },
-              "removeSelfOnEnd":true,
-              "autoplay":true
             }
           },
           "hoverable": {
@@ -324,10 +257,6 @@
               "iconID": "deer2Icon",
               "iconDesc":"Deer: I wonder what happens when two deers join forces..."
             }
-          },
-          "scripted-audio-player": {
-            "src":"#clickAudio",
-            "volume":0.03
           },
           "hoverable": {
             "sfx":{
@@ -389,6 +318,46 @@
   ],
   "transitions": [
     {
+      "transitionID":"audioOnExamine",
+      "on":[
+        {"invisibleplane":"examined"}
+      ],
+      "playAudio":{
+        "src":"#clickAudio",
+        "autoplay":true,
+        "exclusive":true,
+        "removeSelfOnEnd":true,
+        "volume":0.5
+      }
+    },
+    {
+      "transitionID":"deermandied",
+      "on":[
+        {"deerman":"deadperson"}
+      ],
+      "goToDialogue":{
+        "dialogueTreeURL":"dialogue/choice1.json",
+        "spawn":{
+          "location":"look",
+          "zDistance":"-5",
+          "opacity":0.6
+        },
+        "sfx":{
+          "advanceSfx":"#hover",
+          "advanceVolume":1,
+          "spawnSfx":"#hover",
+          "spawnVolume":1,
+          "hoverChoiceSfx":"#hover",
+          "hoverChoiceVolume":1,
+          "choiceSfx":"#choiceSfx",
+          "choiceVolume":1
+        },
+        "removeSelfOnEnd":true,
+        "autoplay":true,
+        "choiceIcon":"#chooseIcon"
+      }
+    },
+    {
       "transitionID":"badend",
       "on":[ 
         {
@@ -402,24 +371,70 @@
           "blackpuddle": "inInventory"
         }
       ],
-      "goToDestination": "scenes/cutscene3.json",
-      "clearInventory":false
+      "goToDestination": "scenes/cutscene3.json"
     },
     {
-      "transitionID":"goodend",
+      "transitionID":"afterPickCutscene",
+      "on":[
+        {"cutscene":"picked"}
+      ],
+      "goToDestination":"scenes/cutscene1.json"
+    },
+    {
+      "transitionID":"personDiedFromDeadlyDeer",
       "on":[
         {
-          "person": ["deerman",""],
-          "cutscene1": "seen"
-        },
-        {
-          "person": "dead",
-          "showremorse": "chosen",
-          "activeBackgroundID":"scene2"
+          "person":"dead"
         }
       ],
-      "newURL": "goodending.html",
-      "clearInventory":true
+      "goToDialogue":{
+        "dialogueTreeURL":"dialogue/choice1.json",
+        "spawn":{
+          "location":"look",
+          "zDistance":"-5",
+          "opacity":0.6
+        },
+        "sfx":{
+          "advanceSfx":"#hover",
+          "advanceVolume":1,
+          "spawnSfx":"#hover",
+          "spawnVolume":1,
+          "hoverChoiceSfx":"#hover",
+          "hoverChoiceVolume":1,
+          "choiceSfx":"#choiceSfx",
+          "choiceVolume":0.3
+        },
+        "removeSelfOnEnd":true,
+        "autoplay":true,
+        "choiceIcon":"#chooseIcon"
+      }
+    },
+    {
+      "transitionID":"deerpicked",
+      "on":[
+        {"deer1":"picked"},
+        {"deer2":"picked"}
+      ],
+      "goToDialogue":{
+        "dialogueTreeURL":"dialogue/dialogue3.json",
+        "spawn":{
+          "location":"look",
+          "zDistance":"-5",
+          "opacity":0.6
+        },
+        "sfx":{
+          "advanceSfx":"#hover",
+          "advanceVolume":1,
+          "spawnSfx":"#hover",
+          "spawnVolume":1,
+          "hoverChoiceSfx":"#hover",
+          "hoverChoiceVolume":1,
+          "choiceSfx":"#pickup",
+          "choiceVolume":1
+        },
+        "removeSelfOnEnd":true,
+        "autoplay":true
+      }
     },
     {
       "transitionID":"deerSadness",
@@ -481,6 +496,18 @@
       }
     },
     {
+      "transitionID":"changeBackgroundSrc",
+      "on":[
+        {
+          "2dvid":"seen"
+        }
+      ],
+      "changeBackgroundSrc":{
+        "newSrc":"#my-video2",
+        "cutscene":"false"
+      }
+    },
+    {
       "transitionID":"audioTransition",
       "on":[
         {
@@ -495,6 +522,22 @@
         "removeSelfOnEnd":true,
         "volume":0.2
       }
+    },
+    {
+      "transitionID":"goodend",
+      "on":[
+        {
+          "person": ["deerman",""],
+          "cutscene1": "seen"
+        },
+        {
+          "person": "dead",
+          "showremorse": "chosen",
+          "activeBackgroundID":"scene2"
+        }
+      ],
+      "newURL": "goodending.html",
+      "clearInventory":true
     }
   ]
 }

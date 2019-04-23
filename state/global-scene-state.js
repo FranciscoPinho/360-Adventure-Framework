@@ -17,7 +17,8 @@ AFRAME.registerState({
       removableDialoguesRead:{}, //needs to be saved to local storage
       activeLevelURL:"", //needs to be saved to local storage
       activeBackgroundURL:"", //needs to be saved to local storage
-      activeBackgroundID:"",  
+      activeBackgroundSrc:"", //needs to be saved to local storage
+      activeBackgroundID:"", 
       pickAnimationPlaying:false,
       musicRecords:{},
       grabbedObject:null,
@@ -30,7 +31,7 @@ AFRAME.registerState({
       cutscenePlaying:false,
       exclusivePlaying:false,
       dialogueOn:false,
-      saveToLocalStorageKeys:['flags','removableAudiosPlayed','removableDialoguesRead','visibilityRecords','inventory','combinations','transitions','examinedObjects','activeLevelURL',
+      saveToLocalStorageKeys:['flags','removableAudiosPlayed','activeBackgroundSrc','removableDialoguesRead','visibilityRecords','inventory','combinations','transitions','examinedObjects','activeLevelURL',
       'parsedSceneIDs','transformedObjects','pickedObjectIDs','exploredTreeChoices','activeBackgroundURL']
     },
     handlers: {
@@ -69,6 +70,8 @@ AFRAME.registerState({
       addExaminedObjects: (state,action) => {
         state.examinedObjects.push(action.examinedObject)
         localStorage.setItem('examinedObjects',JSON.stringify(state.examinedObjects))
+        state.flags[action.examinedObject.elID]="examined"
+        localStorage.setItem('flags',JSON.stringify(state.flags))
       },
       removeFromInventory: (state,action) => {
         for(let i=0, n=state.inventory.length;i<n;i++){
@@ -180,10 +183,17 @@ AFRAME.registerState({
         localStorage.setItem('activeLevelURL',JSON.stringify(action.newURL))
         window.location.replace(action.newURL)
       },
-      updateActiveBackgroundID: (state,action) => {
-        state.activeBackgroundID = action.activeBackgroundID
-        state.activeBackgroundURL = action.activeBackgroundURL
-        localStorage.setItem('activeBackgroundURL',JSON.stringify(state.activeBackgroundURL))
+      updateActiveBackground: (state,action) => {
+        if(action.activeBackgroundID)
+          state.activeBackgroundID = action.activeBackgroundID
+        if(action.activeBackgroundSrc){
+          state.activeBackgroundSrc= action.activeBackgroundSrc
+          localStorage.setItem('activeBackgroundSrc',JSON.stringify(state.activeBackgroundSrc))
+        }
+        if(action.activeBackgroundURL){
+          state.activeBackgroundURL = action.activeBackgroundURL
+          localStorage.setItem('activeBackgroundURL',JSON.stringify(state.activeBackgroundURL))
+        }
       },
       updatePickAnimationPlaying: (state,action) => {
         state.pickAnimationPlaying = action.playing

@@ -100,12 +100,16 @@ AFRAME.registerComponent('transitions-manager', {
             el.sceneEl.emit('resume-video')
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         }
-        else if(transition.changeVideoSrc){   
+        else if(transition.changeBackgroundSrc){   
             let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
             if(activeBackground){
-                activeBackground.removeAttribute('video-player')
-                activeBackground.setAttribute('src',transition.changeVideoSrc.newSrc)
-                activeBackground.setAttribute('video-player',{cutscene:transition.changeVideoSrc.cutscene,pauseBackgroundSong:transition.changeVideoSrc.pauseBackgroundSong})
+                let isVideo =activeBackground.getAttribute('video-player')
+                if(isVideo)
+                    activeBackground.removeAttribute('video-player')
+                activeBackground.setAttribute('src',transition.changeBackgroundSrc.newSrc)
+                if(isVideo)
+                    activeBackground.setAttribute('video-player',{cutscene:transition.changeBackgroundSrc.cutscene,pauseBackgroundSong:transition.changeBackgroundSrc.pauseBackgroundSong})
+                AFRAME.scenes[0].emit('updateActiveBackground', {activeBackgroundSrc:transition.changeBackgroundSrc.newSrc});
             }
         }
         else if(transition.injectFlatVideo){
