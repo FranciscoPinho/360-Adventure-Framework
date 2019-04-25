@@ -14,10 +14,11 @@ AFRAME.registerState({
       examinedObjects:[], //needs to be saved to local storage
       visibilityRecords:{}, //needs to be saved to local storage
       removableAudiosPlayed:{}, //needs to be saved to local storage
+      playOnceSources:[], // needs to be saved to local storage
       removableDialoguesRead:{}, //needs to be saved to local storage
       activeLevelURL:"", //needs to be saved to local storage
       activeBackgroundURL:"", //needs to be saved to local storage
-      activeBackgroundSrc:"", //needs to be saved to local storage
+      activeBackgroundSrc:{}, //needs to be saved to local storage
       activeBackgroundID:"", 
       pickAnimationPlaying:false,
       musicRecords:{},
@@ -31,13 +32,17 @@ AFRAME.registerState({
       cutscenePlaying:false,
       exclusivePlaying:false,
       dialogueOn:false,
-      saveToLocalStorageKeys:['flags','removableAudiosPlayed','activeBackgroundSrc','removableDialoguesRead','visibilityRecords','inventory','combinations','transitions','examinedObjects','activeLevelURL',
+      saveToLocalStorageKeys:['flags','removableAudiosPlayed','playOnceSources','activeBackgroundSrc','removableDialoguesRead','visibilityRecords','inventory','combinations','transitions','examinedObjects','activeLevelURL',
       'parsedSceneIDs','transformedObjects','pickedObjectIDs','exploredTreeChoices','activeBackgroundURL']
     },
     handlers: {
       addRemovableAudio: (state,action) => {
         state.removableAudiosPlayed[action.elementID]=true
         localStorage.setItem('removableAudiosPlayed',JSON.stringify(state.removableAudiosPlayed))
+      },
+      addPlayOnceSources: (state,action) => {
+        state.playOnceSources.push(action.source)
+        localStorage.setItem('playOnceSources',JSON.stringify(state.playOnceSources))
       },
       addRemovableDialogue: (state,action) => {
         state.removableDialoguesRead[action.elementID]=true
@@ -180,19 +185,20 @@ AFRAME.registerState({
           localStorage.setItem(key,JSON.stringify(state[key]))
         })
         localStorage.removeItem('activeBackgroundURL')
+        localStorage.removeItem('activeBackgroundSrc')
         localStorage.setItem('activeLevelURL',JSON.stringify(action.newURL))
         window.location.replace(action.newURL)
       },
       updateActiveBackground: (state,action) => {
         if(action.activeBackgroundID)
           state.activeBackgroundID = action.activeBackgroundID
-        if(action.activeBackgroundSrc){
-          state.activeBackgroundSrc= action.activeBackgroundSrc
-          localStorage.setItem('activeBackgroundSrc',JSON.stringify(state.activeBackgroundSrc))
-        }
         if(action.activeBackgroundURL){
           state.activeBackgroundURL = action.activeBackgroundURL
           localStorage.setItem('activeBackgroundURL',JSON.stringify(state.activeBackgroundURL))
+        }
+        if(action.activeBackgroundSrc){
+          state.activeBackgroundSrc[state.activeBackgroundURL]=action.activeBackgroundSrc
+          localStorage.setItem('activeBackgroundSrc',JSON.stringify(state.activeBackgroundSrc))
         }
       },
       updatePickAnimationPlaying: (state,action) => {

@@ -504,6 +504,7 @@
       ],
       "changeBackgroundSrc":{
         "newSrc":"#my-video2",
+        "playOnce":"true",
         "cutscene":"false"
       }
     },

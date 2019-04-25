@@ -6,13 +6,13 @@ AFRAME.registerComponent('navigation-event-emitter', {
     init:  function () {  
         this.clickNavigation = this.clickNavigation.bind(this)
     },
-    play: function() {
-        this.el.addEventListener('click',this.clickNavigation)
+    play() {
+        this.el.addEventListener('click',this.clickNavigation,{once:true})
     },
-    pause: function() {
+    pause() {
         this.el.removeEventListener('click',this.clickNavigation)
     },
-    clickNavigation: function () {
+    clickNavigation () {
         const {el} = this
         if(!el.sceneEl.is('vr-mode'))
             return;
@@ -32,7 +32,6 @@ AFRAME.registerComponent('navigation-event-emitter', {
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }
         }
-        el.emit('clickNavigation',eventDetail,true)
-        el.removeEventListener('click',this.clickNavigation)
+        el.sceneEl.emit('clickNavigation',eventDetail,true)
     }
   });

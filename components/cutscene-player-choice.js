@@ -7,16 +7,13 @@ AFRAME.registerComponent('cutscene-player-choice', {
         destination:{type:'string',default:""},
         newURL:{type:'string',default:""}
     },
-    init:  function () {
-      this.onTrackedVideoFrame = this.onTrackedVideoFrame.bind(this);
+    init() {
       this.choiceActivated = false
-    },
-    play: function () {
+      this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
       this.video = document.querySelector(this.el.getAttribute('src'))
-      this.video.ontimeupdate=this.onTrackedVideoFrame
     },
-    onTrackedVideoFrame: function (event) {
-      const {triggerTimestamp,choices} = this.data
+    tick(t, dt) {
+      const {triggerTimestamp,choices,newFlag} = this.data
       const {el,video,choiceActivated} = this
       if(video.currentTime>=triggerTimestamp && !choiceActivated){
         AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
@@ -30,7 +27,6 @@ AFRAME.registerComponent('cutscene-player-choice', {
         const {newURL,destination}=this.data;
         if(newURL){
             AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
-            this.video.ontimeupdate = null
             return
         }
         const eventDetail = {

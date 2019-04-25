@@ -22,11 +22,13 @@ AFRAME.registerComponent('inventory', {
         this.camera = document.querySelector("#camera")
         if(this.data.summonSfx){
             this.summonSfx = document.querySelector(this.data.summonSfx)
-            this.summonSfx.volume = this.data.volume
+            if(this.summonSfx)
+                this.summonSfx.volume = this.data.volume
         }
         if(this.data.unsummonSfx){
             this.unsummonSfx = document.querySelector(this.data.unsummonSfx)
-            this.unsummonSfx.volume = this.data.volume
+            if(this.unsummonSfx)
+                this.unsummonSfx.volume = this.data.volume
         }
         if(!AFRAME.utils.device.checkHeadsetConnected() )
             this.raycaster = document.querySelector('#mouseCursor')

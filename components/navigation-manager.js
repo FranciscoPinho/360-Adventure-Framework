@@ -8,6 +8,7 @@ AFRAME.registerComponent('navigation-manager', {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
+        this.appState = AFRAME.scenes[0].systems.state.state;
         if (performance.navigation.type == 1 || performance.navigation.type == 0) {
             AFRAME.scenes[0].emit('loadFromLocalStorage',{fromMenu:this.data.menu})
         }
@@ -31,7 +32,7 @@ AFRAME.registerComponent('navigation-manager', {
     async clickNavigationListener (evt) {
         evt.stopPropagation()
         const {origin,destinationURL} = evt.detail
-        const {injectNewEnvironmentDOM} = this
+        const {injectNewEnvironmentDOM,appState} = this
         const response = await fetch(destinationURL)
         const env_json = await response.json()
         const scene = this.el
@@ -48,15 +49,20 @@ AFRAME.registerComponent('navigation-manager', {
         },this.data.dur)
     },
     injectNewEnvironmentDOM (scene,newEnvironment,destinationURL) {
-        let appState = AFRAME.scenes[0].systems.state.state;
-        let localStorageBackgroundSrc = localStorage.getItem("activeBackgroundSrc")
-        if(localStorageBackgroundSrc){
-            newEnvironment["parentNode"].setAttribute('src',JSON.parse(localStorageBackgroundSrc))
-            if(newEnvironment["parentNode"].getAttribute('video-player'))
-                newEnvironment["parentNode"].setAttribute('video-player',"")
-        }
+        const {menu} = this.data
+        const {appState} = this
+        let backgroundSrc
         let destination = scene.appendChild(newEnvironment["parentNode"])
-        if(!this.data.menu)
+        let localStorageBackgroundSrc = localStorage.getItem("activeBackgroundSrc")
+        if(localStorageBackgroundSrc && !menu){
+            backgroundSrc = JSON.parse(localStorageBackgroundSrc)
+            if(backgroundSrc.hasOwnProperty(destinationURL) ){
+                newEnvironment["parentNode"].setAttribute('src',backgroundSrc[destinationURL])
+                if(newEnvironment["parentNode"].getAttribute('video-player'))
+                    newEnvironment["parentNode"].setAttribute('video-player',"")
+            }
+        }
+        if(!menu)
             AFRAME.scenes[0].emit('updateActiveBackground', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
@@ -86,7 +92,7 @@ AFRAME.registerComponent('navigation-manager', {
         })    
     },
     async setInitialEnvironment() {
-        const {initialEnv} = this.data
+        const {initialEnv,menu} = this.data
         const response = await fetch(initialEnv)
         const env_json = await response.json()
         const scene = this.el
