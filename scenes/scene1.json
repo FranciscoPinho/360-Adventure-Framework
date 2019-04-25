@@ -55,7 +55,7 @@
             "hoverIcon": "#examineIcon"
           },
           "dialogue":{
-            "dialogueTreeURL":"dialogue/dialogue4.json",
+            "dialogueTreeURL":"dialogue/dialogues.json",
             "spawn":{
               "location":"look",
               "zDistance":"-5",
@@ -83,7 +83,8 @@
             "alphaTest":0.5
           },
           "dialogue":{
-            "dialogueTreeURL":"dialogue/dialogue1.json",
+            "dialogueTreeURL":"dialogue/dialogues.json",
+            "dialogueTreeName":"RPGTree",
             "spawn":{
               "location":"look",
               "zDistance":"-5",
@@ -112,7 +113,8 @@
               {
                 "targeted_by": "flame",
                 "dialogue":{
-                  "dialogueTreeURL":"dialogue/dialogue2.json",
+                  "dialogueTreeURL":"dialogue/dialogues.json",
+                  "dialogueTreeName":"burnthisman",
                   "spawn":{
                     "location":"look",
                     "zDistance":"-5",
@@ -336,7 +338,8 @@
         {"deerman":"deadperson"}
       ],
       "goToDialogue":{
-        "dialogueTreeURL":"dialogue/choice1.json",
+        "dialogueTreeURL":"dialogue/dialogues.json",
+        "dialogueTreeName":"remorsechoice",
         "spawn":{
           "location":"look",
           "zDistance":"-5",
@@ -388,7 +391,8 @@
         }
       ],
       "goToDialogue":{
-        "dialogueTreeURL":"dialogue/choice1.json",
+        "dialogueTreeURL":"dialogue/dialogues.json",
+        "dialogueTreeName":"remorsechoice",
         "spawn":{
           "location":"look",
           "zDistance":"-5",
@@ -416,7 +420,8 @@
         {"deer2":"picked"}
       ],
       "goToDialogue":{
-        "dialogueTreeURL":"dialogue/dialogue3.json",
+        "dialogueTreeURL":"dialogue/dialogues.json",
+        "dialogueTreeName":"deerpickup",
         "spawn":{
           "location":"look",
           "zDistance":"-5",
@@ -478,7 +483,7 @@
         }
       ],
       "goToDialogue":{
-        "dialogueTreeURL":"dialogue/dialogue4.json",
+        "dialogueTreeURL":"dialogue/dialogues.json",
         "dialogueTreeName":"deermanTransformed",
         "spawn":{
           "location":"look",

@@ -45,7 +45,7 @@ AFRAME.registerComponent('cutscene-present-item', {
         }
     },
     tick(t, dt) {
-      const {triggerTimestamp,newFlag} = this.data
+      const {triggerTimestamp,newFlag,textSnippet} = this.data
       const {el,video,choiceActivated} = this
       if(video.currentTime>=triggerTimestamp && !choiceActivated){
         AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});

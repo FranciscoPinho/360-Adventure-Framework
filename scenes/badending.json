@@ -9,7 +9,7 @@
             "cacheDuration":"true"
         },
         "dialogue":{
-            "dialogueTreeURL":"dialogue/dialogue4.json",
+            "dialogueTreeURL":"dialogue/dialogues.json",
             "dialogueTreeName":"badEndText",
             "spawn":{
               "location":"look",

@@ -14,7 +14,8 @@
             "triggerTimestamp": "4",
             "newURL":"badending.html",
             "choices": {
-                "dialogueTreeURL": "dialogue/choicecutscene1.json",
+                "dialogueTreeURL": "dialogue/dialogues.json",
+                "dialogueTreeName": "cutscenechoices",
                 "sfx": {
                     "advanceSfx": "#hover",
                     "advanceVolume": 1,
