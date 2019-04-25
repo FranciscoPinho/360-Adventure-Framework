@@ -5,7 +5,7 @@ AFRAME.registerComponent('music-change-emitter', {
         volume: {type:'number', default:0.5},
         cacheDuration: {type:'boolean', default:true}
     },
-    play: function() {
+    play() {
         const {newsource,loop,volume,cacheDuration} = this.data
         let eventDetail = {
             newsource:newsource,
@@ -13,6 +13,6 @@ AFRAME.registerComponent('music-change-emitter', {
             volume:volume,
             cacheDuration:cacheDuration
         }
-        this.el.emit('music-change',eventDetail,true)
+        this.el.sceneEl.emit('music-change',eventDetail,true)
     }
   });

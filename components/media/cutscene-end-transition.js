@@ -5,17 +5,17 @@ AFRAME.registerComponent('cutscene-end-transition', {
         newFlag:{type:'string',default:"seen"},
         endTime:{type:'number'}
     },
-    init: function () {
+    init() {
         this.onVideoFrame = this.onVideoFrame.bind(this);
         this.video = document.querySelector(this.el.getAttribute('src'))
     },
-    play: function () {
+    play() {
         this.video.ontimeupdate = this.onVideoFrame
     },
-    pause: function () {
+    pause() {
         this.video.ontimeupdate = null
     },
-    onVideoFrame: function (event) {
+    onVideoFrame(event) {
         const {el,video} = this
         let endPriorToEnd = false
         if(this.data.endTime){

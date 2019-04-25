@@ -6,13 +6,13 @@ AFRAME.registerComponent('use-target', {
         this.stimulusDetector = this.stimulusDetector.bind(this)
         this.updateFromStimulus = this.updateFromStimulus.bind(this)
     },
-    play: function() {
+    play() {
         this.el.addEventListener('stimulus',this.stimulusDetector)
     },
-    pause: function() {
+    pause() {
         this.el.removeEventListener('stimulus',this.stimulusDetector)
     },
-    stimulusDetector: function (evt) {
+    stimulusDetector(evt) {
         if (!this.el.sceneEl.is('vr-mode'))
             return
         const {stimulus} = this.data
@@ -30,7 +30,7 @@ AFRAME.registerComponent('use-target', {
             }
         }
     },
-    updateFromStimulus: function (stimulus,usedObjectID) {
+    updateFromStimulus(stimulus,usedObjectID) {
         const {el} = this
       
         if(stimulus.newFlag)

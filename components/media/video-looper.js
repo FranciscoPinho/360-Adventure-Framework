@@ -3,17 +3,17 @@ AFRAME.registerComponent('video-looper', {
       loopBegin:{type:"number",default:1},
       loopEnd:{type:"number",default:-1}
     },
-    init:  function () {
+    init() {
       this.onTrackedVideoFrame = this.onTrackedVideoFrame.bind(this);;
     },
-    play: function () {
+    play() {
       this.video = document.querySelector(this.el.getAttribute('src'))
       this.video.ontimeupdate=this.onTrackedVideoFrame
     },
-    pause: function () {
+    pause() {
       this.video.ontimeupdate=undefined
     },
-    onTrackedVideoFrame: function (event) {
+    onTrackedVideoFrame(event) {
       const {loopBegin,loopEnd} = this.data
       if(loopEnd===-1){
         if(this.video.currentTime>=this.video.duration-1)

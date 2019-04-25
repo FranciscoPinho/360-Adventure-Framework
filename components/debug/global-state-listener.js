@@ -3,10 +3,10 @@ AFRAME.registerComponent('global-state-listener', {
         active: {type:"boolean",default:true},
         listenForChangeIn: {type:"string"}
     },
-    init: function () {
+    init() {
         this.onStateUpdate = this.onStateUpdate.bind(this)
     },
-    play: function () {
+    play() {
         const {active} = this.data
         const {el} = this   
         if(!active){
@@ -15,10 +15,10 @@ AFRAME.registerComponent('global-state-listener', {
         }
         el.addEventListener('stateupdate',this.onStateUpdate)
     },
-    pause: function () {
+    pause() {
         this.el.removeEventListener('stateupdate',this.onStateUpdate)
     },
-    onStateUpdate: function (event) {
+    onStateUpdate(event) {
         let listenChangesIn =this.data.listenForChangeIn
         if(listenChangesIn){
             console.log("Old"+listenChangesIn+":",event.detail.lastState[listenChangesIn])

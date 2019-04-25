@@ -3,10 +3,10 @@ AFRAME.registerComponent('menu-button', {
         buttonFunction: {type:'string'},
         level1URL:{type:'string'}
     },
-    init:  function () {  
+    init() {  
         this.onClick = this.onClick.bind(this)
     },
-    play: function() {
+    play() {
         const {el,onClick} = this
         const {buttonFunction} = this.data
       
@@ -19,11 +19,11 @@ AFRAME.registerComponent('menu-button', {
             }
         }
     },
-    pause: function() {
+    pause() {
         const {el,onClick} = this
         el.removeEventListener('click',onClick)
     },
-    onClick: function () {
+    onClick() {
         const {el} = this
         const {buttonFunction,level1URL} = this.data
         if(!el.sceneEl.is('vr-mode'))
