@@ -65,30 +65,33 @@ AFRAME.registerComponent('transitions-manager', {
         }
     },
     makeTransition(transition){
-        const {el,appState,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination}=this
+        let delay = transition.delaySeconds ? transition.delaySeconds*1000 : 0
+        const {el,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination}=this
         AFRAME.scenes[0].emit('removeTransition',{transitionID:transition.transitionID})
-        if(transition.clearInventory)
-            AFRAME.scenes[0].emit('clearInventory')
-        if(transition.goToDestination)
-           changeDestination(transition.goToDestination)
-        else if(transition.newURL)
-            AFRAME.scenes[0].emit('changeURL',{newURL:transition.newURL})
-        else if(transition.makeVisible)
-            changeObjectVisibility(true,transition.makeVisible)
-        else if(transition.makeInvisible)
-            changeObjectVisibility(false,transition.makeInvisible)
-        else if(transition.goToDialogue)
-            el.sceneEl.setAttribute("dialogue",transition.goToDialogue)
-        else if(transition.playAudio)
-            el.sceneEl.setAttribute("scripted-audio-player",transition.playAudio)
-        else if(transition.changeBackgroundSrc) 
-            changeBackgroundSrc(transition.changeBackgroundSrc)
-        else if(transition.injectFlatVideo)
-            injectFlatVideo(transition.injectFlatVideo)
-        else if(transition.currentVid==="unpause"){
-            el.sceneEl.emit('resume-video')
-            AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
-        }
+        setTimeout(()=>{
+            if(transition.clearInventory)
+                AFRAME.scenes[0].emit('clearInventory')
+            if(transition.goToDestination)
+                changeDestination(transition.goToDestination)
+            else if(transition.newURL)
+                AFRAME.scenes[0].emit('changeURL',{newURL:transition.newURL})
+            else if(transition.makeVisible)
+                changeObjectVisibility(true,transition.makeVisible)
+            else if(transition.makeInvisible)
+                changeObjectVisibility(false,transition.makeInvisible)
+            else if(transition.goToDialogue)
+                el.sceneEl.setAttribute("dialogue",transition.goToDialogue)
+            else if(transition.playAudio)
+                el.sceneEl.setAttribute("scripted-audio-player",transition.playAudio)
+            else if(transition.changeBackgroundSrc) 
+                changeBackgroundSrc(transition.changeBackgroundSrc)
+            else if(transition.injectFlatVideo)
+                injectFlatVideo(transition.injectFlatVideo)
+            else if(transition.currentVid==="unpause"){
+                el.sceneEl.emit('resume-video')
+                AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
+            }
+        },delay)
     },
     changeDestination(destination){
         const {appState,el}=this

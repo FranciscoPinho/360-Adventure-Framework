@@ -15,11 +15,13 @@ AFRAME.registerComponent('inventory', {
         positionType: {type:"string",default:"laser"} //look laser fixed
     },
     init() {
-      
         this.handleInventory = this.handleInventory.bind(this)
         this.unsummonInventory = this.unsummonInventory.bind(this)
         this.summonInventory = this.summonInventory.bind(this)
+        this.appState = AFRAME.scenes[0].systems.state.state
         this.camera = document.querySelector("#camera")
+        this.presentItem = ()=>this.summonInventory(false,true)
+        this.postPresentItem = ()=>this.unsummonInventory(false,true)
         if(this.data.summonSfx){
             this.summonSfx = document.querySelector(this.data.summonSfx)
             if(this.summonSfx)
@@ -41,22 +43,25 @@ AFRAME.registerComponent('inventory', {
                 this.MixedReality=true
     },
     play() {
-        const {el,handleInventory} = this
+        const {el,handleInventory, presentItem, postPresentItem} = this
         el.addEventListener('trackpaddown', handleInventory)
+        el.addEventListener('presentitem', presentItem)
+        el.addEventListener('presentedItem',postPresentItem)
         el.addEventListener('inventoryRefresh', handleInventory)
         window.addEventListener('keydown', handleInventory)
     },
     pause() {
-        const {el,handleInventory} = this
+        const {el,handleInventory,presentItem,postPresentItem} = this
         el.removeEventListener('trackpaddown', handleInventory)
+        el.removeEventListener('presentitem', presentItem)
+        el.removeEventListener('presentedItem',postPresentItem)
         el.removeEventListener('inventoryRefresh', handleInventory)
         window.removeEventListener('keydown', handleInventory)
     },
     handleInventory(evt) {
-        const {el,summonInventory,unsummonInventory} = this
-        if (!el.is('vr-mode'))
+        const {el,summonInventory,unsummonInventory,appState,presentingItem} = this
+        if (!el.is('vr-mode') || presentingItem)
            return;
-
         if (evt.type === "keydown") {
             evt.stopPropagation();
             if (evt.key !== "j" && evt.key !== "J")
@@ -65,24 +70,26 @@ AFRAME.registerComponent('inventory', {
        
         let isRefresh = evt.type==="inventoryRefresh"
 
-        let appState = AFRAME.scenes[0].systems.state.state
+
         //console.log("InventoryOpen:",appState.inventoryOpen," HoveringObject:",
         //appState.hoveringObject," IDHovering:",appState.hoveringID," CutscenePlaying:",appState.cutscenePlaying)
         if (appState.inventoryOpen) {
-            unsummonInventory(isRefresh,appState)
+            unsummonInventory(isRefresh)
             if(!isRefresh)
                 return
         }
-        summonInventory(isRefresh,appState)
+        summonInventory(isRefresh)
     },
-    unsummonInventory(isRefresh,appState) {
-        const {unsummonSfx,el,camera,raycaster} = this
+    unsummonInventory(isRefresh,presentItem) {
+        const {unsummonSfx,el,camera,raycaster,appState} = this
         const {positionType} = this.data
-        
+        let posType = positionType
+        if(presentItem)
+            posType = "look"
         if(unsummonSfx)
             unsummonSfx.play()
         AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: false })
-        switch (positionType) {
+        switch (posType) {
             case "look":
                 el.removeChild(document.querySelector("#inventory"))
                 if(!isRefresh)
@@ -108,14 +115,14 @@ AFRAME.registerComponent('inventory', {
             document.querySelector("#"+appState.hoveringID).emit("mouseenter")
         }
     },
-    summonInventory(isRefresh,appState){
+    summonInventory(isRefresh,presentItem){
+        const {camera,raycaster,el,summonSfx,appState} = this
         let nrInventoryObjects = appState.inventory.length
         if (nrInventoryObjects === 0  || appState.hoveringObject || appState.cutscenePlaying || appState.dialogueOn)
             return
         const { iconHoverSfx, positionType, iconDimensions, horizontalSpacing, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,
             rowHeight, columnWidth, inventoryZDistance } = this.data
-        const {camera,raycaster,el,summonSfx} = this
-        
+  
         let inventoryWidth, inventoryHeight, horizontalOffset, verticalOffset
 
         inventoryHeight = Math.ceil(nrInventoryObjects / maxInventoryObjectsPerRow) * rowHeight
@@ -142,7 +149,7 @@ AFRAME.registerComponent('inventory', {
                     dummyNode.setAttribute("id", "dummyinventory")
                     dummyNode.setAttribute("visible", false)
                  
-                    if(positionType==="look"){
+                    if(positionType==="look" || presentItem){
                         dummyNode.object3D.position.set(0,0,inventoryZDistance)
                         camera.appendChild(dummyNode)
                     }
@@ -189,7 +196,15 @@ AFRAME.registerComponent('inventory', {
             objectNode.setAttribute("position", { x: xPos, y: yPos, z: zPos })
             objectNode.setAttribute("hoverable", { sfx:{sfxSrc: iconHoverSfx,volume: 1} , scaleFactor: 1.25, pointerClass:'pointerinventory'})
             objectNode.setAttribute("src", appState.inventory[i].iconSrc)
-            objectNode.setAttribute("grabbable",{startButtons:['triggerdown','mousedown'],endButtons:['triggerup','mouseup']})
+            if(presentItem){
+                this.presentingItem = true
+                objectNode.addEventListener('click',()=>{
+                    AFRAME.scenes[0].emit('addFlag',{flagKey:appState.inventory[i].iconID,flagValue:"presented"})
+                    el.sceneEl.emit('presentedItem',{itemID:appState.inventory[i].iconID})
+                    this.presentingItem = false
+                },)
+            }
+            else objectNode.setAttribute("grabbable",{startButtons:['triggerdown','mousedown'],endButtons:['triggerup','mouseup']})
             objectNode.setAttribute("width", iconDimensions)
             objectNode.setAttribute("height", iconDimensions)
             inventoryNode.appendChild(objectNode)

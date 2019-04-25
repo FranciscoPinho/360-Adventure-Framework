@@ -12,7 +12,7 @@
         },
         "cutscene-player-choice": {
             "triggerTimestamp": "4",
-            "destination":"scenes/scene1.json",
+            "newURL":"badending.html",
             "choices": {
                 "dialogueTreeURL": "dialogue/choicecutscene1.json",
                 "sfx": {

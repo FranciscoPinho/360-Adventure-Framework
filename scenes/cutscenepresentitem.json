@@ -1,0 +1,42 @@
+{
+    "addToInventory":[
+        {"iconID": "icecube", "iconSrc": "#icecubeIcon", "iconDesc":"Ice Cube: An ice cube"},
+        {"iconID": "flame", "iconSrc": "#flameIcon", "iconDesc":"Flame: A fiery flame, hot enough to melt stuff"},
+        {"iconID": "flame", "iconSrc": "#flameIcon", "iconDesc":"Flame: A fiery flame, hot enough to melt stuff"},
+        {"iconID": "oil", "iconSrc": "#oilIcon", "iconDesc":"Oil: Stains stuff black, disgusting"}
+    ],
+    "a-videosphere": {
+        "id": "cutscenewithchoice",
+        "src": "#my-video",
+        "video-player": {
+            "cutscene":true
+        },
+        "music-change-emitter": {
+            "newsource": "#cutscenemusic",
+            "volume": 0.2,
+            "cacheDuration": "false"
+        },
+        "cutscene-present-item": {
+            "triggerTimestamp": "2",
+            "sfx": {
+                "correctSfx": "#correct",
+                "correctVolume":1,
+                "wrongSfx": "#wrong",
+                "wrongVolume": 1
+            },
+            "solution": "oil"
+        }
+    },
+    "transitions": [
+        {
+            "transitionID": "correctItem",
+            "on": [
+                {
+                    "oil": "presented"
+                }
+            ],
+            "delaySeconds":1,
+            "newURL":"goodending.html"
+        }
+    ]
+}

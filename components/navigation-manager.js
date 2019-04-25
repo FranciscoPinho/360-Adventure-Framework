@@ -2,13 +2,16 @@ AFRAME.registerComponent('navigation-manager', {
     schema:{
         dur: {type:'number', default: 1000},
         initialEnv:{type:'string'},
-        menu:{type:'boolean',default:false}
+        menu:{type:'boolean',default:false},
+        clearStorage:{type:'boolean',default:false}
     },
     init() {
         this.setFadeInOrOut = this.setFadeInOrOut.bind(this)
         this.clickNavigationListener = this.clickNavigationListener.bind(this)
         this.injectNewEnvironmentDOM = this.injectNewEnvironmentDOM.bind(this)
         this.appState = AFRAME.scenes[0].systems.state.state;
+        if(this.data.clearStorage)
+            localStorage.clear()
         if (performance.navigation.type == 1 || performance.navigation.type == 0) {
             AFRAME.scenes[0].emit('loadFromLocalStorage',{fromMenu:this.data.menu})
         }

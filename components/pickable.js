@@ -11,7 +11,8 @@ AFRAME.registerComponent('pickable', {
         const {sfx} = this.data
         if(sfx.sfxSrc){
             this.sfxSrc = document.querySelector(sfx.sfxSrc)
-            this.sfxSrc.volume = sfx.volume
+            if(this.sfxSrc)
+                this.sfxSrc.volume = sfx.volume
         }
     },
     play() {

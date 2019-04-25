@@ -10,7 +10,7 @@ AFRAME.registerComponent('dialogue', {
         removeSelfOnEnd:{type:"boolean",default:false},
         autoplay:{type:"boolean",default:false},
         pauseBackgroundSong:{type:"boolean",default:false},
-        choiceIcon:{type:"string",default:"#choiceIcon"},
+        choiceIcon:{type:"string",default:"#chooseIcon"},
         previouslyChosenIcon:{type:"string",default:"#previouslyChosenIcon"},
         examinedIcon:{type:"string",default:"#examinedIcon"},
         newURL:{stype:"string",default:""}
@@ -25,15 +25,18 @@ AFRAME.registerComponent('dialogue', {
         const {sfx} = this.data
         if(sfx.advanceSfx){
             this.advanceSfx = document.querySelector(sfx.advanceSfx)
-            this.advanceSfx.volume = sfx.advanceVolume
+            if(this.advanceSfx)
+                this.advanceSfx.volume = sfx.advanceVolume
         }
         if(sfx.spawnSfx){
             this.spawnSfx = document.querySelector(sfx.spawnSfx)
-            this.spawnSfx.volume = sfx.spawnVolume
+            if(this.spawnSfx)
+                this.spawnSfx.volume = sfx.spawnVolume
         }
         if(sfx.choiceSfx){
             this.choiceSfx = document.querySelector(sfx.choiceSfx)
-            this.choiceSfx.volume = sfx.choiceVolume
+            if(this.choiceSfx)
+                this.choiceSfx.volume = sfx.choiceVolume
         }
         if(sfx.hoverChoiceSfx){
             this.hoverChoiceSfx = sfx.hoverChoiceSfx

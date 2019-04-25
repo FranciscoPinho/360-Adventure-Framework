@@ -21,7 +21,6 @@ AFRAME.registerComponent('cutscene-player-choice', {
         el.setAttribute('dialogue',choices)
         video.pause()
         this.choiceActivated = true
-        el.removeAttribute('cutscene-player-choice')
       }
       else if(video.currentTime>=video.duration){
         const {newURL,destination}=this.data;
@@ -29,13 +28,13 @@ AFRAME.registerComponent('cutscene-player-choice', {
             AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
             return
         }
-        const eventDetail = {
-            origin:el,
-            destinationURL:destination
+        if(destination){
+          const eventDetail = {
+              origin:el,
+              destinationURL:destination
+          }
+          el.sceneEl.emit('clickNavigation',eventDetail,true)
         }
-        el.emit('clickNavigation',eventDetail,true)
-        AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
-        this.video.ontimeupdate = null
       }
     }
   });

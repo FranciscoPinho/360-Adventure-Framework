@@ -31,7 +31,8 @@ AFRAME.registerComponent('grabbable', {
         const {sfx} = this.data
         if(sfx.sfxSrc){
             this.sfxSrc = document.querySelector(sfx.sfxSrc)
-            this.sfxSrc.volume = sfx.volume
+            if(this.sfxSrc)
+                this.sfxSrc.volume = sfx.volume
         }
         this.appState = AFRAME.scenes[0].systems.state.state
         this.MixedReality=false
