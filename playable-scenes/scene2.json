@@ -14,7 +14,7 @@
                 "id":"navSphere",
                 "class": "inter",
                 "navigation-event-emitter": {
-                    "destination": "scenes/scene1.json"
+                    "destination": "playable-scenes/scene1.json"
                 },
                 "position": "-8 1.7 1",
                 "geometry": {

@@ -4,7 +4,7 @@
       "src": "#my-video",
       "video-player": "",
       "cutscene-end-transition": {
-          "destination":"scenes/scene1.json",
+          "destination":"playable-scenes/scene1.json",
           "endTime":"2.5"
       },
       "music-change-emitter": {

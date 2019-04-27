@@ -25,8 +25,8 @@
           "class": "inter",
           "scripted-invisibility":"",
           "navigation-event-emitter": {
-            "firstdestination": "scenes/cutscene2.json",
-            "destination": "scenes/scene2.json"
+            "firstdestination": "cutscenes/cutscene2.json",
+            "destination": "playable-scenes/scene2.json"
           },
           "position": "5 -2 0.5",
           "geometry": {
@@ -374,14 +374,14 @@
           "blackpuddle": "inInventory"
         }
       ],
-      "goToDestination": "scenes/cutscene3.json"
+      "goToDestination": "cutscenes/cutscene3.json"
     },
     {
       "transitionID":"afterPickCutscene",
       "on":[
         {"cutscene":"picked"}
       ],
-      "goToDestination":"scenes/cutscene1.json"
+      "goToDestination":"cutscenes/cutscene1.json"
     },
     {
       "transitionID":"personDiedFromDeadlyDeer",

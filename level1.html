@@ -43,42 +43,42 @@ For example: Music: https://www.bensound.com-->
     
   </head>
   <body>
-    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:scenes/scene1.json" music-manager transitions-manager>
+    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:playable-scenes/scene1.json" music-manager transitions-manager>
       <a-assets timeout="5000">
-          <audio id="matchlit" src="sfx/matchlit.wav"></audio>
-          <audio id="oilsfx" src="sfx/oil.wav"></audio>
-          <audio id="music" src="audio/lounge.mp3"></audio>
-          <audio id="hover" src="sfx/hover.mp3"></audio>
-          <audio id="correct" src="sfx/correct.wav"></audio>
-          <audio id="wrong" src="sfx/wrong.wav"></audio>
-          <audio id="choiceSfx" src="sfx/choice.wav"></audio>
-          <audio id="pickup" src="sfx/whoosh.flac"></audio>
-          <audio id="beginAudio" src="general-voiceover/beginscene.wav"></audio>
-          <audio id="transitionAudio" src="general-voiceover/audiotransition.wav"></audio>
-          <audio id="clickAudio" src="general-voiceover/audioclick.wav"></audio>
-          <audio id="cutscenemusic" src="audio/cityruins.mp3"></audio>
-          <video id="my-video2" src="videos/beachl.webm"></video>
-          <video id="my-video" src="videos/botanica.webm"></video>
-          <video id="flatvid" src="2dvideo/deerantlers.mp4"></video>
-          <img crossorigin="anonymous" id="clickToCutsceneImg" src="images/clicktocutscene.PNG"></img>
-          <img crossorigin="anonymous" id="deadpersonImg" src="images/deadperson.png"></img>
-          <img crossorigin="anonymous" id="deermanImg" src="images/deerman.png"></img>
-          <img crossorigin="anonymous" id="personImg" src="images/person.png"></img>
-          <img crossorigin="anonymous" id="chooseIcon" src="icons/select.png"></img>
-          <img crossorigin="anonymous" id="previouslyChosenIcon" src="icons/previouslySelected.png"></img>
-          <img crossorigin="anonymous" id="icecubeIcon" src="icons/icecube.jpg"></img>
-          <img crossorigin="anonymous" id="halficecubeIcon" src="icons/halficecube.jpg"></img>
-          <img crossorigin="anonymous" id="puddleIcon" src="icons/puddle.jpg"></img>
-          <img crossorigin="anonymous" id="oilIcon" src="icons/oil.png"></img>
-          <img crossorigin="anonymous" id="blackPuddleIcon" src="icons/blackpuddle.png"></img>
-          <img crossorigin="anonymous" id="flameIcon" src="icons/flame.png"></img>
-          <img crossorigin="anonymous" id="cutsceneIcon" src="icons/cutscene.jpg"></img>
-          <img crossorigin="anonymous" id="deadlydeerIcon" src="icons/deadlydeer.jpg"></img>
-          <img crossorigin="anonymous" id="examineIcon" src="icons/examineIcon.PNG"></img>
-          <img crossorigin="anonymous" id="examinedIcon" src="icons/examinedIcon.PNG"></img>
-          <img crossorigin="anonymous" id="pickIcon" src="icons/hand-pick.png"></img>
-          <img crossorigin="anonymous" id="deerIcon" src="icons/deer.png"></img>
-          <a-asset-item id="deer" src="3D/deer/scene.gltf" preload="auto"></a-asset-item>
+          <audio id="matchlit" src="assets/sfx/matchlit.wav"></audio>
+          <audio id="oilsfx" src="assets/sfx/oil.wav"></audio>
+          <audio id="music" src="assets/audio/lounge.mp3"></audio>
+          <audio id="hover" src="assets/sfx/hover.mp3"></audio>
+          <audio id="correct" src="assets/sfx/correct.wav"></audio>
+          <audio id="wrong" src="assets/sfx/wrong.wav"></audio>
+          <audio id="choiceSfx" src="assets/sfx/choice.wav"></audio>
+          <audio id="pickup" src="assets/sfx/whoosh.flac"></audio>
+          <audio id="beginAudio" src="assets/general-voiceover/beginscene.wav"></audio>
+          <audio id="transitionAudio" src="assets/general-voiceover/audiotransition.wav"></audio>
+          <audio id="clickAudio" src="assets/general-voiceover/audioclick.wav"></audio>
+          <audio id="cutscenemusic" src="assets/audio/cityruins.mp3"></audio>
+          <video id="my-video2" src="assets/videos/beachl.webm"></video>
+          <video id="my-video" src="assets/videos/botanica.webm"></video>
+          <video id="flatvid" src="assets/2dvideo/deerantlers.mp4"></video>
+          <img crossorigin="anonymous" id="clickToCutsceneImg" src="assets/images/clicktocutscene.PNG"></img>
+          <img crossorigin="anonymous" id="deadpersonImg" src="assets/images/deadperson.png"></img>
+          <img crossorigin="anonymous" id="deermanImg" src="assets/images/deerman.png"></img>
+          <img crossorigin="anonymous" id="personImg" src="assets/images/person.png"></img>
+          <img crossorigin="anonymous" id="chooseIcon" src="assets/icons/select.png"></img>
+          <img crossorigin="anonymous" id="previouslyChosenIcon" src="assets/icons/previouslySelected.png"></img>
+          <img crossorigin="anonymous" id="icecubeIcon" src="assets/icons/icecube.jpg"></img>
+          <img crossorigin="anonymous" id="halficecubeIcon" src="assets/icons/halficecube.jpg"></img>
+          <img crossorigin="anonymous" id="puddleIcon" src="assets/icons/puddle.jpg"></img>
+          <img crossorigin="anonymous" id="oilIcon" src="assets/icons/oil.png"></img>
+          <img crossorigin="anonymous" id="blackPuddleIcon" src="assets/icons/blackpuddle.png"></img>
+          <img crossorigin="anonymous" id="flameIcon" src="assets/icons/flame.png"></img>
+          <img crossorigin="anonymous" id="cutsceneIcon" src="assets/icons/cutscene.jpg"></img>
+          <img crossorigin="anonymous" id="deadlydeerIcon" src="assets/icons/deadlydeer.jpg"></img>
+          <img crossorigin="anonymous" id="examineIcon" src="assets/icons/examineIcon.PNG"></img>
+          <img crossorigin="anonymous" id="examinedIcon" src="assets/icons/examinedIcon.PNG"></img>
+          <img crossorigin="anonymous" id="pickIcon" src="assets/icons/hand-pick.png"></img>
+          <img crossorigin="anonymous" id="deerIcon" src="assets/icons/deer.png"></img>
+          <a-asset-item id="deer" src="assets/3D/deer/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
       
       <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">

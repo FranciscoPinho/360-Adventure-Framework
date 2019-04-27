@@ -219,7 +219,7 @@ AFRAME.registerComponent('hoverable', {
         infoBox.setAttribute("visible",false)
         infoBox.setAttribute("material",{color:"black",opacity:0.3})
         let wrapCount = 40
-        infoBox.setAttribute("text",{width:4,value:desc,font:"font/Roboto-msdf.json",wrapCount:wrapCount})
+        infoBox.setAttribute("text",{width:4,value:desc,font:"assets/font/Roboto-msdf.json",wrapCount:wrapCount})
         let inventory = document.querySelector("#inventory")
         if(!inventory)
             return

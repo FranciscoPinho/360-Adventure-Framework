@@ -43,9 +43,9 @@ For example: Music: https://www.bensound.com-->
     
   </head>
   <body>
-    <a-scene asset-loader global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:scenes/menu.json;menu:true" music-manager transitions-manager>
+    <a-scene asset-loader global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:playable-scenes/menu.json;menu:true" music-manager transitions-manager>
       <a-assets timeout="5000">
-        <img crossorigin="anonymous" id="360beach" src="360images/360beach.jpg"></img>
+        <img crossorigin="anonymous" id="360beach" src="assets/360images/360beach.jpg"></img>
       </a-assets>
       
       <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">

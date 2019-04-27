@@ -99,7 +99,7 @@ AFRAME.registerComponent('dialogue', {
         dialogueBox.setAttribute("visible",false)
         dialogueBox.setAttribute("material",{color:"black",opacity:opacity})
         dialogueBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
-        dialogueBox.setAttribute("text",{width:4,value:"placeholder",font:"font/Roboto-msdf.json",wrapCount:40})
+        dialogueBox.setAttribute("text",{width:4,value:"placeholder",font:"assets/font/Roboto-msdf.json",wrapCount:40})
         let camera = document.querySelector("#camera")
         switch(spawn.location){
             default:
@@ -250,7 +250,7 @@ AFRAME.registerComponent('dialogue', {
             let newChoice = document.createElement("a-entity")
             newChoice.setAttribute("material",{color:"grey",opacity:0.8})
             newChoice.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
-            newChoice.setAttribute("text",{width:4,value:choiceData.text,font:"font/Roboto-msdf.json",wrapCount:40})
+            newChoice.setAttribute("text",{width:4,value:choiceData.text,font:"assets/font/Roboto-msdf.json",wrapCount:40})
             newChoice.setAttribute("position",{x:0.6,y:-0.7-0.8*i,z:0})
             dialogueBox.appendChild(newChoice)
             let choiceHandler = (evt)=>{

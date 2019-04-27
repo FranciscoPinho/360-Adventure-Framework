@@ -4,7 +4,7 @@
       "src": "#my-video2",
       "video-player": "",
       "cutscene-end-transition": {
-        "destination":"scenes/scene2.json",
+        "destination":"playable-scenes/scene2.json",
         "endTime":"2"
       }
     }

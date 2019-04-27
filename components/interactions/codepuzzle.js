@@ -2,11 +2,13 @@ AFRAME.registerComponent('codepuzzle', {
     schema : {
         startEvents:{type:"array",default:['click','triggerdown']},
         solution:{type:"string"},
+        buttons:{type:"array",default:["1","2","3","4","5","6","7","8","9"]},
         sfx:{type:"string"},
         newFlag:{type:'string',default:"solved"}
     },
     init() {
-
+      this.onActivatePuzzle = this.onActivatePuzzle.bind(this)
+      this.onClickEnter = this.onClickEnter.bind(this)
       const {sfx} = this.data
       if(sfx.correctSfx){
         this.correctSfx = document.querySelector(sfx.correctSfx)
@@ -18,27 +20,29 @@ AFRAME.registerComponent('codepuzzle', {
           if(this.wrongSfx)
               this.wrongSfx.volume = sfx.wrongVolume
       }
+      if(sfx.buttonSfx){
+        this.buttonSfx = document.querySelector(sfx.wrongSfx)
+        if(this.buttonSfx)
+            this.buttonSfx.volume = sfx.wrongVolume
+      }
     },
     play(){
-      const {el,onItemPresented} = this
-      el.sceneEl.addEventListener('presentedItem',onItemPresented)
+      const {el,onActivatePuzzle} = this
+      for(let i=0,n=startEvents.length; i<n; i++)
+        el.addEventListener(startEvents[i], onActivatePuzzle)
     },
     pause(){
-      const {el,onItemPresented} = this
-      el.sceneEl.removeEventListener('presentedItem',onItemPresented)
+      const {el,onActivatePuzzle} = this
+      for(let i=0,n=startEvents.length; i<n; i++)
+        el.removeEventListener(startEvents[i], onActivatePuzzle)
     },
-    onItemPresented(evt){
-        const {el,video,wrongSfx,correctSfx} = this
-        if(evt.detail.itemID!==this.data.solution){
-          if(wrongSfx)
-            wrongSfx.play()
-          video.currentTime=0
-          video.play()
-          this.choiceActivated=false
-        }
-        else if(correctSfx){
-          el.removeAttribute('cutscene-present-item')
-          correctSfx.play()
-        }
+    onActivatePuzzle(evt){
+
+    },
+    onClickCharacter(evt){
+
+    },
+    onClickEnter(evt){
+        const {el,wrongSfx,correctSfx} = this
     }
   });

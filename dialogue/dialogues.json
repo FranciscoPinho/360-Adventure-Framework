@@ -12,7 +12,7 @@
         { "text": "You were a good guy and thus have reached paradise"}
     ],
     "deermanTransformed":[
-        { "text": "This man is now faster and more efficient, a truly invincible agent smith", "voiceTrack":"dialogue-voiceover/deerman.wav", "voiceVolume":0.2}
+        { "text": "This man is now faster and more efficient, a truly invincible agent smith", "voiceTrack":"assets/dialogue-voiceover/deerman.wav", "voiceVolume":0.2}
     ],
     "choseA":[
         { "text": "You chose A during the cutscene, so now you're here in the outcome of choosing A"}
@@ -31,15 +31,15 @@
         { "text": "I will not allow it"}
     ],
     "RPGTree":[
-        { "text": "This man is called Agent Smith! Please be respectful to the man.", "voiceTrack":"dialogue-voiceover/d1l1.wav", "voiceVolume":0.2 },
-        { "label":"choices","text": "This man is absolutely untouchable, there's nothing you can do to him",  "voiceTrack":"dialogue-voiceover/d1l2.wav", "voiceVolume":0.2 , "voiceOnce":true,
+        { "text": "This man is called Agent Smith! Please be respectful to the man.", "voiceTrack":"assets/dialogue-voiceover/d1l1.wav", "voiceVolume":0.2 },
+        { "label":"choices","text": "This man is absolutely untouchable, there's nothing you can do to him",  "voiceTrack":"assets/dialogue-voiceover/d1l2.wav", "voiceVolume":0.2 , "voiceOnce":true,
         "choices": [
             { "choiceID":"askcombine","text": "A) What if I combined deers and used it on him", "next": "combine_deers_q"},
             { "choiceID":"askdeerman","text": "B) What if I used a deer on this man", "next": "use_deer_q"},
             { "choiceID":"nothingToSay","text": "C) I got nothing to say", "next": "end" }
         ] 
         },
-        { "label": "combine_deers_q", "text": "You wouldn't dare... Are you a terrorist?", "voiceTrack":"dialogue-voiceover/d1askcombine.wav", "voiceVolume":0.3 ,"next": "choices" },
+        { "label": "combine_deers_q", "text": "You wouldn't dare... Are you a terrorist?", "voiceTrack":"assets/dialogue-voiceover/d1askcombine.wav", "voiceVolume":0.3 ,"next": "choices" },
         { "label": "use_deer_q", "text": "Just do it.", "next": "choices" },
         { "label": "end" , "text": "Transmission over" }
     ],

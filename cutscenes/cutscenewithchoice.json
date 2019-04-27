@@ -37,7 +37,7 @@
                     "choiceA": "chosen"
                 }
             ],
-            "goToDestination": "scenes/choseA.json"
+            "goToDestination": "cutscenes/choseA.json"
         },
         {
             "transitionID": "choseB",
@@ -46,7 +46,7 @@
                     "choiceB": "chosen"
                 }
             ],
-            "goToDestination": "scenes/choseB.json"
+            "goToDestination": "cutscenes/choseB.json"
         },
         {
             "transitionID": "choseC",
