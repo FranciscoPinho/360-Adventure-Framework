@@ -11,11 +11,6 @@
         "video-player": {
             "cutscene":true
         },
-        "music-change-emitter": {
-            "newsource": "#cutscenemusic",
-            "volume": 0.2,
-            "cacheDuration": "false"
-        },
         "cutscene-present-item": {
             "triggerTimestamp": "2",
             "sfx": {
