@@ -20,9 +20,9 @@
             "triggerTimestamp": "2",
             "sfx": {
                 "correctSfx": "#correct",
-                "correctVolume":1,
+                "correctVolume":0.1,
                 "wrongSfx": "#wrong",
-                "wrongVolume": 1
+                "wrongVolume": 0.1
             },
             "solution": "oil"
         }
