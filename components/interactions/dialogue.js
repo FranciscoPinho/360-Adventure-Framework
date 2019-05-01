@@ -162,7 +162,7 @@ AFRAME.registerComponent('dialogue', {
                 if(dialogueBox.parentNode)
                     dialogueBox.parentNode.removeChild(dialogueBox)
             if(removeSelfOnEnd){
-                let elementID = el.getAttribute('id')
+                let elementID = el.id
                 if(elementID)
                     AFRAME.scenes[0].emit('addRemovableDialogue',{elementID:elementID})
                 el.removeAttribute('dialogue')

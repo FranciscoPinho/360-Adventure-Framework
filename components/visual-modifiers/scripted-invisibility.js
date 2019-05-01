@@ -6,7 +6,7 @@ AFRAME.registerComponent('scripted-invisibility', {
         this.forceVisibility = this.forceVisibility.bind(this);
         this.forceInvisibility = this.forceInvisibility.bind(this);
         let appState = AFRAME.scenes[0].systems.state.state
-        if(appState.visibilityRecords[this.el.getAttribute('id')])
+        if(appState.visibilityRecords[this.el.id])
             this.data.initialVisibility = true
         else this.data.initialVisibility = false
 
@@ -37,13 +37,13 @@ AFRAME.registerComponent('scripted-invisibility', {
         if(el.classList.contains('inter'))
             el.classList.remove('inter')
         el.setAttribute('visible', false)
-        AFRAME.scenes[0].emit('updateVisibilityRecords',{objectID:el.getAttribute('id'),visibility:false})
+        AFRAME.scenes[0].emit('updateVisibilityRecords',{objectID:el.id,visibility:false})
     },
     forceVisibility(){
         const {el} = this
         if(!el.classList.contains('inter'))
             el.classList.add('inter')
         el.setAttribute('visible', true)
-        AFRAME.scenes[0].emit('updateVisibilityRecords',{objectID:el.getAttribute('id'),visibility:true})
+        AFRAME.scenes[0].emit('updateVisibilityRecords',{objectID:el.id,visibility:true})
     }
 });

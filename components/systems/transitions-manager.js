@@ -14,7 +14,7 @@ AFRAME.registerComponent('transitions-manager', {
         const {appState,alreadyMadeTransitions,makeTransition}=this
         if(appState.pickAnimationPlaying || appState.inventoryOpen || 
             appState.cutscenePlaying || appState.exclusivePlaying || 
-            appState.dialogueOn || !appState.transitions.length)
+            appState.dialogueOn || !appState.transitions.length || appState.codePuzzleActive)
             return
         
         for(let i=0,len=appState.transitions.length;i<len;i++){

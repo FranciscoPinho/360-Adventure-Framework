@@ -28,7 +28,7 @@ AFRAME.registerComponent('pickable', {
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen || appState.dialogueOn) 
             return
-        let objectID = el.getAttribute('id')
+        let objectID = el.id
         el.sceneEl.removeChild(document.querySelector('#'+objectID+"pointer"))
         el.removeAttribute('hoverable')
         AFRAME.scenes[0].emit('updateHoveringObject', {hoveringObject: false})

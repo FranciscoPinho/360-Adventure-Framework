@@ -12,7 +12,7 @@ AFRAME.registerComponent('grabbable', {
         this.onDetectButtonUp = this.onDetectButtonUp.bind(this)
         this.grab = this.grab.bind(this)
         this.ungrab = this.ungrab.bind(this)
-        this.originalParent = document.querySelector('#'+el.parentNode.getAttribute('id'))
+        this.originalParent = document.querySelector('#'+el.parentNode.id)
         this.originalPosition = {
             x:el.object3D.position.x,
             y:el.object3D.position.y,
@@ -132,7 +132,7 @@ AFRAME.registerComponent('grabbable', {
             el.object3D.position.set(newParent.object3D.position.x,newParent.object3D.position.y,-1000)
             el.classList.remove("inter");
             el.classList.remove("invObject");
-            AFRAME.scenes[0].emit('updateGrabbedObject', {grabbedObject:{iconID:el.getAttribute('id'),iconSrc:el.getAttribute('src')}})
+            AFRAME.scenes[0].emit('updateGrabbedObject', {grabbedObject:{iconID:el.id,iconSrc:el.getAttribute('src')}})
         },10)
     },
     ungrab(){
@@ -158,8 +158,8 @@ AFRAME.registerComponent('grabbable', {
         if (!dropped.classList.contains('invObject'))
             return false
         let appState = AFRAME.scenes[0].systems.state.state
-        let grabbedID = grabbed.getAttribute('id')
-        let droppedID = dropped.getAttribute('id')
+        let grabbedID = grabbed.id
+        let droppedID = dropped.id
         let grabbedSrc = grabbed.getAttribute('src')
         let droppedSrc = dropped.getAttribute('src')
         for (let i = 0, n = appState.combinations.length; i < n; i++) {
@@ -203,7 +203,7 @@ AFRAME.registerComponent('grabbable', {
     sendUseEvent(grabbed,target){
         if (target.classList.contains('invObject'))
             return false
-        target.emit('stimulus',{usedObject:grabbed.getAttribute('id')})
+        target.emit('stimulus',{usedObject:grabbed.id})
     }
     
     

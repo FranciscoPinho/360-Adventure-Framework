@@ -32,7 +32,7 @@ AFRAME.registerComponent('hoverable', {
         const {pointer,el,onIntersect,onLoseIntersection,onHoverObject,onLeaveObject} = this
         const {hoverIcon,pointerClass} = this.data
         pointer.classList.add(pointerClass)
-        pointer.setAttribute('id',el.getAttribute('id')+"pointer")
+        pointer.setAttribute('id',el.id+"pointer")
         pointer.setAttribute('visible', false)
         pointer.setAttribute('src', hoverIcon)
         pointer.setAttribute('look-at', "[camera]") 
@@ -94,7 +94,7 @@ AFRAME.registerComponent('hoverable', {
         const {itemOnly,feedback,hoverIcon} = this.data
         const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
         if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton')){
-            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
+            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.id})
             return
         }
         if(!this.raycaster)
@@ -112,7 +112,7 @@ AFRAME.registerComponent('hoverable', {
         if(itemOnly && !grabbedObject)
             return
         if(inventoryOpen){
-            let description = lookupInventoryDescription(el.getAttribute('id'))
+            let description = lookupInventoryDescription(el.id)
             displayInventoryInfo(description)
         }
         if (sfxSrc)
@@ -136,7 +136,7 @@ AFRAME.registerComponent('hoverable', {
         if (hoverIcon && !grabbedObject)
             pointer.setAttribute('visible', true)
         if (!el.classList.contains('invObject'))
-            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
+            AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.id})
     },
     onLeaveObject() {
         if (!this.el.sceneEl.is('vr-mode'))

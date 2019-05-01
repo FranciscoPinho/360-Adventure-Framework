@@ -35,7 +35,7 @@ AFRAME.registerComponent('use-target', {
       
         if(stimulus.newFlag)
             AFRAME.scenes[0].emit('addFlag', {
-                flagKey:el.getAttribute('id'),
+                flagKey:el.id,
                 flagValue:stimulus.newFlag
             })
         const {inventoryData,src,dialogue} = stimulus
@@ -66,7 +66,7 @@ AFRAME.registerComponent('use-target', {
                 object: { iconID: usedObjectID}
             })
             AFRAME.scenes[0].emit('updateTransformedObjects', {
-                original:el.getAttribute('id'),
+                original:el.id,
                 transformation:stimulus
             })
             if(el.getAttribute('dialogue')){

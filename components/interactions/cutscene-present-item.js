@@ -49,7 +49,7 @@ AFRAME.registerComponent('cutscene-present-item', {
       const {el,video,choiceActivated} = this
       if(video.currentTime>=triggerTimestamp && !choiceActivated){
         AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
-        AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:newFlag})
+        AFRAME.scenes[0].emit('addFlag',{flagKey:el.id,flagValue:newFlag})
         el.sceneEl.emit('presentitem')
         video.pause()
         this.choiceActivated = true

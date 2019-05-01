@@ -17,7 +17,7 @@ AFRAME.registerComponent('navigation-event-emitter', {
         if(!el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen || appState.dialogueOn) 
+        if (appState.inventoryOpen || appState.dialogueOn || appState.cutscenePlaying || appState.codePuzzleActive || appState.exclusivePlaying) 
             return
         const {destination,firstdestination}=this.data;
         const eventDetail = {
@@ -26,8 +26,8 @@ AFRAME.registerComponent('navigation-event-emitter', {
         }
         
         if(firstdestination){
-            if(!appState.flags[el.getAttribute('id')]){
-                AFRAME.scenes[0].emit('addFlag', {flagKey: el.getAttribute('id'), flagValue:"visited"});
+            if(!appState.flags[el.id]){
+                AFRAME.scenes[0].emit('addFlag', {flagKey: el.id, flagValue:"visited"});
                 eventDetail.destinationURL = firstdestination
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }

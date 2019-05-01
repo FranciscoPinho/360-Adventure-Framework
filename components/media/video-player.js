@@ -36,7 +36,7 @@ AFRAME.registerComponent('video-player', {
         video.addEventListener('ended',()=>{
           AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
           if(flatCutscene)
-            AFRAME.scenes[0].emit('addFlag',{flagKey:el.getAttribute('id'),flagValue:"seen"})
+            AFRAME.scenes[0].emit('addFlag',{flagKey:el.id,flagValue:"seen"})
           if(pauseBackgroundSong)
             el.sceneEl.emit('music-resume')
           if(removeEntityOnEnd)

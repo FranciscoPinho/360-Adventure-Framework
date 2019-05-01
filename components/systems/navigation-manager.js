@@ -66,7 +66,7 @@ AFRAME.registerComponent('navigation-manager', {
             }
         }
         if(!menu)
-            AFRAME.scenes[0].emit('updateActiveBackground', { activeBackgroundID:destination.getAttribute('id'), activeBackgroundURL:destinationURL})
+            AFRAME.scenes[0].emit('updateActiveBackground', { activeBackgroundID:destination.id, activeBackgroundURL:destinationURL})
         this.setFadeInOrOut('in',destination)
         if(newEnvironment["jsonChildren"] !== undefined){
             let queue = []

@@ -91,7 +91,7 @@ AFRAME.registerComponent('scripted-audio-player', {
         const {audio} = this
         if(audio.readyState === 4){
           this.isPlayingAudio=true
-          AFRAME.scenes[0].emit('addAudioPlaying',{audio:{audioID:src,elementID:el.getAttribute('id')},exclusive:exclusive})
+          AFRAME.scenes[0].emit('addAudioPlaying',{audio:{audioID:src,elementID:el.id},exclusive:exclusive})
           audio.currentTime=0
           audio.play()
         }
@@ -122,7 +122,7 @@ AFRAME.registerComponent('scripted-audio-player', {
       AFRAME.scenes[0].emit('addFlag',{flagKey:audio.id,flagValue:newFlag})
       AFRAME.scenes[0].emit('removeAudioPlaying',{audioID:audio.id,exclusive:exclusive})
       if(removeSelfOnEnd){
-        let elementID = el.getAttribute('id')
+        let elementID = el.id
         if(elementID)
           AFRAME.scenes[0].emit('addRemovableAudio',{elementID:elementID})
         audio.removeEventListener('ended',onSoundEnded)

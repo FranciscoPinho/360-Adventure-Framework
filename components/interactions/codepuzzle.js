@@ -70,11 +70,11 @@ AFRAME.registerComponent('codepuzzle', {
     onActivatePuzzle(evt){
       
       const {el,appState, createPad, createPadButtons, createSolutionSpaces} = this
-      const {inventoryOpen, cutscenePlaying, dialogueOn, examinedObjects} = appState
+      const {inventoryOpen, cutscenePlaying, dialogueOn, examinedObjects, flags} = appState
       const {buttons, padMaxWidth, maxPadObjectsPerRow,rowHeight, columnWidth, newFlag} = this.data
   
       let nrPadButtons = buttons.length
-      if (nrPadButtons === 0  || inventoryOpen || cutscenePlaying || dialogueOn || appState.flags[el.id]===newFlag)
+      if (nrPadButtons === 0  || inventoryOpen || cutscenePlaying || dialogueOn || flags[el.id]===newFlag)
           return
       el.emit('mouseleave')
       let padWidth, padHeight, horizontalOffset, verticalOffset
@@ -128,8 +128,7 @@ AFRAME.registerComponent('codepuzzle', {
       return padNode
     },
     createPadButtons(padNode,horizontalOffset,verticalOffset){
-      const {el, appState,createSpecialButton, closePad, onClickEnter, onClickPadButton, addPadButtonProperties} = this
-      const {inventory} = appState
+      const {el, createSpecialButton, closePad, onClickEnter, onClickPadButton, addPadButtonProperties} = this
       const {buttons, buttonDimensions, horizontalSpacing, verticalSpacing, maxPadObjectsPerRow} = this.data
       let nrPadButtons = buttons.length
       let zPos = 1
@@ -189,7 +188,7 @@ AFRAME.registerComponent('codepuzzle', {
     },
     onClickPadButton(evt){
       const {userSolution,updateSolutionSpaces, buttonSfx} = this
-      const {solution, nrSolutionSpaces} = this.data
+      const {nrSolutionSpaces} = this.data
       if(userSolution.length===nrSolutionSpaces)
         return
       if(buttonSfx)
@@ -226,6 +225,7 @@ AFRAME.registerComponent('codepuzzle', {
     },
     closePad(evt,solved=false) {
       const {el,camera,appState,closePad,onActivatePuzzle} = this
+      const {activeBackgroundID,hoveringID,hoveringObject} = appState
       const {positionType, startEvents} = this.data
       AFRAME.scenes[0].emit('updateCodePuzzleActive', { codePuzzleActive:false })
       switch (positionType) {
@@ -240,12 +240,12 @@ AFRAME.registerComponent('codepuzzle', {
               console.error("Invalid inventory position type")
               break
       }
-      let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+      let activeBackground = document.querySelector("#"+activeBackgroundID)
       if(activeBackground)
           activeBackground.setAttribute('material',{opacity:1})
       document.querySelectorAll("a-scene > .pointerpad").forEach((node) => node.parentNode.removeChild(node))  
-      if(appState.hoveringObject){
-          let hovering = document.querySelector("#"+appState.hoveringID)
+      if(hoveringObject){
+          let hovering = document.querySelector("#"+hoveringID)
           if(hovering)
             hovering.emit("mouseenter")
           else AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false})

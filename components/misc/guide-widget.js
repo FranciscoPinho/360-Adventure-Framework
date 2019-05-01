@@ -37,7 +37,7 @@ AFRAME.registerComponent('guide-widget', {
     createArrow(){
         this.guideEl = document.createElement("a-entity")
         const {guideEl,el,cameraDOM,dummyVec} = this
-        guideEl.setAttribute('id',el.getAttribute('id')+"guide")
+        guideEl.setAttribute('id',el.id+"guide")
         this.arrow = new THREE.ArrowHelper(dummyVec.normalize(), dummyVec, 0.7, new THREE.Color(this.data.color),0.25,0.25)
         let color = this.arrow.cone.material.color
         this.arrow.cone.material.color.setRGB(color.r/2,color.g/2,color.b/2)
