@@ -68,11 +68,11 @@ AFRAME.registerComponent('hoverable', {
             return;
         }
         pointer.object3D.position.set(
-            intersection.point.x + 0.5,
+            intersection.point.x + Math.abs(intersection.point.x)*0.035,
             intersection.point.y,
             intersection.point.z
         )
-        pointer.object3D.scale.set(0.4 + 0.02 * Math.abs(pointer.object3D.position.z), 0.4 + 0.02 * Math.abs(pointer.object3D.position.z), 0.4 + 0.02 * Math.abs(pointer.object3D.position.z))
+        pointer.object3D.scale.set(0.08 * Math.abs(pointer.object3D.position.z), 0.08 * Math.abs(pointer.object3D.position.z), 0.08 * Math.abs(pointer.object3D.position.z))
     },
     onIntersect(evt) {
         this.raycaster = evt.detail.el;
