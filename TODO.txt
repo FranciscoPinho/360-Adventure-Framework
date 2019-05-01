@@ -1,15 +1,15 @@
 TODO: Proof of concept document
 
 LAST FEATURES
-- numerical input
 - keyframes for invisible examinables/other objects maybe
 - subtitles
+- credits
 
 USEFUL INFO
 TRANSITIONS on flags:
 - Can clear or not inventory
 - can go to: cutscene || dialogue || playAudio || newURL || change visibility of objects with scripted-invisibility component || unpause video
-|| inject new element || changeVideoSrc
+|| inject new element || changeVideoSrc || addToInventory
 -player choice in cutscenes cannot coexist with video loop or cutscene-end-transition
 
 When can dialogue be presented:

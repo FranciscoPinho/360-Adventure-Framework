@@ -13,10 +13,13 @@ AFRAME.registerComponent('hoverable', {
         this.onIntersect = this.onIntersect.bind(this)
         this.scaleFeedback = this.scaleFeedback.bind(this)
         this.halveMaterialRGB = this.halveMaterialRGB.bind(this)
+        this.lookupInventoryDescription = this.lookupInventoryDescription.bind(this)
+        this.displayInventoryInfo = this.displayInventoryInfo.bind(this)
         this.revertToOriginalRGB = this.revertToOriginalRGB.bind(this)
         this.onLoseIntersection = this.onLoseIntersection.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
         this.originalScaling = this.el.getAttribute('scale')
+        this.appState = AFRAME.scenes[0].systems.state.state
         const {sfx} = this.data
         if(sfx.sfxSrc){
             this.sfxSrc = document.querySelector(sfx.sfxSrc)
@@ -47,15 +50,15 @@ AFRAME.registerComponent('hoverable', {
         el.removeEventListener('mouseleave', onLeaveObject)
     },
     tick() {
-        const {pointer,el,raycaster} = this
-        let appState = AFRAME.scenes[0].systems.state.state
-        if(appState.dialogueOn)
+        const {pointer,el,raycaster,appState} = this
+        const {dialogueOn,inventoryOpen,grabbedObject} = appState
+        if(dialogueOn)
             return
         if(!pointer || !el)
             return
         if (!el.sceneEl.is('vr-mode') || !pointer.getAttribute('visible'))
             return
-        if (appState.inventoryOpen && !appState.grabbedObject)
+        if (inventoryOpen && !grabbedObject)
             return
         if (!raycaster) {
             return;
@@ -69,7 +72,7 @@ AFRAME.registerComponent('hoverable', {
             intersection.point.y,
             intersection.point.z
         )
-        pointer.object3D.scale.set(0.4 + 0.02 * Math.abs(pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(pointer.object3D.position.x), 0.4 + 0.02 * Math.abs(pointer.object3D.position.x))
+        pointer.object3D.scale.set(0.4 + 0.02 * Math.abs(pointer.object3D.position.z), 0.4 + 0.02 * Math.abs(pointer.object3D.position.z), 0.4 + 0.02 * Math.abs(pointer.object3D.position.z))
     },
     onIntersect(evt) {
         this.raycaster = evt.detail.el;
@@ -87,28 +90,30 @@ AFRAME.registerComponent('hoverable', {
     onHoverObject(evt) {
         if (!this.el.sceneEl.is('vr-mode'))
             return
-        const {pointer,el,sfxSrc,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
+        const {pointer,el,sfxSrc,appState,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
         const {itemOnly,feedback,hoverIcon} = this.data
-        let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !appState.grabbedObject){
+        const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
+        if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton')){
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
             return
         }
         if(!this.raycaster)
             return
-        if(appState.dialogueOn && !el.classList.contains('playerchoice'))
+        if(dialogueOn && !el.classList.contains('playerchoice'))
             return
-        if(el.classList.contains('playerchoice')){
+        if(codePuzzleActive && !el.classList.contains('puzzlebutton'))
+            return
+        if(el.classList.contains('playerchoice') || el.classList.contains('puzzlebutton')){
             if(this.pointer){
                 el.sceneEl.removeChild(this.pointer)
                 this.pointer=null
             }
         }
-        if(itemOnly && !appState.grabbedObject)
+        if(itemOnly && !grabbedObject)
             return
-        if(appState.inventoryOpen){
-            let description = lookupInventoryDescription(appState,el.getAttribute('id'))
-            displayInventoryInfo(appState,description)
+        if(inventoryOpen){
+            let description = lookupInventoryDescription(el.getAttribute('id'))
+            displayInventoryInfo(description)
         }
         if (sfxSrc)
             sfxSrc.play()
@@ -128,7 +133,7 @@ AFRAME.registerComponent('hoverable', {
                 break
         }
         
-        if (hoverIcon && !appState.grabbedObject)
+        if (hoverIcon && !grabbedObject)
             pointer.setAttribute('visible', true)
         if (!el.classList.contains('invObject'))
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.getAttribute('id')})
@@ -137,19 +142,20 @@ AFRAME.registerComponent('hoverable', {
         if (!this.el.sceneEl.is('vr-mode'))
             return;
 
-        const {pointer,el,originColor,originalScaling,revertToOriginalRGB,scaleFeedback} = this
+        const {pointer,el,originColor,originalScaling,revertToOriginalRGB,scaleFeedback,appState} = this
         const {feedback,hoverIcon} = this.data
-        let appState = AFRAME.scenes[0].systems.state.state
-
-        if (appState.inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !appState.grabbedObject)
+        const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
+        if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton'))
             return
-        if(appState.inventoryOpen){
+        if(inventoryOpen){
             let infoBox = document.querySelector("#inventoryinfo")
             if(infoBox)
                 infoBox.parentNode.removeChild(infoBox)
         }
-        if (!el.classList.contains('invObject'))
+
+        if (!el.classList.contains('invObject') && !el.classList.contains('puzzlebutton'))
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false })
+
         switch (feedback) {
             case 'scale':
                 scaleFeedback(this.data.scaleFactor,-1)
@@ -165,7 +171,7 @@ AFRAME.registerComponent('hoverable', {
                 break
         }
         
-        if(hoverIcon && !appState.grabbedObject)
+        if(hoverIcon && !grabbedObject)
             pointer.setAttribute('visible', false)
 
        
@@ -210,7 +216,8 @@ AFRAME.registerComponent('hoverable', {
                 node.material.color.setRGB(originColor.r, originColor.g, originColor.b);
         });
     },
-    displayInventoryInfo(appState,desc) {
+    displayInventoryInfo(desc) {
+        const {appState} = this
         if(!desc)
             return
         let infoBox = document.createElement("a-entity")
@@ -239,7 +246,8 @@ AFRAME.registerComponent('hoverable', {
             },50)   
         })
     },
-    lookupInventoryDescription(appState,iconID){
+    lookupInventoryDescription(iconID){
+        const {appState} = this
         for(let i=0,len=appState.inventory.length;i<len;i++){
             let icon = appState.inventory[i]
             if(icon.iconID===iconID)

@@ -1,5 +1,5 @@
 AFRAME.registerState({
-    nonBindedStateKeys: ['combinations','grabbedObject','transitions','inventory','removableAudiosPlayed','removableDialoguesRead',
+    nonBindedStateKeys: ['combinations','codePuzzleActive','grabbedObject','transitions','inventory','removableAudiosPlayed','removableDialoguesRead',
     'hoveringID','flags','visibilityRecords','pickedObjectIDs','cutscenePlaying','dialogueOn','inventoryHeight','exploredTreeChoices',
     'inventoryOpen','transformedObjects','parsedSceneIDs','hoveringObject','musicRecords','musicBaseVolumes'],
     initialState: {
@@ -30,6 +30,7 @@ AFRAME.registerState({
       inventoryHeight:0,
       hoveringID:null,
       cutscenePlaying:false,
+      codePuzzleActive:false,
       exclusivePlaying:false,
       dialogueOn:false,
       saveToLocalStorageKeys:['flags','removableAudiosPlayed','playOnceSources','activeBackgroundSrc','removableDialoguesRead','visibilityRecords','inventory','combinations','transitions','examinedObjects','activeLevelURL',
@@ -75,8 +76,6 @@ AFRAME.registerState({
       addExaminedObjects: (state,action) => {
         state.examinedObjects.push(action.examinedObject)
         localStorage.setItem('examinedObjects',JSON.stringify(state.examinedObjects))
-        state.flags[action.examinedObject.elID]="examined"
-        localStorage.setItem('flags',JSON.stringify(state.flags))
       },
       removeFromInventory: (state,action) => {
         for(let i=0, n=state.inventory.length;i<n;i++){
@@ -92,6 +91,9 @@ AFRAME.registerState({
       clearInventory: (state,action) => {
         state.inventory = []
         localStorage.removeItem('inventory')
+      },
+      updateCodePuzzleActive: (state,action) => {
+        state.codePuzzleActive = action.codePuzzleActive
       },
       addAudioPlaying: (state,action) => {
         if(action.exclusive){

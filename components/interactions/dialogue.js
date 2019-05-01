@@ -152,7 +152,8 @@ AFRAME.registerComponent('dialogue', {
             if(pauseBackgroundSong)
                 el.sceneEl.emit('music-resume')
             if(examinableObject){
-                AFRAME.scenes[0].emit('addExaminedObjects',{examinedObject:{hoverIcon:examinedIcon,elID:el.getAttribute('id')}})
+                AFRAME.scenes[0].emit('addExaminedObjects',{examinedObject:{hoverIcon:examinedIcon,elID:el.id}})
+                AFRAME.scenes[0].emit('addFlag',{flagKey:el.id,flagValue:"examined"})
                 el.setAttribute('hoverable',{hoverIcon:examinedIcon})
             }
             for(let i=0,n=advanceEvents.length; i<n; i++)

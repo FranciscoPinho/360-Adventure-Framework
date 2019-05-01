@@ -16,7 +16,7 @@ AFRAME.registerComponent('music-manager', {
         el.sceneEl.addEventListener('music-resume',onMusicResume)
     },
     pause() {
-        const {el,musicSrcDOM,onMusicChange,onMusicPause,onMusicResume} = this
+        const {el,musicSrcDOM,onMusicChange,onMusicPause,onMusicResume,onSoundEnded} = this
         musicSrcDOM.removeEventListener('ended', onSoundEnded)
         el.sceneEl.removeEventListener('enter-vr',onMusicResume)
         el.sceneEl.removeEventListener('exit-vr',onMusicPause)

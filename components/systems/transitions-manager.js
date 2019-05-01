@@ -4,6 +4,7 @@ AFRAME.registerComponent('transitions-manager', {
         this.makeTransition = this.makeTransition.bind(this)
         this.injectFlatVideo = this.injectFlatVideo.bind(this)
         this.changeDestination = this.changeDestination.bind(this)
+        this.addToInventory = this.addToInventory.bind(this)
         this.changeBackgroundSrc = this.changeBackgroundSrc.bind(this)
         this.changeObjectVisibility = this.changeObjectVisibility.bind(this)
         this.alreadyMadeTransitions = []
@@ -66,7 +67,7 @@ AFRAME.registerComponent('transitions-manager', {
     },
     makeTransition(transition){
         let delay = transition.delaySeconds ? transition.delaySeconds*1000 : 0
-        const {el,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination}=this
+        const {el,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination,addToInventory}=this
         AFRAME.scenes[0].emit('removeTransition',{transitionID:transition.transitionID})
         setTimeout(()=>{
             if(transition.clearInventory)
@@ -87,11 +88,22 @@ AFRAME.registerComponent('transitions-manager', {
                 changeBackgroundSrc(transition.changeBackgroundSrc)
             else if(transition.injectFlatVideo)
                 injectFlatVideo(transition.injectFlatVideo)
+            else if(transition.addToInventory)
+                addToInventory(transition.addToInventory)
             else if(transition.currentVid==="unpause"){
                 el.sceneEl.emit('resume-video')
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }
         },delay)
+    },
+    addToInventory(newItem){
+        AFRAME.scenes[0].emit('addToInventory', {
+            object: {
+                iconID: newItem.iconID,
+                iconSrc: newItem.iconSrc,
+                iconDesc: newItem.iconDesc
+            }
+        })
     },
     changeDestination(destination){
         const {appState,el}=this

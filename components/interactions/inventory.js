@@ -18,6 +18,8 @@ AFRAME.registerComponent('inventory', {
         this.handleInventory = this.handleInventory.bind(this)
         this.unsummonInventory = this.unsummonInventory.bind(this)
         this.summonInventory = this.summonInventory.bind(this)
+        this.createInventoryContainer = this.createInventoryContainer.bind(this)
+        this.createInventoryIcons = this.createInventoryIcons.bind(this)
         this.appState = AFRAME.scenes[0].systems.state.state
         this.camera = document.querySelector("#camera")
         this.presentItem = ()=>this.summonInventory(false,true)
@@ -70,9 +72,6 @@ AFRAME.registerComponent('inventory', {
        
         let isRefresh = evt.type==="inventoryRefresh"
 
-
-        //console.log("InventoryOpen:",appState.inventoryOpen," HoveringObject:",
-        //appState.hoveringObject," IDHovering:",appState.hoveringID," CutscenePlaying:",appState.cutscenePlaying)
         if (appState.inventoryOpen) {
             unsummonInventory(isRefresh)
             if(!isRefresh)
@@ -112,16 +111,19 @@ AFRAME.registerComponent('inventory', {
             activeBackground.setAttribute('material',{opacity:1})
         document.querySelectorAll("a-scene > .pointerinventory").forEach((node) => node.parentNode.removeChild(node))  
         if(appState.hoveringObject){
-            document.querySelector("#"+appState.hoveringID).emit("mouseenter")
+            let hovering = document.querySelector("#"+appState.hoveringID)
+            if(hovering)
+                hovering.emit("mouseenter")
+            else AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false})
         }
     },
     summonInventory(isRefresh,presentItem){
-        const {camera,raycaster,el,summonSfx,appState} = this
-        let nrInventoryObjects = appState.inventory.length
-        if (nrInventoryObjects === 0  || appState.hoveringObject || appState.cutscenePlaying || appState.dialogueOn)
+        const {summonSfx, appState, createInventoryContainer, createInventoryIcons} = this
+        const {hoveringObject, cutscenePlaying, dialogueOn, inventory, codePuzzleActive} = appState
+        let nrInventoryObjects = inventory.length
+        if (nrInventoryObjects === 0  || hoveringObject || cutscenePlaying || dialogueOn || codePuzzleActive)
             return
-        const { iconHoverSfx, positionType, iconDimensions, horizontalSpacing, verticalSpacing, inventoryMaxWidth, maxInventoryObjectsPerRow,
-            rowHeight, columnWidth, inventoryZDistance } = this.data
+        const {inventoryMaxWidth, maxInventoryObjectsPerRow, rowHeight, columnWidth} = this.data
   
         let inventoryWidth, inventoryHeight, horizontalOffset, verticalOffset
 
@@ -131,13 +133,21 @@ AFRAME.registerComponent('inventory', {
         horizontalOffset = nrInventoryObjects >= maxInventoryObjectsPerRow ? -0.6 : (nrInventoryObjects - 1) * -0.2
         verticalOffset = 0.15 * (inventoryHeight / rowHeight - 1)
 
-        //generating main inventory
-
+        let inventoryNode = createInventoryContainer(inventoryWidth, inventoryHeight,isRefresh,presentItem)
+        createInventoryIcons(inventoryNode, horizontalOffset, verticalOffset,presentItem)
+        
+        if(summonSfx)
+            summonSfx.play()
+    },
+    createInventoryContainer(inventoryWidth,inventoryHeight,isRefresh,presentItem){
+        const {camera, raycaster, el, appState} = this
+        const {activeBackgroundID} = appState
+        const {positionType, inventoryZDistance } = this.data
         let inventoryNode = document.createElement("a-entity")
         inventoryNode.setAttribute("id", "inventory")
         inventoryNode.setAttribute("visible", false)
-        inventoryNode.setAttribute("slice9", { width: inventoryWidth, height: inventoryHeight, left: 20, right: 43, top: 20, bottom: 43, src: "textures/inventory.png" })
-        let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
+        inventoryNode.setAttribute("slice9", { width: inventoryWidth, height: inventoryHeight, left: 20, right: 43, top: 20, bottom: 43, src: "assets/textures/inventory.png" })
+        let activeBackground = document.querySelector("#"+activeBackgroundID)
         if(activeBackground)
             activeBackground.setAttribute('material',{opacity:0.5})
         switch(positionType){
@@ -148,7 +158,7 @@ AFRAME.registerComponent('inventory', {
                     dummyNode = document.createElement("a-entity")
                     dummyNode.setAttribute("id", "dummyinventory")
                     dummyNode.setAttribute("visible", false)
-                 
+                
                     if(positionType==="look" || presentItem){
                         dummyNode.object3D.position.set(0,0,inventoryZDistance)
                         camera.appendChild(dummyNode)
@@ -170,7 +180,7 @@ AFRAME.registerComponent('inventory', {
                     inventoryNode.object3D.position.setFromMatrixPosition(this.newMat)
                     inventoryNode.setAttribute("visible", true)
                 },100)
-               
+                
                 break
             case "fixed":
                 inventoryNode.setAttribute("position", { x: 0, y: 0, z: inventoryZDistance });
@@ -181,36 +191,35 @@ AFRAME.registerComponent('inventory', {
                 return
         }
         AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: true, inventoryHeight:inventoryHeight })
-        //inserting each object in inventory
-        
+        return inventoryNode
+    },
+    createInventoryIcons(inventoryNode,horizontalOffset,verticalOffset,presentItem){
+        const {el, appState} = this
+        const {inventory} = appState
+        const {iconHoverSfx, iconDimensions, horizontalSpacing, verticalSpacing, maxInventoryObjectsPerRow} = this.data
+        let nrInventoryObjects = inventory.length
         for (let i = 0; i < nrInventoryObjects; i++) {
-            let objectNode = document.createElement("a-plane")
             let xPos, yPos, zPos
             xPos = horizontalOffset + horizontalSpacing * (i % maxInventoryObjectsPerRow)
             yPos = verticalOffset - verticalSpacing * Math.floor(i / maxInventoryObjectsPerRow)
             zPos = 1
+            let objectNode = createBasicPlane(iconDimensions,iconDimensions,inventory[i].iconID)
             objectNode.classList.add("inter");
             objectNode.classList.add("invObject");
-            objectNode.setAttribute("id", appState.inventory[i].iconID)
-            objectNode.setAttribute("geometry", { primitive: "plane" })
             objectNode.setAttribute("position", { x: xPos, y: yPos, z: zPos })
             objectNode.setAttribute("hoverable", { sfx:{sfxSrc: iconHoverSfx,volume: 1} , scaleFactor: 1.25, pointerClass:'pointerinventory'})
-            objectNode.setAttribute("src", appState.inventory[i].iconSrc)
+            objectNode.setAttribute("src", inventory[i].iconSrc)
             if(presentItem){
                 this.presentingItem = true
                 objectNode.addEventListener('click',()=>{
-                    AFRAME.scenes[0].emit('addFlag',{flagKey:appState.inventory[i].iconID,flagValue:"presented"})
-                    el.sceneEl.emit('presentedItem',{itemID:appState.inventory[i].iconID})
+                    AFRAME.scenes[0].emit('addFlag',{flagKey:inventory[i].iconID,flagValue:"presented"})
+                    el.sceneEl.emit('presentedItem',{itemID:inventory[i].iconID})
                     this.presentingItem = false
                 },)
             }
             else objectNode.setAttribute("grabbable",{startButtons:['triggerdown','mousedown'],endButtons:['triggerup','mouseup']})
-            objectNode.setAttribute("width", iconDimensions)
-            objectNode.setAttribute("height", iconDimensions)
+      
             inventoryNode.appendChild(objectNode)
         }
-      
-        if(summonSfx)
-            summonSfx.play()
     }
 });

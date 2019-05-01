@@ -1,0 +1,98 @@
+{
+    "a-sky": {
+        "id": "puzzledemo",
+        "src": "#museum",
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume":0.05,
+            "cacheDuration":"true"
+        },
+        "children": [
+            {
+                "a-entity": {
+                    "id": "safe3D",
+                    "class": "inter",
+                    "gltf-model": "#safe",
+                    "position": "100 -40 50",
+                    "rotation":"0 -130 0",
+                    "scale": "60 60 60",
+                    "codepuzzle":{
+                        "solution":"11111",
+                        "nrSolutionSpaces":5,
+                        "buttons":["1","0","1",
+                                   "0","1","0",
+                                   "1","0","1"],
+                        "sfx":{
+                            "correctSfx":"#correct",
+                            "correctVolume":0.1,
+                            "wrongSfx":"#wrong",
+                            "wrongVolume":0.1,
+                            "hoverButtonSfx":"#hover",
+                            "hoverButtonVolume":1,
+                            "buttonSfx":"#buttonSfx",
+                            "buttonVolume":0.1
+                        },
+                        "solvedIcon":"#unlockedIcon"
+                    },
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                          },
+                        "feedback": "color",
+                        "hoverIcon":"#lockedIcon"
+                    }
+                }
+            },
+            {
+                "a-entity": {
+                    "id":"notebook3D",
+                    "class":"inter",
+                    "gltf-model": "#notebook",
+                    "position": "100 -40 50",
+                    "rotation":"90 30 0",
+                    "scale": "100 100 100",
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                        },
+                        "feedback": "color",
+                        "hoverIcon":"#examineIcon"
+                    },
+                    "dialogue":{
+                        "dialogueTreeURL":"dialogue/dialogues.json",
+                        "dialogueTreeName":"notebook",
+                        "spawn":{
+                        "location":"look",
+                        "zDistance":"-5",
+                        "opacity":0.6
+                        },
+                        "sfx":{
+                        "advanceSfx":"#hover",
+                        "advanceVolume":1,
+                        "spawnSfx":"#hover",
+                        "spawnVolume":1
+                        },
+                        "examinableObject":true,
+                        "examinedIcon":"#examinedIcon"
+                    }
+                }
+            }
+        ]
+    },
+    "transitions": [
+        {
+          "transitionID":"puzzleSolved",
+          "on":[
+            {"safe3D":"solved"}
+          ],
+          "addToInventory":{
+            "iconID":"topsecretIcon",
+            "iconSrc":"#topsecretImg",
+            "iconDesc":"It seems the Armis company is developing a consciousness virtualization system... Terrifying"
+          }
+        }
+    ]
+}

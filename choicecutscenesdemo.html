@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  
+  <!--You can use this music for free in your multimedia project (online videos (Youtube, Facebook,...), websites, animations, etc.) as long as you credit Bensound.com (in the description for a video). 
+For example: Music: https://www.bensound.com-->
+  <head>
+    <meta charset="utf-8">
+    <title>RealAdventure360</title>
+    <meta name="description" content="360 Adventure game">
+    <script src="libs/aframe-v0.9.0.min.js"></script>
+    <script src="libs/aframe-state-component.min.js"></script> 
+    <script src="libs/aframe-slice9-component.min.js"></script>
+    <script src="libs/aframe-look-at-component.min.js"></script>
+    <script src="components/interactions/hoverable.js"></script>
+    <script src="components/interactions/pickable.js"></script>
+    <script src="components/interactions/grabbable.js"></script>
+    <script src="components/interactions/dialogue.js"></script>
+    <script src="components/interactions/cutscene-player-choice.js"></script>
+    <script src="components/interactions/inventory.js"></script>
+    <script src="components/interactions/navigation-event-emitter.js"></script>
+    <script src="components/interactions/use-target.js"></script>
+    <script src="components/interactions/codepuzzle.js"></script>
+    <script src="components/interactions/menu-button.js"></script>
+    <script src="components/interactions/cutscene-present-item.js"></script>
+    <script src="components/visual-modifiers/spin.js"></script>
+    <script src="components/visual-modifiers/invisible-in-vr.js"></script>
+    <script src="components/visual-modifiers/scripted-invisibility.js"></script>
+    <script src="components/media/video-player.js"></script>
+    <script src="components/media/video-looper.js"></script>
+    <script src="components/media/music-change-emitter.js"></script>
+    <script src="components/media/scripted-audio-player.js"></script>
+    <script src="components/media/asset-loader.js"></script>
+    <script src="components/media/cutscene-end-transition.js"></script>
+    <script src="components/systems/navigation-manager.js"></script>
+    <script src="components/systems/music-manager.js"></script>
+    <script src="components/systems/transitions-manager.js"></script>
+    <script src="components/misc/remove-self-if-laser-available.js"></script>
+    <script src="components/misc/guide-widget.js"></script>
+    <script src="components/misc/remove-self-if-desktop.js"></script>
+    <script src="components/debug/global-state-listener.js"></script>
+    <script src="state/global-scene-state.js"></script>
+    <script src="miscellaneous/jsonToEntityParser.js"></script>
+    <script src="miscellaneous/utils.js"></script>
+  </head>
+  <body>
+    <a-scene stats asset-loader inventory="iconHoverSfx:#hover;summonSfx:#hover;unsummonSfx:#hover;" global-state-listener="active:false;listenForChangeIn:flags" navigation-manager="initialEnv:cutscenes/cutscenewithchoice.json;clearStorage:true" music-manager transitions-manager>
+      <a-assets timeout="5000">
+          <audio id="hover" src="assets/sfx/hover.mp3"></audio>
+          <audio id="correct" src="assets/sfx/correct.wav"></audio>
+          <audio id="wrong" src="assets/sfx/wrong.wav"></audio>
+          <audio id="choiceSfx" src="assets/sfx/choice.wav"></audio>
+          <audio id="cutscenemusic" src="assets/audio/cityruins.mp3"></audio>
+          <video id="my-video" src="assets/videos/botanica.webm"></video>
+          <img crossorigin="anonymous" id="chooseIcon" src="assets/icons/select.png"></img>
+          <img crossorigin="anonymous" id="previouslyChosenIcon" src="assets/icons/previouslySelected.png"></img>
+      </a-assets>
+      
+      <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
+      </a-entity>
+      <a-entity id="mouseCursor" remove-self-if-laser-available cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
+      </a-entity>
+      <a-entity id="camera" camera look-controls>
+        <a-cursor id="cursor"
+          remove-self-if-desktop
+          remove-self-if-laser-available
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
+          animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+          rayOrigin="mouse"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          raycaster="objects: .inter"></a-cursor>
+      </a-entity>
+    </a-scene>
+ 
+  </body>
+</html>
