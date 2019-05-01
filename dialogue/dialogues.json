@@ -62,5 +62,8 @@
     ],
     "notebook":[
         {"text":"To my dumbass son, if you forgot the safe code. IT'S X. Son, you're so stupid I have to leave this note right here, VULNERABLE AND INSECURE.", "voiceTrack":"assets/dialogue-voiceover/note.wav", "voiceVolume":0.45}
+    ],
+    "unlocked":[
+        {"text":"Top secret documents added to inventory"}
     ]
 }

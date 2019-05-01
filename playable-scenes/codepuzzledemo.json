@@ -92,6 +92,27 @@
             "iconID":"topsecretIcon",
             "iconSrc":"#topsecretImg",
             "iconDesc":"It seems the Armis company is developing a consciousness virtualization system... Terrifying"
+          },
+          "playAudio":{
+            "src":"#unlockingSfx",
+            "autoplay":true,
+            "removeSelfOnEnd":true,
+            "volume":0.4
+          },
+          "goToDialogue":{
+            "dialogueTreeURL":"dialogue/dialogues.json",
+            "dialogueTreeName":"unlocked",
+            "spawn":{
+              "location":"look",
+              "zDistance":"-5",
+              "opacity":0.6
+            },
+            "sfx":{
+              "spawnSfx":"#hover",
+              "spawnVolume":1  
+            },
+            "removeSelfOnEnd":true,
+            "autoplay":true
           }
         }
     ]

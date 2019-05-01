@@ -74,7 +74,7 @@ AFRAME.registerComponent('codepuzzle', {
       const {buttons, padMaxWidth, maxPadObjectsPerRow,rowHeight, columnWidth, newFlag} = this.data
   
       let nrPadButtons = buttons.length
-      if (nrPadButtons === 0  || inventoryOpen || cutscenePlaying || dialogueOn || flags[el.id]===newFlag)
+      if (nrPadButtons === 0  || inventoryOpen || cutscenePlaying || dialogueOn || flags[el.id]===newFlag || !el.sceneEl.is('vr-mode'))
           return
       el.emit('mouseleave')
       let padWidth, padHeight, horizontalOffset, verticalOffset
