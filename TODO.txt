@@ -1,7 +1,6 @@
 TODO: Proof of concept document
 
 LAST FEATURES
-- keyframes for invisible examinables/other objects maybe
 - subtitles
 - credits
 

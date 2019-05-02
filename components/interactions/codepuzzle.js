@@ -143,7 +143,7 @@ AFRAME.registerComponent('codepuzzle', {
       }
       let specialYpos = verticalOffset - verticalSpacing * 1.2 * Math.floor(nrPadButtons / maxPadObjectsPerRow)
       let enterXPosition = -0.4, closeXPosition = 0.4, textOffset = 1.7
-      createSpecialButton(padNode,"enterbutton",enterXPosition,specialYpos,zPos,"ENTER", textOffset, "green", onClickEnter,)
+      createSpecialButton(padNode,"enterbutton",enterXPosition,specialYpos,zPos,"ENTER", textOffset, "green", onClickEnter)
       createSpecialButton(padNode,"closebutton",closeXPosition,specialYpos,zPos,"CLOSE", textOffset, "red", closePad)
     },
     createSolutionSpaces(padNode,horizontalOffset){
