@@ -18,6 +18,8 @@ AFRAME.registerComponent('inventory', {
         this.handleInventory = this.handleInventory.bind(this)
         this.unsummonInventory = this.unsummonInventory.bind(this)
         this.summonInventory = this.summonInventory.bind(this)
+        this.forceClose = this.forceClose.bind(this)
+
         this.createInventoryContainer = this.createInventoryContainer.bind(this)
         this.createInventoryIcons = this.createInventoryIcons.bind(this)
         this.appState = AFRAME.scenes[0].systems.state.state
@@ -45,20 +47,32 @@ AFRAME.registerComponent('inventory', {
                 this.MixedReality=true
     },
     play() {
-        const {el,handleInventory, presentItem, postPresentItem} = this
-        el.addEventListener('trackpaddown', handleInventory)
+        const {el,handleInventory, presentItem, postPresentItem, forceClose} = this
+        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+            el.addEventListener('menudown',handleInventory)
+        else el.addEventListener('trackpaddown', handleInventory)
         el.addEventListener('presentitem', presentItem)
+        el.addEventListener('closeInventory',forceClose)
         el.addEventListener('presentedItem',postPresentItem)
         el.addEventListener('inventoryRefresh', handleInventory)
         window.addEventListener('keydown', handleInventory)
     },
     pause() {
-        const {el,handleInventory,presentItem,postPresentItem} = this
-        el.removeEventListener('trackpaddown', handleInventory)
+        const {el,handleInventory,presentItem,postPresentItem, forceClose} = this
+        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+            el.addEventListener('menudown',handleInventory)
+        else el.removeEventListener('trackpaddown', handleInventory)
+        el.addEventListener('closeInventory',forceClose)
         el.removeEventListener('presentitem', presentItem)
         el.removeEventListener('presentedItem',postPresentItem)
         el.removeEventListener('inventoryRefresh', handleInventory)
         window.removeEventListener('keydown', handleInventory)
+    },
+    forceClose(evt){
+        const {unsummonInventory,appState} = this
+        if (appState.inventoryOpen) {
+            unsummonInventory(false)
+        }
     },
     handleInventory(evt) {
         const {el,summonInventory,unsummonInventory,appState,presentingItem} = this

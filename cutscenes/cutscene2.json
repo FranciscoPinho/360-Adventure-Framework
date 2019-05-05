@@ -1,7 +1,7 @@
 {
     "a-videosphere": {
       "id": "cutscene2",
-      "src": "#my-video2",
+      "src": "#smallcutscene",
       "video-player": "",
       "cutscene-end-transition": {
         "destination":"playable-scenes/scene2.json",

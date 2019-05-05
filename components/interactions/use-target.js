@@ -62,6 +62,7 @@ AFRAME.registerComponent('use-target', {
             return
         }
         else if(src){
+            el.sceneEl.emit('closeInventory')
             AFRAME.scenes[0].emit('removeFromInventory', {
                 object: { iconID: usedObjectID}
             })
@@ -79,7 +80,6 @@ AFRAME.registerComponent('use-target', {
                     continue
                 el.setAttribute(key,stimulus[key])
             } 
-            el.sceneEl.emit('trackpaddown')
             return
         }
         else if (dialogue){

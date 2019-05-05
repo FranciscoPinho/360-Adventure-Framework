@@ -26,7 +26,7 @@ AFRAME.registerComponent('pickable', {
         if(!el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
-        if (appState.inventoryOpen || appState.dialogueOn) 
+        if (appState.inventoryOpen || appState.dialogueOn || appState.cutscenePlaying) 
             return
         let objectID = el.id
         el.sceneEl.removeChild(document.querySelector('#'+objectID+"pointer"))

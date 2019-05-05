@@ -74,6 +74,8 @@ AFRAME.registerComponent('dialogue', {
         const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay,examinableObject,dialogueTreeName} = this.data
         if(examinableObject && appState.inventoryOpen)
             return
+        if(examinableObject && appState.cutscenePlaying)
+            return
         if(!autoplay)
             for(let i=0,n=startEvents.length; i<n; i++)
                 el.removeEventListener(startEvents[i], startDialogue)
@@ -116,7 +118,6 @@ AFRAME.registerComponent('dialogue', {
                 setTimeout(()=>{
                     this.newMat.copy(dummyNode.object3D.matrixWorld)
                     dialogueBox.object3D.position.setFromMatrixPosition(this.newMat)
-                    dialogueBox.setAttribute('visible',true)
                     advanceDialogue()
                     if(!dialogueTree[currentLine].choices) 
                         for(let i=0,n=advanceEvents.length; i<n; i++)
@@ -127,7 +128,6 @@ AFRAME.registerComponent('dialogue', {
             case "fixed":
                 dialogueBox.object3D.position.set(0,0,zDistance)
                 camera.appendChild(dialogueBox)
-                dialogueBox.setAttribute('visible',true)
                 advanceDialogue()
                 if(!dialogueTree[currentLine].choices)     
                     for(let i=0,n=advanceEvents.length; i<n; i++)
@@ -135,13 +135,13 @@ AFRAME.registerComponent('dialogue', {
             break
         }
     },
-    advanceDialogue() {
+    advanceDialogue(delayVisibility=0) {
         if(!this.checkDialogueInFrustrum())
             return
         const {el,dialogueTree,advanceDialogue,startDialogue,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText} = this
         const {removeSelfOnEnd,examinableObject,startEvents,advanceEvents,spawn,examinedIcon,pauseBackgroundSong,newURL,autoplay} = this.data
         let currentDialogue = dialogueTree[currentLine]
-
+        dialogueBox.setAttribute('visible',false)
         if(currentLine===dialogueTree.length || !currentDialogue){
             AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});
             if(this.voiceOver){
@@ -176,6 +176,7 @@ AFRAME.registerComponent('dialogue', {
         }
 
         if (!currentDialogue.text && !currentDialogue.choices) {
+            el.removeAttribute('dialogue')
             console.error("Invalid dialogue: no text or choices")
             return
         }
@@ -216,8 +217,9 @@ AFRAME.registerComponent('dialogue', {
             spawnPlayerChoice(currentDialogue.choices)
             return
         }
-        else updateDialogueBoxText(dialogueBox,currentDialogue.text)
-
+        
+        updateDialogueBoxText(dialogueBox,currentDialogue.text)
+        setTimeout(()=> dialogueBox.setAttribute('visible',true),delayVisibility)
         currentDialogue.next ? this.currentLine = this.findLabel(currentDialogue.next) :
             this.currentLine = currentLine + 1
     },
@@ -271,7 +273,7 @@ AFRAME.registerComponent('dialogue', {
                 }
                 dialogueBox.object3D.position.y=originalY
                
-                advanceDialogue()
+                advanceDialogue(100)
                 
                 setTimeout(()=>{
                     if(dialogueBox)
@@ -279,17 +281,17 @@ AFRAME.registerComponent('dialogue', {
                             el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
                 },100)
             }
-            for(let i=0,n=advanceEvents.length; i<n; i++)
-                circle.addEventListener(advanceEvents[i],choiceHandler,{once:true})
+            setTimeout(()=>{
+                dialogueBox.setAttribute('visible',true)
+                for(let i=0,n=advanceEvents.length; i<n; i++)
+                    circle.addEventListener(advanceEvents[i],choiceHandler,{once:true})
+            },100)
         }
     },
     updateDialogueBoxText (dialogueBox,text)
     {
-
-        dialogueBox.setAttribute('visible',false)
         dialogueBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
         dialogueBox.setAttribute('text',{width:4,value:text ? text:"Choose wisely",wrapCount:40})
-        dialogueBox.setAttribute('visible',true)
     },
     findLabel (next) {
         const {dialogueTree} = this

@@ -61,6 +61,7 @@ For example: Music: https://www.bensound.com-->
           <audio id="clickAudio" src="assets/general-voiceover/audioclick.wav"></audio>
           <audio id="cutscenemusic" src="assets/music/cityruins.mp3"></audio>
           <video id="my-video2" src="assets/videos/beachl.webm"></video>
+          <video id="smallcutscene" src="assets/videos/beachl.webm"></video>
           <video id="my-video" src="assets/videos/botanica.webm"></video>
           <video id="flatvid" src="assets/2dvideo/deerantlers.mp4"></video>
           <img crossorigin="anonymous" id="clickToCutsceneImg" src="assets/images/clicktocutscene.PNG"></img>
@@ -83,12 +84,11 @@ For example: Music: https://www.bensound.com-->
           <img crossorigin="anonymous" id="deerIcon" src="assets/icons/deer.png"></img>
           <a-asset-item id="deer" src="assets/3D/deer/scene.gltf" preload="auto"></a-asset-item>
       </a-assets>
-      
-      <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
-      </a-entity>
-      <a-entity id="mouseCursor" remove-self-if-laser-available cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
-      </a-entity>
       <a-entity id="rig" snapturn>
+        <a-entity id="hand" remove-self-if-desktop oculus-go-controls="hand:right" laser-controls="hand: right" raycaster="objects: .inter" line="color: #118A7E;">
+        </a-entity>
+        <a-entity id="mouseCursor" remove-self-if-laser-available cursor="rayOrigin: mouse" raycaster="objects: .inter" line="color: #118A7E;">
+        </a-entity>
         <a-entity id="camera" camera look-controls>
         </a-entity>
       </a-entity>
