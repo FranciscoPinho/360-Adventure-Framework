@@ -13,8 +13,6 @@ AFRAME.registerComponent('hoverable', {
         this.onIntersect = this.onIntersect.bind(this)
         this.scaleFeedback = this.scaleFeedback.bind(this)
         this.halveMaterialRGB = this.halveMaterialRGB.bind(this)
-        this.lookupInventoryDescription = this.lookupInventoryDescription.bind(this)
-        this.displayInventoryInfo = this.displayInventoryInfo.bind(this)
         this.revertToOriginalRGB = this.revertToOriginalRGB.bind(this)
         this.onLoseIntersection = this.onLoseIntersection.bind(this)
         this.onLeaveObject = this.onLeaveObject.bind(this)
@@ -90,7 +88,7 @@ AFRAME.registerComponent('hoverable', {
     onHoverObject(evt) {
         if (!this.el.sceneEl.is('vr-mode'))
             return
-        const {pointer,el,sfxSrc,appState,halveMaterialRGB,scaleFeedback,originalScaling,lookupInventoryDescription,displayInventoryInfo} = this
+        const {pointer,el,sfxSrc,appState,halveMaterialRGB,scaleFeedback,originalScaling} = this
         const {itemOnly,feedback,hoverIcon} = this.data
         const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
         if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton')){
@@ -111,10 +109,6 @@ AFRAME.registerComponent('hoverable', {
         }
         if(itemOnly && !grabbedObject)
             return
-        if(inventoryOpen){
-            let description = lookupInventoryDescription(el.id)
-            displayInventoryInfo(description)
-        }
         if (sfxSrc)
             sfxSrc.play()
 
@@ -147,12 +141,6 @@ AFRAME.registerComponent('hoverable', {
         const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
         if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton'))
             return
-        if(inventoryOpen){
-            let infoBox = document.querySelector("#inventoryinfo")
-            if(infoBox)
-                infoBox.parentNode.removeChild(infoBox)
-        }
-
         if (!el.classList.contains('invObject') && !el.classList.contains('puzzlebutton'))
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false })
 
@@ -215,44 +203,5 @@ AFRAME.registerComponent('hoverable', {
             if (node.material && originColor)
                 node.material.color.setRGB(originColor.r, originColor.g, originColor.b);
         });
-    },
-    displayInventoryInfo(desc) {
-        const {appState} = this
-        if(!desc)
-            return
-        let infoBox = document.createElement("a-entity")
-        infoBox.setAttribute("id","inventoryinfo")
-        infoBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
-        infoBox.setAttribute("visible",false)
-        infoBox.setAttribute("material",{color:"black",opacity:0.3})
-        let wrapCount = 40
-        infoBox.setAttribute("text",{width:4,value:desc,font:"assets/font/Roboto-msdf.json",wrapCount:wrapCount})
-        let inventory = document.querySelector("#inventory")
-        if(!inventory)
-            return
-        inventory.appendChild(infoBox)
-        infoBox.addEventListener('loaded',()=>
-        {
-            let checkForHeightData = setInterval(()=>{
-                if(!infoBox.components.geometry || !appState.inventoryOpen){
-                    clearTimeout(checkForHeightData)
-                    return
-                }
-                if(!infoBox.components.geometry.data.height)
-                    return
-                infoBox.object3D.position.set(0,-appState.inventoryHeight,0)
-                infoBox.setAttribute("visible",true)    
-                clearTimeout(checkForHeightData)
-            },50)   
-        })
-    },
-    lookupInventoryDescription(iconID){
-        const {appState} = this
-        for(let i=0,len=appState.inventory.length;i<len;i++){
-            let icon = appState.inventory[i]
-            if(icon.iconID===iconID)
-                return icon.iconDesc
-        }
-        return ""
     }
     });

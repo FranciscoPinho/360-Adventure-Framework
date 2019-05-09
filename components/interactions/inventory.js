@@ -19,7 +19,7 @@ AFRAME.registerComponent('inventory', {
         this.unsummonInventory = this.unsummonInventory.bind(this)
         this.summonInventory = this.summonInventory.bind(this)
         this.forceClose = this.forceClose.bind(this)
-
+        this.displayInventoryInfo = this.displayInventoryInfo.bind(this)
         this.createInventoryContainer = this.createInventoryContainer.bind(this)
         this.createInventoryIcons = this.createInventoryIcons.bind(this)
         this.appState = AFRAME.scenes[0].systems.state.state
@@ -102,6 +102,7 @@ AFRAME.registerComponent('inventory', {
         if(unsummonSfx)
             unsummonSfx.play()
         AFRAME.scenes[0].emit('updateInventoryState', { inventoryOpen: false })
+        delete this.infoBox
         switch (posType) {
             case "look":
                 el.removeChild(document.querySelector("#inventory"))
@@ -208,8 +209,8 @@ AFRAME.registerComponent('inventory', {
         return inventoryNode
     },
     createInventoryIcons(inventoryNode,horizontalOffset,verticalOffset,presentItem){
-        const {el, appState} = this
-        const {inventory} = appState
+        const {el, appState, displayInventoryInfo} = this
+        const {inventory,inventoryOpen} = appState
         const {iconHoverSfx, iconDimensions, horizontalSpacing, verticalSpacing, maxInventoryObjectsPerRow} = this.data
         let nrInventoryObjects = inventory.length
         for (let i = 0; i < nrInventoryObjects; i++) {
@@ -222,6 +223,7 @@ AFRAME.registerComponent('inventory', {
             objectNode.classList.add("invObject");
             objectNode.setAttribute("position", { x: xPos, y: yPos, z: zPos })
             objectNode.setAttribute("hoverable", { sfx:{sfxSrc: iconHoverSfx,volume: 1} , scaleFactor: 1.25, pointerClass:'pointerinventory'})
+            objectNode.addEventListener('mouseenter',()=>displayInventoryInfo(inventory[i].iconDesc,inventoryNode))
             objectNode.setAttribute("src", inventory[i].iconSrc)
             if(presentItem){
                 this.presentingItem = true
@@ -235,5 +237,36 @@ AFRAME.registerComponent('inventory', {
       
             inventoryNode.appendChild(objectNode)
         }
+        
+    },
+    displayInventoryInfo(desc,inventoryNode) {
+        if(!desc || !inventoryNode)
+            return 
+        if(!this.infoBox){
+            this.infoBox = document.createElement("a-entity")
+            const {appState,infoBox} = this
+            infoBox.setAttribute("id","inventoryinfo")
+            infoBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
+            infoBox.setAttribute("visible",false)
+            infoBox.setAttribute("material",{color:"black",opacity:0.6})
+            infoBox.setAttribute("text",{width:4,value:desc,font:"assets/font/Roboto-msdf.json",wrapCount:40})
+            inventoryNode.appendChild(infoBox)
+            infoBox.addEventListener('loaded',()=>
+            {
+                let checkForHeightData = setInterval(()=>{
+                    if(!infoBox.components.geometry){
+                        clearTimeout(checkForHeightData)
+                        return
+                    }
+                    if(!infoBox.components.geometry.data.height)
+                        return
+                    infoBox.object3D.position.set(0,-appState.inventoryHeight,0)
+                    infoBox.setAttribute("visible",true)    
+                  
+                    clearTimeout(checkForHeightData)
+                },50)   
+            })
+        }
+        else this.infoBox.setAttribute("text",{value:desc})
     }
 });

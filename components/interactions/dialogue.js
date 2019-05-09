@@ -13,12 +13,14 @@ AFRAME.registerComponent('dialogue', {
         choiceIcon:{type:"string",default:"#chooseIcon"},
         previouslyChosenIcon:{type:"string",default:"#previouslyChosenIcon"},
         examinedIcon:{type:"string",default:"#examinedIcon"},
+        triggerIcon:{type:"string",default:"#triggerIcon"},
         newURL:{stype:"string",default:""}
     },
     init() {  
         this.startDialogue = this.startDialogue.bind(this)
         this.advanceDialogue = this.advanceDialogue.bind(this)
         this.findLabel = this.findLabel.bind(this)
+        this.createTriggerIconReminder = this.createTriggerIconReminder.bind(this)
         this.spawnDialogueBox = this.spawnDialogueBox.bind(this)
         this.spawnPlayerChoice = this.spawnPlayerChoice.bind(this)
         this.newMat = new THREE.Matrix4();
@@ -71,10 +73,8 @@ AFRAME.registerComponent('dialogue', {
     async startDialogue() {
         let appState = AFRAME.scenes[0].systems.state.state
         const {el,startDialogue,spawnSfx,spawnDialogueBox} = this
-        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay,examinableObject,dialogueTreeName} = this.data
-        if(examinableObject && appState.inventoryOpen)
-            return
-        if(examinableObject && appState.cutscenePlaying)
+        const {startEvents,dialogueTreeURL,pauseBackgroundSong,autoplay,examinableObject,dialogueTreeName,triggerIcon} = this.data
+        if(examinableObject && (appState.dialogueOn || appState.inventoryOpen || appState.cutscenePlaying))
             return
         if(!autoplay)
             for(let i=0,n=startEvents.length; i<n; i++)
@@ -94,7 +94,7 @@ AFRAME.registerComponent('dialogue', {
     spawnDialogueBox () {
         AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:true});
         this.dialogueBox = document.createElement("a-entity")
-        const {dialogueBox,el,advanceDialogue,dialogueTree,currentLine} = this
+        const {dialogueBox,el,advanceDialogue,dialogueTree,currentLine,createTriggerIconReminder} = this
         const {spawn,advanceEvents}=this.data
         let zDistance = spawn.zDistance ? spawn.zDistance : -5
         let opacity = spawn.opacity ? spawn.opacity : 0.3
@@ -134,11 +134,27 @@ AFRAME.registerComponent('dialogue', {
                         el.sceneEl.addEventListener(advanceEvents[i], advanceDialogue)
             break
         }
+        createTriggerIconReminder()
+    },
+    createTriggerIconReminder(){
+        if(!this.triggerIconReminder)
+            this.triggerIconReminder = document.createElement("a-entity")
+        const {dialogueBox,triggerIconReminder} = this
+        const {triggerIcon}=this.data
+        if(document.querySelector(triggerIcon)){
+            triggerIconReminder.setAttribute("geometry", {primitive:"circle",radius:0.25})
+            triggerIconReminder.setAttribute("id","triggerIconReminder")
+            triggerIconReminder.setAttribute("position",{x:2.5,y:0,z:0})
+            triggerIconReminder.setAttribute("visible",false)
+            triggerIconReminder.setAttribute("material",{src:triggerIcon,color:"#aaa"})
+            dialogueBox.appendChild(triggerIconReminder)
+        }
+        else this.triggerIconReminder = undefined
     },
     advanceDialogue(delayVisibility=0) {
         if(!this.checkDialogueInFrustrum())
             return
-        const {el,dialogueTree,advanceDialogue,startDialogue,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText} = this
+        const {el,dialogueTree,advanceDialogue,startDialogue,findLabel,currentLine,dialogueBox,advanceSfx,spawnPlayerChoice,updateDialogueBoxText,triggerIconReminder} = this
         const {removeSelfOnEnd,examinableObject,startEvents,advanceEvents,spawn,examinedIcon,pauseBackgroundSong,newURL,autoplay} = this.data
         let currentDialogue = dialogueTree[currentLine]
         dialogueBox.setAttribute('visible',false)
@@ -165,6 +181,7 @@ AFRAME.registerComponent('dialogue', {
                 let elementID = el.id
                 if(elementID)
                     AFRAME.scenes[0].emit('addRemovableDialogue',{elementID:elementID})
+                delete this.triggerIconReminder
                 el.removeAttribute('dialogue')
             }
             else if(!autoplay)
@@ -213,19 +230,26 @@ AFRAME.registerComponent('dialogue', {
         }
 
         if(currentDialogue.choices){
+            if(triggerIconReminder)
+               triggerIconReminder.setAttribute("visible",false)
             updateDialogueBoxText(dialogueBox,currentDialogue.text)
             spawnPlayerChoice(currentDialogue.choices)
             return
         }
         
         updateDialogueBoxText(dialogueBox,currentDialogue.text)
-        setTimeout(()=> dialogueBox.setAttribute('visible',true),delayVisibility)
+        setTimeout(()=> {
+            dialogueBox.setAttribute('visible',true) 
+            if(triggerIconReminder)
+                triggerIconReminder.setAttribute("visible",true)
+        },delayVisibility)
+
         currentDialogue.next ? this.currentLine = this.findLabel(currentDialogue.next) :
             this.currentLine = currentLine + 1
     },
     spawnPlayerChoice(choices){
         let appState = AFRAME.scenes[0].systems.state.state
-        const {el,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume,currentLine,choiceSfx} = this
+        const {el,createTriggerIconReminder,dialogueBox,advanceDialogue,hoverChoiceSfx,hoverChoiceVolume,currentLine,choiceSfx,triggerIconReminder} = this
         const {advanceEvents,spawn, choiceIcon, previouslyChosenIcon} = this.data
         let len = choices.length
         let originalY = dialogueBox.object3D.position.y
@@ -272,9 +296,8 @@ AFRAME.registerComponent('dialogue', {
                     dialogueBox.removeChild(dialogueBox.firstChild);
                 }
                 dialogueBox.object3D.position.y=originalY
-               
+                createTriggerIconReminder()
                 advanceDialogue(100)
-                
                 setTimeout(()=>{
                     if(dialogueBox)
                         for(let i=0,n=advanceEvents.length; i<n; i++)
