@@ -42,13 +42,19 @@ AFRAME.registerComponent('inventory', {
         this.newMat = new THREE.Matrix4();
         this.MixedReality=false
         let HMD = AFRAME.utils.device.getVRDisplay().displayName
-        if(HMD)
+        if(HMD){
             if(HMD.includes("Windows"))
                 this.MixedReality=true
+            if(HMD.includes("Oculus"))
+                this.OculusRift = true
+        }
+           
     },
     play() {
         const {el,handleInventory, presentItem, postPresentItem, forceClose} = this
-        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+        if(this.OculusRift && !AFRAME.utils.device.isOculusGo())
+            el.addEventListener('gripdown',handleInventory)
+        else if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
             el.addEventListener('menudown',handleInventory)
         else el.addEventListener('trackpaddown', handleInventory)
         el.addEventListener('presentitem', presentItem)
@@ -59,8 +65,10 @@ AFRAME.registerComponent('inventory', {
     },
     pause() {
         const {el,handleInventory,presentItem,postPresentItem, forceClose} = this
-        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
-            el.addEventListener('menudown',handleInventory)
+        if(this.OculusRift && !AFRAME.utils.device.isOculusGo())
+            el.removeEventListener('gripdown',handleInventory)
+        else if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+            el.removeEventListener('menudown',handleInventory)
         else el.removeEventListener('trackpaddown', handleInventory)
         el.addEventListener('closeInventory',forceClose)
         el.removeEventListener('presentitem', presentItem)
