@@ -71,8 +71,5 @@ AFRAME.registerComponent('video-player', {
     },
     pauseVideo() {
       this.video.pause()
-    },
-    tick(){
-
     }
   });
