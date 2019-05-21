@@ -68,7 +68,7 @@
           "goToDestination": "animus-json/simulatorguiltc.json"
       },
       {
-        "transitionID": "backToLocation1",
+        "transitionID": "prompthelp",
         "on": [
             {
                 "simulatorguilt":"seen",
@@ -77,8 +77,46 @@
                 "simulatorguiltc":"seen"
             }
         ],
-        "goToDestination": "animus-json/simulatorguiltc.json",
-        "resetTransitions":"true"
+        "goToDialogue":{
+          "dialogueTreeURL":"dialogue/animusdialogue.json",
+          "dialogueTreeName":"helpClare",
+          "spawn":{
+            "location":"look",
+            "zDistance":"-5",
+            "opacity":0.6
+          },
+          "sfx":{
+            "advanceSfx":"#hover",
+            "advanceVolume":1,
+            "spawnSfx":"#hover",
+            "spawnVolume":1,
+            "hoverChoiceSfx":"#hover",
+            "hoverChoiceVolume":1
+          },
+          "removeSelfOnEnd":true,
+          "autoplay":true,
+          "choiceIcon":"#chooseIcon"
+        }
+      },
+      {
+        "transitionID": "clarereassured",
+        "on": [
+            {
+                "help":"chosen"
+            }
+        ],
+        "resetTransitions":true,
+        "goToDestination":"animus-json/clarereassured.json"
+      },
+      {
+        "transitionID": "clarefrustrated",
+        "on": [
+            {
+                "nohelp":"chosen"
+            }
+        ],
+        "resetTransitions":true,
+        "goToDestination":"animus-json/clarefrustrated.json"
       }
     ]
   }

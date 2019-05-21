@@ -6,10 +6,19 @@
         { "text": "It fits the projector like a glove" }
     ],
     "askJohnClare":[
-        { "text":"Ask John Clare","choices": [
+        { 
+            "text":"Ask John Clare","choices": [
                 { "choiceID":"topica","text": "That sounds unbelievable. Wouldn’t anyone have looked for you or notice you’re gone?"},
                 { "choiceID":"topicb","text": "World government? Are you on drugs?"},
                 { "choiceID":"topicc","text": "What can I even do for you?"}
+            ]
+        }
+    ],
+    "helpClare":[
+        {
+            "text":"Will you try to help John Clare?","choices": [
+                { "choiceID":"help","text": "I'll try my best to help you"},
+                { "choiceID":"nohelp","text": "..."}
             ]
         }
     ]
