@@ -3,7 +3,8 @@
       "id": "simulatorguiltb",
       "src": "#simguiltb",
       "video-player": {
-          "cutscene":true
+          "cutscene":true,
+          "endTime":41
       },
       "music-change-emitter": {
         "newsource": "#music",
@@ -16,7 +17,7 @@
             "transitionID":"askJohnClareB",
             "on":[
               {
-                "simguiltb":"seen"
+                "simulatorguiltb":"seen"
               }
             ],
             "goToDialogue":{

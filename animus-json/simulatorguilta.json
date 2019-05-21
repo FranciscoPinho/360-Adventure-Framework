@@ -16,7 +16,7 @@
             "transitionID":"askJohnClareA",
             "on":[
               {
-                "simguilta":"seen"
+                "simulatorguilta":"seen"
               }
             ],
             "goToDialogue":{

@@ -1,0 +1,25 @@
+{
+    "a-videosphere": {
+      "id": "clarereassuredscene",
+      "src": "#clarereassured",
+      "video-player": {
+          "cutscene":true
+      },
+      "music-change-emitter": {
+        "newsource": "#music",
+        "volume":0.2,
+        "cacheDuration":"true"
+      }
+    },
+    "transitions": [
+      {
+        "transitionID": "reassured",
+        "on": [
+            {
+                "clarereassuredscene": "seen"
+            }
+        ],
+        "goToDestination": "animus-json/chapter2doubt.json"
+      }
+    ]
+}

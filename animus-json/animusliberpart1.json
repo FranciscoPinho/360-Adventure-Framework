@@ -3,7 +3,8 @@
         "id": "liber1",
         "src": "#tutorialpart1",
         "video-player":{
-          "cutscene":false
+          "cutscene":false,
+          "endTime":30.5
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -51,7 +52,7 @@
                   "geometry": {
                     "primitive": "plane"
                   },
-                  "position": "-2 -2.3 -10",
+                  "position": "-2 -3 -10",
                   "rotation": "0 0 0",
                   "scale": "3.5 3 1.5",
                   "invisible-in-vr":"",

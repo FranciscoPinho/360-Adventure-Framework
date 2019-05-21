@@ -3,7 +3,8 @@
         "id": "tutorialscene3",
         "src": "#tutorialpart3",
         "video-player":{
-          "cutscene":false
+          "cutscene":false,
+          "endTime":19.5
         },
         "music-change-emitter": {
             "newsource": "#music",
