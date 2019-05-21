@@ -1,0 +1,20 @@
+{
+    "a-videosphere": {
+        "id": "chapter2doubt",
+        "src": "#clareaccused",
+        "video-player":{
+          "cutscene":false
+        },
+        "video-looper":{
+            "loopBegin":10,
+            "loopEnd":35
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        }
+    }
+  
+}

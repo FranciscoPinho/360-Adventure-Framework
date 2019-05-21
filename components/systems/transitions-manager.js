@@ -67,9 +67,18 @@ AFRAME.registerComponent('transitions-manager', {
     },
     makeTransition(transition){
         let delay = transition.delaySeconds ? transition.delaySeconds*1000 : 0
-        const {el,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination,addToInventory}=this
+        const {el,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination,addToInventory, appState}=this
         AFRAME.scenes[0].emit('removeTransition',{transitionID:transition.transitionID})
         setTimeout(()=>{
+            if(transition.ifnot){
+                let allConditions = true
+                for(let key in transition.ifnot){
+                    if(appState.flags[key]!==transition.ifnot[key])
+                        allConditions = false
+                }
+                if(allConditions)
+                    return
+            }
             if(transition.clearInventory)
                 AFRAME.scenes[0].emit('clearInventory')
             if(transition.addToInventory)
@@ -82,7 +91,8 @@ AFRAME.registerComponent('transitions-manager', {
                 changeObjectVisibility(true,transition.makeVisible)
             if(transition.makeInvisible)
                 changeObjectVisibility(false,transition.makeInvisible)
-            
+            if(transition.resetTransitions)
+                AFRAME.scenes[0].emit('clearTransitions')
             if(transition.goToDestination)
                 changeDestination(transition.goToDestination)
             else if(transition.newURL)

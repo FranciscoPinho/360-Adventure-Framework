@@ -1,0 +1,49 @@
+{
+    "a-videosphere": {
+      "id": "simulatorguiltb",
+      "src": "#simguiltb",
+      "video-player": {
+          "cutscene":true,
+          "endTime":41
+      },
+      "music-change-emitter": {
+        "newsource": "#music",
+        "volume":0.2,
+        "cacheDuration":"true"
+      }
+    },
+    "transitions": [
+        {
+            "transitionID":"askJohnClareB",
+            "on":[
+              {
+                "simulatorguiltb":"seen"
+              }
+            ],
+            "ifnot":{
+              "simulatorguilta":"seen",
+              "simulatorguiltc":"seen"
+            },
+            "goToDialogue":{
+              "dialogueTreeURL":"dialogue/animusdialogue.json",
+              "dialogueTreeName":"askJohnClare",
+              "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+              },
+              "sfx":{
+                "advanceSfx":"#hover",
+                "advanceVolume":1,
+                "spawnSfx":"#hover",
+                "spawnVolume":1,
+                "hoverChoiceSfx":"#hover",
+                "hoverChoiceVolume":1
+              },
+              "removeSelfOnEnd":true,
+              "autoplay":true,
+              "choiceIcon":"#chooseIcon"
+            }
+        }
+    ]
+  }

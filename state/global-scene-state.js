@@ -146,6 +146,10 @@ AFRAME.registerState({
         state.transitions = state.transitions.concat(action.newTransitions)
         localStorage.setItem('transitions',JSON.stringify(state.transitions))
       },
+      clearTransitions: (state) => {
+        state.transitions = []
+        localStorage.setItem('transitions',JSON.stringify(state.transitions))
+      },
       removeTransition:(state,action) => {
         for(let i=0,len=state.transitions.length;i<len;i++){
           let transition = state.transitions[i]

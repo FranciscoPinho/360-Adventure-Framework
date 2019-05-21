@@ -42,13 +42,19 @@ AFRAME.registerComponent('inventory', {
         this.newMat = new THREE.Matrix4();
         this.MixedReality=false
         let HMD = AFRAME.utils.device.getVRDisplay().displayName
-        if(HMD)
+        if(HMD){
             if(HMD.includes("Windows"))
                 this.MixedReality=true
+            if(HMD.includes("Oculus"))
+                this.OculusRift = true
+        }
+           
     },
     play() {
         const {el,handleInventory, presentItem, postPresentItem, forceClose} = this
-        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+        if(this.OculusRift && !AFRAME.utils.device.isOculusGo())
+            el.addEventListener('gripdown',handleInventory)
+        else if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
             el.addEventListener('menudown',handleInventory)
         else el.addEventListener('trackpaddown', handleInventory)
         el.addEventListener('presentitem', presentItem)
@@ -59,8 +65,10 @@ AFRAME.registerComponent('inventory', {
     },
     pause() {
         const {el,handleInventory,presentItem,postPresentItem, forceClose} = this
-        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
-            el.addEventListener('menudown',handleInventory)
+        if(this.OculusRift && !AFRAME.utils.device.isOculusGo())
+            el.removeEventListener('gripdown',handleInventory)
+        else if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+            el.removeEventListener('menudown',handleInventory)
         else el.removeEventListener('trackpaddown', handleInventory)
         el.addEventListener('closeInventory',forceClose)
         el.removeEventListener('presentitem', presentItem)
@@ -242,31 +250,35 @@ AFRAME.registerComponent('inventory', {
     displayInventoryInfo(desc,inventoryNode) {
         if(!desc || !inventoryNode)
             return 
-        if(!this.infoBox){
-            this.infoBox = document.createElement("a-entity")
-            const {appState,infoBox} = this
-            infoBox.setAttribute("id","inventoryinfo")
-            infoBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
-            infoBox.setAttribute("visible",false)
-            infoBox.setAttribute("material",{color:"black",opacity:0.6})
-            infoBox.setAttribute("text",{width:4,value:desc,font:"assets/font/Roboto-msdf.json",wrapCount:40})
-            inventoryNode.appendChild(infoBox)
-            infoBox.addEventListener('loaded',()=>
-            {
-                let checkForHeightData = setInterval(()=>{
-                    if(!infoBox.components.geometry){
-                        clearTimeout(checkForHeightData)
-                        return
-                    }
-                    if(!infoBox.components.geometry.data.height)
-                        return
-                    infoBox.object3D.position.set(0,-appState.inventoryHeight,0)
-                    infoBox.setAttribute("visible",true)    
-                  
-                    clearTimeout(checkForHeightData)
-                },50)   
-            })
+
+        if(this.infoBox){
+            inventoryNode.removeChild(this.infoBox)
+            delete this.infoBox
         }
-        else this.infoBox.setAttribute("text",{value:desc})
+        
+        this.infoBox = document.createElement("a-entity")
+        const {appState,infoBox} = this
+        infoBox.setAttribute("id","inventoryinfo")
+        infoBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
+        infoBox.setAttribute("visible",false)
+        infoBox.setAttribute("material",{color:"black",opacity:0.6})
+        infoBox.setAttribute("text",{width:4,value:desc,font:"assets/font/Roboto-msdf.json",wrapCount:40})
+        inventoryNode.appendChild(infoBox)
+        infoBox.addEventListener('loaded',()=>
+        {
+            let checkForHeightData = setInterval(()=>{
+                if(!infoBox.components.geometry){
+                    clearTimeout(checkForHeightData)
+                    return
+                }
+                if(!infoBox.components.geometry.data.height)
+                    return
+                infoBox.object3D.position.set(0,-appState.inventoryHeight,0)
+                infoBox.setAttribute("visible",true)    
+                
+                clearTimeout(checkForHeightData)
+            },50)   
+        })
+      
     }
 });

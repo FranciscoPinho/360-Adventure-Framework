@@ -3,7 +3,8 @@
         "id": "tutorialscene3",
         "src": "#tutorialpart3",
         "video-player":{
-          "cutscene":false
+          "cutscene":false,
+          "endTime":19.5
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -18,13 +19,13 @@
                   "class": "inter",
                   "scripted-invisibility":{
                       "mediaHook":"#tutorialpart3",
-                      "timestamp":2,
+                      "timestamp":9,
                       "changeVisibilityTo":true
                   },
                   "navigation-event-emitter": {
                     "destination": "animus-json/simulatorguilt.json"
                   },
-                  "position": "8 -2 4.7",
+                  "position": "12.2 -2 7.5",
                   "geometry": {
                     "primitive": "sphere",
                     "radius": "0.4"

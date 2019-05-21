@@ -8,7 +8,7 @@ AFRAME.registerComponent('snapturn', {
         this.appState = AFRAME.scenes[0].systems.state.state
         this.turningRight = false
         this.turningLeft = false
-        this.event = 'thumbstickchanged'
+        this.event = 'thumbstickmoved'
         if(AFRAME.utils.device.getVRDisplay().displayName==="OpenVR HMD" || AFRAME.utils.device.isOculusGo())
             this.event = 'trackpadmoved'
     },
