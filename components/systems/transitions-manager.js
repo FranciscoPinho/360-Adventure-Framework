@@ -70,6 +70,15 @@ AFRAME.registerComponent('transitions-manager', {
         const {el,injectFlatVideo,changeObjectVisibility,changeBackgroundSrc,changeDestination,addToInventory, appState}=this
         AFRAME.scenes[0].emit('removeTransition',{transitionID:transition.transitionID})
         setTimeout(()=>{
+            if(transition.ifnot){
+                let allConditions = true
+                for(let key in transition.ifnot){
+                    if(appState.flags[key]!==transition.ifnot[key])
+                        allConditions = false
+                }
+                if(allConditions)
+                    return
+            }
             if(transition.clearInventory)
                 AFRAME.scenes[0].emit('clearInventory')
             if(transition.addToInventory)

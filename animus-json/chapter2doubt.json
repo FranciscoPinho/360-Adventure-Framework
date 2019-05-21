@@ -5,7 +5,10 @@
         "video-player":{
           "cutscene":false
         },
-        "video-looper":"",
+        "video-looper":{
+            "loopBegin":10,
+            "loopEnd":35
+        },
         "music-change-emitter": {
             "newsource": "#music",
             "loop": "true",

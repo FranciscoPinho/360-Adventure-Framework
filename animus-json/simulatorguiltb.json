@@ -20,6 +20,10 @@
                 "simulatorguiltb":"seen"
               }
             ],
+            "ifnot":{
+              "simulatorguilta":"seen",
+              "simulatorguiltc":"seen"
+            },
             "goToDialogue":{
               "dialogueTreeURL":"dialogue/animusdialogue.json",
               "dialogueTreeName":"askJohnClare",

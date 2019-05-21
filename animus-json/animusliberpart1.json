@@ -6,6 +6,10 @@
           "cutscene":false,
           "endTime":30.5
         },
+        "subtitles":{
+          "filepath":"assets/subtitles/tutorialpart1.srt",
+          "mediaHook":"#tutorialpart1"
+        },
         "music-change-emitter": {
             "newsource": "#music",
             "loop": "true",

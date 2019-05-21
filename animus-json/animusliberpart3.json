@@ -25,7 +25,7 @@
                   "navigation-event-emitter": {
                     "destination": "animus-json/simulatorguilt.json"
                   },
-                  "position": "8 -2 4.7",
+                  "position": "12.2 -2 7.5",
                   "geometry": {
                     "primitive": "sphere",
                     "radius": "0.4"
