@@ -8,7 +8,8 @@
         },
         "subtitles":{
           "filepath":"assets/subtitles/tutorialpart1.srt",
-          "mediaHook":"#tutorialpart1"
+          "mediaHook":"#tutorialpart1",
+          "position":"-5 -2 1"
         },
         "music-change-emitter": {
             "newsource": "#music",

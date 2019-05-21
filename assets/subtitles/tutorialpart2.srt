@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:05,000
+Great work... Now use the menu button to bring up your inventory
+2
+00:00:05,000 --> 00:00:11,000
+You can grab objects from your inventory by holding the trigger button (drag object while holding)
+3
+00:00:11,000 --> 00:00:15,000
+And combine them with other objects in the inventory (drag and drop, drop by releasing trigger button)
+4
+00:00:16,000 --> 00:00:24,000
+Alternatively you can also use inventory objects in the environment by releasing the trigger button in the correct location
+5
+00:00:25,000 --> 00:00:30,000
+Try assembling a projector lens to fix the broken projector (Use menu button to open inventory)

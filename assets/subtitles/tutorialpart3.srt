@@ -1,0 +1,12 @@
+1
+00:00:01,000 --> 00:00:03,000
+Well now you know the basics
+2
+00:00:03,000 --> 00:00:09,000
+The last thing I’ll tell you is how you can navigate to different environments
+3
+00:00:09,000 --> 00:00:15,000
+See this sphere right here? Try clicking on it with the trigger button. 
+4
+00:00:15,000 --> 00:00:20,000
+Generally speaking the trigger button will do everything you need

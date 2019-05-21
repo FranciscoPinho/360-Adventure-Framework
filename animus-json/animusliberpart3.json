@@ -4,7 +4,12 @@
         "src": "#tutorialpart3",
         "video-player":{
           "cutscene":false,
-          "endTime":19.5
+          "endTime":20.4
+        },
+        "subtitles":{
+            "filepath":"assets/subtitles/tutorialpart3.srt",
+            "mediaHook":"#tutorialpart3",
+            "position":"-5 -2 2.7"
         },
         "music-change-emitter": {
             "newsource": "#music",

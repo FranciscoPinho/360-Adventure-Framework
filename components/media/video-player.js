@@ -24,6 +24,7 @@ AFRAME.registerComponent('video-player', {
       const {el,video} = this
       if(video.currentTime>=endTime && !el.getAttribute('video-looper')){
         video.pause()
+        el.removeAttribute('subtitles')
         this.alreadyPlayed=true
         if(cutscene || flatCutscene)
           AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});

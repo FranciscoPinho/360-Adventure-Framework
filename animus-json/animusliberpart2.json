@@ -6,6 +6,11 @@
           "cutscene":false,
           "endTime":30
         },
+        "subtitles":{
+          "filepath":"assets/subtitles/tutorialpart2.srt",
+          "mediaHook":"#tutorialpart2",
+          "position":"-5 -2 2.7"
+        },
         "music-change-emitter": {
             "newsource": "#music",
             "loop": "true",
@@ -20,9 +25,9 @@
                   "geometry": {
                     "primitive": "plane"
                   },
-                  "position": "0.3 -3 -10",
+                  "position": "3.5 -7 -15",
                   "rotation": "0 0 0",
-                  "scale": "3.5 3 1.5",
+                  "scale": "6 4 1.5",
                   "invisible-in-vr":"",
                   "hoverable": {
                     "sfx":{
