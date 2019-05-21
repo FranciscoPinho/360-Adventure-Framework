@@ -1,0 +1,88 @@
+{
+    "a-videosphere": {
+        "id": "tutorialscene2",
+        "src": "#tutorialpart2",
+        "video-player":{
+          "cutscene":false
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        },
+        "children": [
+            {
+                "a-plane":{
+                  "id":"projector",
+                  "class":"inter",
+                  "geometry": {
+                    "primitive": "plane"
+                  },
+                  "position": "1.4 -2 -10",
+                  "rotation": "0 0 0",
+                  "scale": "3.5 3 1.5",
+                  "invisible-in-vr":"",
+                  "hoverable": {
+                    "sfx":{
+                      "sfxSrc": "#hover",
+                      "volume": 1
+                    },
+                    "feedback": "nofeedback",
+                    "hoverIcon": "#examineIcon"
+                  },
+                  "use-target":{
+                    "stimulus":[
+                      {
+                        "targeted_by": "projectorlensIcon",
+                        "removeUsedObject":true,
+                        "newFlag":"fixed",
+                        "sfxSrc":"#fixProjector",
+                        "volume":"0.2",
+                        "dialogue":{
+                          "dialogueTreeURL":"dialogue/animustutorialdialogue.json",
+                          "dialogueTreeName":"fixProjector",
+                          "spawn":{
+                            "location":"look",
+                            "zDistance":"-5",
+                            "opacity":0.6
+                          },
+                          "sfx":{
+                            "advanceSfx":"#hover",
+                            "advanceVolume":1,
+                            "spawnSfx":"#hover",
+                            "spawnVolume":1
+                          },
+                          "removeSelfOnEnd":true,
+                          "autoplay":true
+                        }
+                      }
+                    ]
+                  }
+                }
+            }
+        ]
+    },
+    "combinations": [
+        {
+          "mix":["tubeIcon","lensIcon"],
+          "result":{
+             "iconSrc":"#projectorlensIconSrc",
+             "iconID":"projectorlensIcon",
+             "iconDesc":"Projector Lens: Wow! This might actually be usable now."
+          }
+        }
+    ],
+    "transitions": [
+        {
+          "transitionID":"toTutorialPart3",
+          "on":[
+            {
+              "projector":"fixed"
+            }
+          ],
+          "goToDestination":"animus-json/animusliberpart3.json"
+      }
+    ]
+  
+}

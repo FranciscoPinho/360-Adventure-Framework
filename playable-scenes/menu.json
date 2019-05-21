@@ -9,7 +9,7 @@
                     "id":"title",
                     "position":"2 3 -5",
                     "scale":"-2 2 2", 
-                    "value":"Very cool game title",
+                    "value":"Animus Liber",
                     "color":"#000"
 
                 }
@@ -27,7 +27,7 @@
                     },
                     "menu-button":{
                         "buttonFunction":"newgame",
-                        "level1URL":"level1.html"
+                        "level1URL":"animusliberpart1.html"
                     }
                 }
             },

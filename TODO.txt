@@ -1,9 +1,7 @@
-TODO: Proof of concept document
 LAST FEATURES
+- opacity fading when inventoyr not opening
 - subtitles
-- credits
-
-
+//for cutscenes try hiding the controller perhaps
 USEFUL INFO
 TRANSITIONS on flags:
 - Can clear or not inventory

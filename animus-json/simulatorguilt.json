@@ -1,0 +1,14 @@
+{
+    "a-videosphere": {
+      "id": "simulatorguilt",
+      "src": "#simguilt",
+      "video-player": {
+          "cutscene":true
+      },
+      "music-change-emitter": {
+        "newsource": "#music",
+        "volume":0.2,
+        "cacheDuration":"true"
+      }
+    }
+  }

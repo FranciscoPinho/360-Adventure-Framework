@@ -1,18 +1,33 @@
 AFRAME.registerComponent('scripted-invisibility', {
     schema: {
-        initialVisibility:{type:"boolean", default:false}
+        initialVisibility:{type:"boolean", default:false},
+        mediaHook:{type:"selector"},
+        timestamp:{type:"number"},
+        changeVisibilityTo:{type:"boolean"}
     },
     init() {
         this.forceVisibility = this.forceVisibility.bind(this);
         this.forceInvisibility = this.forceInvisibility.bind(this);
         let appState = AFRAME.scenes[0].systems.state.state
+
         if(appState.visibilityRecords[this.el.id])
             this.data.initialVisibility = true
-        else this.data.initialVisibility = false
-
+        
         if(!this.data.initialVisibility)
             this.forceInvisibility()
         else this.forceVisibility()
+        this.tick = AFRAME.utils.throttleTick(this.tick, this.data.timestamp ? 500:50000, this);
+    },
+    tick() {
+        const {el} = this
+        const {mediaHook,timestamp,changeVisibilityTo}=this.data
+        if(mediaHook && timestamp){
+            if(mediaHook.currentTime>=timestamp && el.getAttribute('visible')!==changeVisibilityTo){
+                    el.setAttribute('visible', changeVisibilityTo)
+                    AFRAME.scenes[0].emit('updateVisibilityRecords',{objectID:el.id,visibility:changeVisibilityTo})
+                    this.tick = AFRAME.utils.throttleTick(()=>{}, 50000, this);
+            } 
+        } 
     },
     play() {
         const {

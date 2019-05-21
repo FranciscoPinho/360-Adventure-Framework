@@ -54,9 +54,9 @@
     "cutscenechoices":[
         {   
             "choices": [
-                { "choiceID":"choiceA","text": "A)"},
-                { "choiceID":"choiceB","text": "B)"},
-                { "choiceID":"choiceC","text":"C)"}
+                { "choiceID":"choiceA","text": "Believe Clare"},
+                { "choiceID":"choiceB","text": "Don't Believe Clare"},
+                { "choiceID":"choiceC","text":"Question Clare further"}
             ] 
         }
     ],

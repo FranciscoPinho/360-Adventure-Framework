@@ -76,11 +76,13 @@ AFRAME.registerComponent('transitions-manager', {
                 addToInventory(transition.addToInventory)
             if(transition.playAudio)
                 el.sceneEl.setAttribute("scripted-audio-player",transition.playAudio)
+            if(transition.injectFlatVideo)
+                injectFlatVideo(transition.injectFlatVideo)
             if(transition.makeVisible)
                 changeObjectVisibility(true,transition.makeVisible)
-            else if(transition.makeInvisible)
+            if(transition.makeInvisible)
                 changeObjectVisibility(false,transition.makeInvisible)
-
+            
             if(transition.goToDestination)
                 changeDestination(transition.goToDestination)
             else if(transition.newURL)
@@ -89,22 +91,35 @@ AFRAME.registerComponent('transitions-manager', {
                 el.sceneEl.setAttribute("dialogue",transition.goToDialogue)
             else if(transition.changeBackgroundSrc) 
                 changeBackgroundSrc(transition.changeBackgroundSrc)
-            else if(transition.injectFlatVideo)
-                injectFlatVideo(transition.injectFlatVideo)
             else if(transition.currentVid==="unpause"){
                 el.sceneEl.emit('resume-video')
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }
+            else if(transition.currentVid==="pause"){
+                el.sceneEl.emit('pause-video')
+                AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
+            }
         },delay)
     },
-    addToInventory(newItem){
-        AFRAME.scenes[0].emit('addToInventory', {
-            object: {
-                iconID: newItem.iconID,
-                iconSrc: newItem.iconSrc,
-                iconDesc: newItem.iconDesc
-            }
-        })
+    addToInventory(newItems){
+        if(!Array.isArray(newItems)){
+            AFRAME.scenes[0].emit('addToInventory', {
+                object: {
+                    iconID: newItems.iconID,
+                    iconSrc: newItems.iconSrc,
+                    iconDesc: newItems.iconDesc
+                }
+            })
+            return
+        }
+        for(newItem of newItems)
+            AFRAME.scenes[0].emit('addToInventory', {
+                object: {
+                    iconID: newItem.iconID,
+                    iconSrc: newItem.iconSrc,
+                    iconDesc: newItem.iconDesc
+                }
+            })
     },
     changeDestination(destination){
         const {appState,el}=this
@@ -118,12 +133,12 @@ AFRAME.registerComponent('transitions-manager', {
         const {appState}=this
         let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
         if(activeBackground){
-            let isVideo =activeBackground.getAttribute('video-player')
+            let isVideo = activeBackground.getAttribute('video-player')
             if(isVideo)
                 activeBackground.removeAttribute('video-player')
             activeBackground.setAttribute('src',newBackground.newSrc)
             if(isVideo)
-                activeBackground.setAttribute('video-player',{cutscene:newBackground.cutscene,pauseBackgroundSong:newBackground.pauseBackgroundSong,playOnce:newBackground.playOnce})
+                activeBackground.setAttribute('video-player',{cutscene:newBackground.cutscene,pauseBackgroundSong:newBackground.pauseBackgroundSong,playOnce:newBackground.playOnce,endTime:newBackground.endTime})
             AFRAME.scenes[0].emit('updateActiveBackground', {activeBackgroundSrc:newBackground.newSrc});
         }
     },

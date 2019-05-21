@@ -1,0 +1,36 @@
+{
+    "a-videosphere": {
+        "id": "tutorialscene3",
+        "src": "#tutorialpart3",
+        "video-player":{
+          "cutscene":false
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        },
+        "children": [
+            {
+                "a-sphere": {
+                  "id":"sphere1",
+                  "class": "inter",
+                  "scripted-invisibility":{
+                      "mediaHook":"#tutorialpart3",
+                      "timestamp":2,
+                      "changeVisibilityTo":true
+                  },
+                  "navigation-event-emitter": {
+                    "destination": "animus-json/simulatorguilt.json"
+                  },
+                  "position": "8 -2 4.7",
+                  "geometry": {
+                    "primitive": "sphere",
+                    "radius": "0.4"
+                  }
+                }
+            }
+        ]
+    } 
+}

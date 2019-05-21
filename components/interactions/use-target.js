@@ -32,20 +32,23 @@ AFRAME.registerComponent('use-target', {
     },
     updateFromStimulus(stimulus,usedObjectID) {
         const {el} = this
-      
+        const {inventoryData,src,dialogue,sfxSrc,volume,newFlag,removeUsedObject} = stimulus
         if(stimulus.newFlag)
             AFRAME.scenes[0].emit('addFlag', {
                 flagKey:el.id,
                 flagValue:stimulus.newFlag
             })
-        const {inventoryData,src,dialogue} = stimulus
-        if(stimulus.sfxSrc){
-            let audio = document.querySelector(stimulus.sfxSrc)
-            if(stimulus.volume)
-                audio.volume = stimulus.volume
+        if(removeUsedObject)
+            AFRAME.scenes[0].emit('removeFromInventory', {
+                object: { iconID: usedObjectID}
+            })
+        if(sfxSrc){
+            let audio = document.querySelector(sfxSrc)
+            if(volume)
+                audio.volume = volume
             audio.play()
         }
-        if(stimulus.inventoryData){
+        if(inventoryData){
             AFRAME.scenes[0].emit('removeFromInventory', {
                 object: { iconID: usedObjectID}
             })
@@ -82,7 +85,8 @@ AFRAME.registerComponent('use-target', {
             } 
             return
         }
-        else if (dialogue){
+        else if(dialogue){
+            el.sceneEl.emit('closeInventory')
             el.sceneEl.setAttribute('dialogue',dialogue)
         }
     }

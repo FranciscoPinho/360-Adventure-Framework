@@ -1,0 +1,103 @@
+{
+    "a-videosphere": {
+        "id": "liber1",
+        "src": "#tutorialpart1",
+        "video-player":{
+          "cutscene":false
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        },
+        "children": [
+            {
+                "a-entity": {
+                    "id": "tube",
+                    "class": "inter",
+                    "gltf-model": "#tube",
+                    "material":{
+                        "shader":"flat"
+                    },
+                    "position": "49 -87 130",
+                    "rotation":"0 0 0",
+                    "scale": "100 100 100",
+                    "pickable": {
+                        "sfx":{
+                          "sfxSrc": "#pickup",
+                          "volume": 1
+                        },
+                        "inventoryData": {
+                          "iconSrc": "#tubeIconSrc",
+                          "iconID": "tubeIcon",
+                          "iconDesc":"Tube: A useless tube on it's own. In a way it is just like you!"
+                        }
+                    },
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                          },
+                        "feedback": "color",
+                        "hoverIcon": "#pickIcon"
+                    }
+                }
+            },
+            {
+                "a-plane":{
+                  "id":"projector",
+                  "class":"inter",
+                  "geometry": {
+                    "primitive": "plane"
+                  },
+                  "position": "-2 -2.3 -10",
+                  "rotation": "0 0 0",
+                  "scale": "3.5 3 1.5",
+                  "invisible-in-vr":"",
+                  "hoverable": {
+                    "sfx":{
+                      "sfxSrc": "#hover",
+                      "volume": 1
+                    },
+                    "feedback": "nofeedback",
+                    "hoverIcon": "#examineIcon"
+                  },
+                  "dialogue":{
+                    "dialogueTreeURL":"dialogue/animustutorialdialogue.json",
+                    "dialogueTreeName":"examineProjector",
+                    "spawn":{
+                      "location":"look",
+                      "zDistance":"-5",
+                      "opacity":0.6
+                    },
+                    "sfx":{
+                      "advanceSfx":"#hover",
+                      "advanceVolume":1,
+                      "spawnSfx":"#hover",
+                      "spawnVolume":1
+                    },
+                    "examinableObject":true,
+                    "examinedIcon":"#examinedIcon"
+                  }
+                }
+            }
+        ]
+    },
+    "transitions": [
+        {
+            "transitionID":"toTutorialPart2",
+            "on":[
+              {
+                "projector":"examined",
+                "tubeIcon":"inInventory"
+              }
+            ],
+            "addToInventory":[
+              {"iconID": "lensIcon", "iconSrc": "#lensIconSrc", "iconDesc":"Lens: A lens without a cause... Heartbreaking"}
+            ],
+            "goToDestination":"animus-json/animusliberpart2.json"
+        }
+    ]
+  
+}

@@ -5,7 +5,8 @@ AFRAME.registerComponent('video-player', {
       videoVolume:{type:"number",default:1},
       pauseBackgroundSong:{type:"boolean",default:false},
       flatCutscene:{type:"boolean",default:false},
-      playOnce:{type:"boolean",default:false}
+      playOnce:{type:"boolean",default:false},
+      endTime:{type:"number"}
     },
     init() {
       this.playVideo = this.playVideo.bind(this);
@@ -13,6 +14,7 @@ AFRAME.registerComponent('video-player', {
       this.pauseVideo = this.pauseVideo.bind(this)
       this.appState = AFRAME.scenes[0].systems.state.state
       this.video = document.querySelector(this.el.getAttribute('src'))
+      this.alreadyPlayed=false
     },
     play()  {
       const {el,playVideo,playVideoNextTick,pauseVideo,video,appState} = this
@@ -34,9 +36,10 @@ AFRAME.registerComponent('video-player', {
           el.sceneEl.emit('music-pause')
         AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
         video.addEventListener('ended',()=>{
+          if(!el.getAttribute('video-looper'))
+            this.alreadyPlayed=true
           AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
-          if(flatCutscene)
-            AFRAME.scenes[0].emit('addFlag',{flagKey:el.id,flagValue:"seen"})
+          AFRAME.scenes[0].emit('addFlag',{flagKey:el.id,flagValue:"seen"})
           if(pauseBackgroundSong)
             el.sceneEl.emit('music-resume')
           if(removeEntityOnEnd)
@@ -47,11 +50,13 @@ AFRAME.registerComponent('video-player', {
       el.sceneEl.addEventListener('enter-vr', playVideoNextTick);
       el.sceneEl.addEventListener('exit-vr', pauseVideo)
       el.sceneEl.addEventListener('resume-video', playVideo)
+      el.sceneEl.addEventListener('pause-video', pauseVideo)
     },
     pause()  {
       const {el,playVideo,playVideoNextTick,pauseVideo} = this
       el.sceneEl.removeEventListener('enter-vr', playVideoNextTick);
       el.sceneEl.removeEventListener('exit-vr', pauseVideo)
+      el.sceneEl.removeEventListener('pause-video', pauseVideo)
       el.sceneEl.removeEventListener('resume-video', playVideo)
       window.removeEventListener('vrdisplayactivate', playVideo);
     },
@@ -59,10 +64,15 @@ AFRAME.registerComponent('video-player', {
       setTimeout(this.playVideo);
     },
     playVideo()  {
-        const {video,playVideo} = this
+        const {video,playVideo,alreadyPlayed} = this
+        if(alreadyPlayed)
+          return
         video.readyState === 4 ? video.play() : setTimeout(()=>playVideo(),50)
     },
     pauseVideo() {
       this.video.pause()
+    },
+    tick(){
+
     }
   });

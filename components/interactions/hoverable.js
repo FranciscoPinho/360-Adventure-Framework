@@ -90,12 +90,12 @@ AFRAME.registerComponent('hoverable', {
             return
         const {pointer,el,sfxSrc,appState,halveMaterialRGB,scaleFeedback,originalScaling} = this
         const {itemOnly,feedback,hoverIcon} = this.data
-        const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
+        const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject,cutscenePlaying} = appState
         if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton')){
             AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: true , hoveringID:el.id})
             return
         }
-        if(!this.raycaster)
+        if(!this.raycaster || cutscenePlaying)
             return
         if(dialogueOn && !el.classList.contains('playerchoice'))
             return
@@ -138,7 +138,7 @@ AFRAME.registerComponent('hoverable', {
 
         const {pointer,el,originColor,originalScaling,revertToOriginalRGB,scaleFeedback,appState} = this
         const {feedback,hoverIcon} = this.data
-        const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject} = appState
+        const {inventoryOpen,dialogueOn,codePuzzleActive,grabbedObject,cutscenePlaying} = appState
         if (inventoryOpen && !el.classList.contains('invObject') && !el.classList.contains('playerchoice') && !grabbedObject && !el.classList.contains('puzzlebutton'))
             return
         if (!el.classList.contains('invObject') && !el.classList.contains('puzzlebutton'))
@@ -159,10 +159,8 @@ AFRAME.registerComponent('hoverable', {
                 break
         }
         
-        if(hoverIcon && !grabbedObject)
+        if(hoverIcon && !grabbedObject || cutscenePlaying)
             pointer.setAttribute('visible', false)
-
-       
     },
     scaleFeedback(scaleFactor,scaleDirection){
         const {originalScaling,el} = this

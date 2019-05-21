@@ -12,7 +12,7 @@ AFRAME.registerComponent('inventory', {
         summonSfx: {type:"string", default:""},
         volume: {type:"number",default:1},
         unsummonSfx: {type:"string", default:""},
-        positionType: {type:"string",default:"laser"} //look laser fixed
+        positionType: {type:"string",default:"look"} //look laser fixed
     },
     init() {
         this.handleInventory = this.handleInventory.bind(this)
