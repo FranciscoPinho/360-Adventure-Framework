@@ -1,0 +1,16 @@
+{
+    "examineProjector":[
+        { "text": "This projector ain't working. It's missing the lens"}
+    ],
+    "fixProjector":[
+        { "text": "It fits the projector like a glove" }
+    ],
+    "askJohnClare":[
+        { "text":"Ask John Clare","choices": [
+                { "choiceID":"topica","text": "That sounds unbelievable. Wouldn’t anyone have looked for you or notice you’re gone?"},
+                { "choiceID":"topicb","text": "World government? Are you on drugs?"},
+                { "choiceID":"topicc","text": "What can I even do for you?"}
+            ]
+        }
+    ]
+}

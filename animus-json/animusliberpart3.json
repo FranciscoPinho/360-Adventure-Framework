@@ -18,7 +18,7 @@
                   "class": "inter",
                   "scripted-invisibility":{
                       "mediaHook":"#tutorialpart3",
-                      "timestamp":2,
+                      "timestamp":9,
                       "changeVisibilityTo":true
                   },
                   "navigation-event-emitter": {

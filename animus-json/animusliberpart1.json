@@ -64,7 +64,7 @@
                     "hoverIcon": "#examineIcon"
                   },
                   "dialogue":{
-                    "dialogueTreeURL":"dialogue/animustutorialdialogue.json",
+                    "dialogueTreeURL":"dialogue/animusdialogue.json",
                     "dialogueTreeName":"examineProjector",
                     "spawn":{
                       "location":"look",

@@ -10,5 +10,75 @@
         "volume":0.2,
         "cacheDuration":"true"
       }
-    }
+    },
+    "transitions": [
+      {
+          "transitionID":"askJohnClare",
+          "on":[
+            {
+              "simulatorguilt":"seen"
+            }
+          ],
+          "goToDialogue":{
+            "dialogueTreeURL":"dialogue/animusdialogue.json",
+            "dialogueTreeName":"askJohnClare",
+            "spawn":{
+              "location":"look",
+              "zDistance":"-5",
+              "opacity":0.6
+            },
+            "sfx":{
+              "advanceSfx":"#hover",
+              "advanceVolume":1,
+              "spawnSfx":"#hover",
+              "spawnVolume":1,
+              "hoverChoiceSfx":"#hover",
+              "hoverChoiceVolume":1
+            },
+            "removeSelfOnEnd":true,
+            "autoplay":true,
+            "choiceIcon":"#chooseIcon"
+          }
+      },
+      {
+        "transitionID": "topicA",
+        "on": [
+            {
+                "topicA": "chosen"
+            }
+        ],
+        "goToDestination": "animus-json/simulatorguilta.json"
+      },
+      {
+        "transitionID": "topicB",
+        "on": [
+            {
+                "topicB": "chosen"
+            }
+        ],
+        "goToDestination": "animus-json/simulatorguiltb.json"
+      },
+      {
+          "transitionID": "topicC",
+          "on": [
+              {
+                  "topicC": "chosen"
+              }
+          ],
+          "goToDestination": "animus-json/simulatorguiltc.json"
+      },
+      {
+        "transitionID": "backToLocation1",
+        "on": [
+            {
+                "simulatorguilt":"seen",
+                "simulatorguilta":"seen",
+                "simulatorguiltb":"seen",
+                "simulatorguiltc":"seen"
+            }
+        ],
+        "goToDestination": "animus-json/simulatorguiltc.json",
+        "resetTransitions":"true"
+      }
+    ]
   }

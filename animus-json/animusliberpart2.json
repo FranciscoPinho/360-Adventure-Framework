@@ -40,7 +40,7 @@
                         "sfxSrc":"#fixProjector",
                         "volume":"0.2",
                         "dialogue":{
-                          "dialogueTreeURL":"dialogue/animustutorialdialogue.json",
+                          "dialogueTreeURL":"dialogue/animusdialogue.json",
                           "dialogueTreeName":"fixProjector",
                           "spawn":{
                             "location":"look",
