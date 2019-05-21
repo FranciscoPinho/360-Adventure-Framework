@@ -41,14 +41,21 @@ AFRAME.registerComponent('inventory', {
         else this.raycaster = document.querySelector('#hand')
         this.newMat = new THREE.Matrix4();
         this.MixedReality=false
+        this.OculusRift = false
         let HMD = AFRAME.utils.device.getVRDisplay().displayName
-        if(HMD)
+        if(HMD){
             if(HMD.includes("Windows"))
-                this.MixedReality=true
+                this.MixedReality = true
+            if(HMD.includes("Oculus"))
+                this.OculusRift = true
+        }
+          
     },
     play() {
         const {el,handleInventory, presentItem, postPresentItem, forceClose} = this
-        if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
+        if(this.OculusRift && !AFRAME.utils.device.isOculusGo())
+            el.addEventListener("gripdown",handleInventory)
+        else if(!this.MixedReality && !AFRAME.utils.device.isOculusGo())
             el.addEventListener('menudown',handleInventory)
         else el.addEventListener('trackpaddown', handleInventory)
         el.addEventListener('presentitem', presentItem)

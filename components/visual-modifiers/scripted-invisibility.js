@@ -23,7 +23,7 @@ AFRAME.registerComponent('scripted-invisibility', {
         const {mediaHook,timestamp,changeVisibilityTo}=this.data
         if(mediaHook && timestamp){
             if(mediaHook.currentTime>=timestamp && el.getAttribute('visible')!==changeVisibilityTo){
-                    changeVisibilityTo ? forceVisibility():forceInvisibility()
+                    changeVisibilityTo ? this.forceVisibility():this.forceInvisibility()
                     this.tick = AFRAME.utils.throttleTick(()=>{}, 50000, this);
             } 
         } 
