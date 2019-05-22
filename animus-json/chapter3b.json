@@ -9,7 +9,7 @@
         "subtitles":{
             "filepath":"assets/subtitles/chapter3b.srt",
             "mediaHook":"#chapter3b",
-            "position":"-5 1 2.2"
+            "position":"-5 0.5 0"
         },
         "music-change-emitter": {
             "newsource": "#music",
