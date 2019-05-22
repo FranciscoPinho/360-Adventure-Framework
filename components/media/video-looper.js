@@ -6,7 +6,7 @@ AFRAME.registerComponent('video-looper', {
     init() {
       this.onTrackedVideoFrame = this.onTrackedVideoFrame.bind(this)
     },
-    play() {
+    play() {  
       this.video = document.querySelector(this.el.getAttribute('src'))
       this.video.ontimeupdate=this.onTrackedVideoFrame
     },
@@ -26,7 +26,7 @@ AFRAME.registerComponent('video-looper', {
         if(this.video.currentTime>=loopEnd){
           this.el.sceneEl.emit('looped-video')
           this.video.currentTime=loopBegin
-          this.video.play()
+          this.video.play();
         }
       }
     }

@@ -55,6 +55,15 @@
                 "position":"13 1 -9",
                 "rotation":"0 -58 0"
             }
-          }
+        },
+        {
+            "transitionID":"convergence",
+            "on":[
+              {
+                "chap3b2dvid":"seen"
+              }
+            ],
+            "newURL":"animusliberpart5.html"
+        }
     ]
 }

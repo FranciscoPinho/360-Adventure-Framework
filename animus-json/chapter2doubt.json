@@ -72,11 +72,7 @@
     "transitions":[
         {
             "transitionID":"lockeFirstAppearance",
-            "on":[
-              {
-                "simulatorguiltc":"seen"
-              }
-            ],
+            "on":[],
             "delaySeconds":4,
             "injectFlatVideo":{
                 "id":"chap2doubt2d",

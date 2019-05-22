@@ -1,0 +1,230 @@
+{
+    "a-videosphere": {
+        "id": "convergencescene",
+        "src": "#clareparalyzed",
+        "video-player":{
+          "cutscene":false,
+          "endTime":3
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        }
+    },
+    "transitions":[
+        {
+            "transitionID":"unparalyzelocke",
+            "on":[],
+            "delaySeconds":9,
+            "changeBackgroundSrc":{
+              "newSrc":"#clarecatatonic",
+              "cutscene":"false",
+              "video-looper":{
+                  "loopBegin":51,
+                  "loopEnd":58
+              }
+            }
+        },
+        {
+            "transitionID":"lockerevelations",
+            "on":[],
+            "delaySeconds":2,
+            "injectFlatVideo":{
+                "id":"convergence2dvid",
+                "src":"#convergence",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":6,
+                "height":3,
+                "scale":"1.5 1.5 1.5",
+                "position":"0 1 -9",
+                "rotation":"0 -58 0"
+            }
+        },
+        {
+            "transitionID":"finalchoice",
+            "on":[
+              {
+                "convergence2dvid":"seen"
+              }
+            ],
+            "goToDialogue":{
+                "dialogueTreeURL":"dialogue/animusdialogue.json",
+                "dialogueTreeName":"endings",
+                "spawn":{
+                  "location":"look",
+                  "zDistance":"-5",
+                  "opacity":0.6
+                },
+                "sfx":{
+                  "advanceSfx":"#hover",
+                  "advanceVolume":1,
+                  "spawnSfx":"#hover",
+                  "spawnVolume":1,
+                  "hoverChoiceSfx":"#hover",
+                  "hoverChoiceVolume":1,
+                  "choiceSfx":"#choiceSfx",
+                  "choiceVolume":0.3
+                },
+                "removeSelfOnEnd":true,
+                "autoplay":true,
+                "choiceIcon":"#chooseIcon"
+              }
+        },
+        {
+            "transitionID": "end1-1",
+            "on": [
+                {
+                    "end1": "chosen"
+                }
+            ],
+            "delaySeconds":1,
+            "injectFlatVideo":{
+                "id":"end1vid",
+                "src":"#end1-1",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":6,
+                "height":3,
+                "scale":"1.5 1.5 1.5",
+                "position":"-3 1 -9",
+                "rotation":"0 -58 0"
+            }
+        },
+        {
+            "transitionID": "end1askitem",
+            "on": [
+                {
+                    "end1vid": "seen"
+                }
+            ],
+            "delaySeconds":1,
+            "promptPresentItem": {
+                "triggerDelay": "1",
+                "sfx": {
+                    "correctSfx": "#correct",
+                    "correctVolume":0.1,
+                    "wrongSfx": "#wrong",
+                    "wrongVolume": 0.1
+                },
+                "solution": "antonioIcon"
+            }
+          
+        },
+        {
+            "transitionID": "end1",
+            "on": [
+                {
+                    "antonioIcon": "presented"
+                }
+            ],
+            "delaySeconds":1,
+            "injectFlatVideo":{
+                "id":"end1-2vid",
+                "src":"#end1-2",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":6,
+                "height":3,
+                "scale":"1.5 1.5 1.5",
+                "position":"-3 1 -9",
+                "rotation":"0 -58 0"
+            }
+        },
+        {
+            "transitionID": "end2",
+            "on": [
+                {
+                    "end2": "chosen"
+                }
+            ],
+            "delaySeconds":1,
+            "injectFlatVideo":{
+                "id":"end2vid",
+                "src":"#end2",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":6,
+                "height":3,
+                "scale":"1.5 1.5 1.5",
+                "position":"-3 1 -9",
+                "rotation":"0 -58 0"
+            }
+        },
+        {
+            "transitionID": "end3",
+            "on": [
+                {
+                    "end3": "chosen"
+                }
+            ],
+            "delaySeconds":1,
+            "injectFlatVideo":{
+                "id":"end3vid",
+                "src":"#end3",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":6,
+                "height":3,
+                "scale":"1.5 1.5 1.5",
+                "position":"-3 1 -9",
+                "rotation":"0 -58 0"
+            }
+        },
+        {
+            "transitionID": "end4",
+            "on": [
+                {
+                    "end4": "chosen"
+                }
+            ],
+            "delaySeconds":1,
+            "injectFlatVideo":{
+                "id":"end4vid",
+                "src":"#end4",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":6,
+                "height":3,
+                "scale":"1.5 1.5 1.5",
+                "position":"-3 1 -9",
+                "rotation":"0 -58 0"
+            }
+        },
+        {
+            "transitionID":"toCredits",
+            "on":[
+                { "end1-2vid":"seen" },
+                { "end2vid":"seen" },
+                { "end3vid":"seen" },
+                { "end4vid":"seen" }
+            ],
+            "newURL":"animuslibercredits.html"
+        }
+    ],
+    "addToInventory":[{
+        "iconID":"antonioIcon",
+        "iconSrc":"#antonioIconSrc",
+        "iconDesc":"Antonio, a FEUP professor. Looks like John Clare."
+    }]
+}

@@ -45,5 +45,19 @@
         { "text":"Cl - Chloride - 17 protons, Ar - Argon - 18 protons" },
         { "text":"Who the hell remembers all this? That's right, no one! I'll write it down in a note" },
         { "text":"Note added to inventory" }
+    ],
+    "unlockedSafe":[
+        { "text":"A newspaper article was inside the safe. Headline reads: Antonio, FEUP professor directed innovative 360º documentary" },
+        { "text":"Beneath the headline is a picture of Antonio. He looks a lot like John Clare" }
+    ],
+    "endings":[
+        {
+            "text":"This is it, the end. Choose carefully.","choices": [
+                { "choiceID":"end1","text": "I have bad news for you Locke. You are fiction too"},
+                { "choiceID":"end2","text": "Let's reset John Clare, that was a great story!"},
+                { "choiceID":"end3","text": "John deserves dignity, erase him from his torment"},
+                { "choiceID":"end4","text": "Locke, your fiction sucked... It's full of plot holes"}
+            ]
+        }
     ]
 }

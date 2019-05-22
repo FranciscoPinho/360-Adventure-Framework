@@ -55,10 +55,9 @@ AFRAME.registerComponent('video-player', {
         if(pauseBackgroundSong)
           el.sceneEl.emit('music-pause')
         AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
-        if(!endTime)
+        if(!endTime && !el.getAttribute('video-looper'))
           video.addEventListener('ended',()=>{
-            if(!el.getAttribute('video-looper'))
-              this.alreadyPlayed=true
+            this.alreadyPlayed=true
             AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: false});
             AFRAME.scenes[0].emit('addFlag',{flagKey:el.id,flagValue:"seen"})
             if(pauseBackgroundSong)

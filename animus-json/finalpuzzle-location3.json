@@ -117,7 +117,39 @@
             "on":[
                 {"safe3D":"solved"}
             ],
-            "newURL":"animusliberend.html"
+            "addToInventory":{
+                "iconID":"antonioIcon",
+                "iconSrc":"#antonioIconSrc",
+                "iconDesc":"Antonio, a FEUP professor. Looks like John Clare."
+            },
+            "playAudio":{
+            "src":"#unlockingSfx",
+            "autoplay":true,
+            "removeSelfOnEnd":true,
+            "volume":0.4
+            },
+            "goToDialogue":{
+            "dialogueTreeURL":"dialogue/animusdialogue.json",
+            "dialogueTreeName":"unlockedSafe",
+            "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+            },
+            "sfx":{
+                "spawnSfx":"#hover",
+                "spawnVolume":1  
+            },
+            "removeSelfOnEnd":true,
+            "autoplay":true
+            }
+        },
+        {
+            "transitionID":"puzzleSolved2",
+            "on":[
+                {"safe3D":"solved"}
+            ],
+            "newURL":"animusliberpart6.html"
         }
     ]
 }

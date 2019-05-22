@@ -145,7 +145,7 @@ AFRAME.registerComponent('inventory', {
         const {summonSfx, appState, createInventoryContainer, createInventoryIcons} = this
         const {hoveringObject, cutscenePlaying, dialogueOn, inventory, codePuzzleActive} = appState
         let nrInventoryObjects = inventory.length
-        if (nrInventoryObjects === 0  || hoveringObject || cutscenePlaying || dialogueOn || codePuzzleActive)
+        if (nrInventoryObjects === 0  || hoveringObject && !presentItem || cutscenePlaying || dialogueOn || codePuzzleActive)
             return
         const {inventoryMaxWidth, maxInventoryObjectsPerRow, rowHeight, columnWidth} = this.data
   

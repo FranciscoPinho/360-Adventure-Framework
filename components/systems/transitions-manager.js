@@ -22,8 +22,11 @@ AFRAME.registerComponent('transitions-manager', {
             let transition = appState.transitions[i]
             if(alreadyMadeTransitions.indexOf(transition.transitionID)!==-1)
                 continue
-            if(!transition.on)
-                continue
+            if(!transition.on || !transition.on.length){
+                alreadyMadeTransitions.push(transition.transitionID)
+                makeTransition(transition)
+                return
+            }
             for(let n=0,onlen=transition.on.length;n<onlen;n++){
                 let allConditions = true
                 let onConditions = transition.on[n]
@@ -94,6 +97,8 @@ AFRAME.registerComponent('transitions-manager', {
                 changeObjectVisibility(false,transition.makeInvisible)
             if(transition.resetTransitions)
                 AFRAME.scenes[0].emit('clearTransitions')
+            if(transition.promptPresentItem)
+                el.sceneEl.setAttribute("present-item",transition.promptPresentItem)
             if(transition.goToDestination)
                 changeDestination(transition.goToDestination)
             else if(transition.newURL)
@@ -150,6 +155,9 @@ AFRAME.registerComponent('transitions-manager', {
             activeBackground.setAttribute('src',newBackground.newSrc)
             if(isVideo)
                 activeBackground.setAttribute('video-player',{cutscene:newBackground.cutscene,pauseBackgroundSong:newBackground.pauseBackgroundSong,playOnce:newBackground.playOnce,endTime:newBackground.endTime})
+            let looping = newBackground["video-looper"]
+            if(looping)
+                activeBackground.setAttribute('video-looper',looping)
             AFRAME.scenes[0].emit('updateActiveBackground', {activeBackgroundSrc:newBackground.newSrc});
         }
     },

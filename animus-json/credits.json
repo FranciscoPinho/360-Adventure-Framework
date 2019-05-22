@@ -1,0 +1,139 @@
+{
+    "a-videosphere": {
+        "id": "creditscene",
+        "src": "#credits",
+        "video-player":"",
+        "children":[
+            {
+                "a-text":
+                {
+                    "id":"directing",
+                    "position":"12.2 4 -11",
+                    "scale":"-4 4 4", 
+                    "value":"Directing, Programming, Game Design, Writing",
+                    "color":"#000"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"directingname",
+                    "position":"7 2 -11",
+                    "scale":"-4 4 4", 
+                    "value":"Francisco Pinho",
+                    "color":"#222"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"acting",
+                    "position":"-2 4 8",
+                    "rotation":"180 0 0",
+                    "scale":"3 -3 3", 
+                    "value":"Actor and Credits Performer",
+                    "color":"#fff"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"actingname",
+                    "position":"0 2 8",
+                    "rotation":"180 0 0",
+                    "scale":"3 -3 3",  
+                    "value":"Antonio Baia",
+                    "color":"#ddd"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"executives",
+                    "position":"-9.1 4.5 -5",
+                    "rotation":"0 75 0",
+                    "scale":"-3 3 3", 
+                    "value":"Executive Producers",
+                    "color":"#222"
+
+                }
+                
+            },
+            {
+                "a-text":
+                {
+                    "id":"rui1",
+                    "position":"-9.1 2.5 -4",
+                    "rotation":"0 75 0",
+                    "scale":"-3 3 3", 
+                    "value":"Rui Rodrigues",
+                    "color":"#222"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"rui2",
+                    "position":"-9.1 1.5 -4",
+                    "rotation":"0 75 0",
+                    "scale":"-3 3 3", 
+                    "value":"Rui Nobrega",
+                    "color":"#000"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"special",
+                    "position":"7.5 3.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Special Thanks",
+                    "color":"#000"
+
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"pigga",
+                    "position":"7.5 1.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Maria de Abreu",
+                    "color":"#ddd"
+
+                }
+            },
+            {
+                "a-text":
+                {
+                    "id":"gig",
+                    "position":"7.5 0.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"People of GIG",
+                    "color":"#ddd"
+
+                }
+            }
+        ]
+    },
+    "transitions": [
+        {
+            "transitionID":"backtomenu",
+            "on":[
+                {
+                    "creditscene":"seen"
+                }
+            ],
+            "newURL":"index.html"
+        }
+    ]
+}
