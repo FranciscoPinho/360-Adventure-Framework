@@ -9,7 +9,7 @@
         "subtitles":{
             "filepath":"assets/subtitles/chapter3alocation1.srt",
             "mediaHook":"#chapter3alocation1",
-            "position":"-5 0 1"
+            "position":"-5 0 -1"
         },
         "music-change-emitter": {
             "newsource": "#music",

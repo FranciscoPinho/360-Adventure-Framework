@@ -12,9 +12,8 @@ AFRAME.registerComponent('navigation-manager', {
         this.appState = AFRAME.scenes[0].systems.state.state;
         if(this.data.clearStorage)
             localStorage.clear()
-        if (performance.navigation.type == 1 || performance.navigation.type == 0) {
+        if (performance.navigation.type == 1 || performance.navigation.type == 0 || performance.navigation.type == 255)
             AFRAME.scenes[0].emit('loadFromLocalStorage',{fromMenu:this.data.menu})
-        }
     }, 
     play() {
         if(!this.data.menu){
@@ -28,6 +27,7 @@ AFRAME.registerComponent('navigation-manager', {
             this.setInitialEnvironment()
         } 
         this.el.addEventListener('clickNavigation',this.clickNavigationListener)
+    
     },
     pause() {
         this.el.removeEventListener('clickNavigation',this.clickNavigationListener)

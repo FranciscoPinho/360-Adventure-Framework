@@ -39,7 +39,7 @@ AFRAME.registerComponent('present-item', {
             el.sceneEl.emit('presentitem')
         }
         else if(correctSfx){
-          AFRAME.scenes[0].emit('addFlag',{flagKey:this.data.solution,flagValue:newFlag})
+          AFRAME.scenes[0].emit('addFlag',{flagKey:this.data.solution,flagValue:this.data.newFlag})
           correctSfx.play()
           el.removeAttribute('present-item')
         }

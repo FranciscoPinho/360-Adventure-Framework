@@ -4,7 +4,8 @@ AFRAME.registerComponent('scripted-invisibility', {
         mediaHook:{type:"selector"},
         timestamp:{type:"number"},
         changeVisibilityTo:{type:"boolean"},
-        onVisibilityAnimation:{type:"string"}
+        onVisibilityAnimation:{type:"string"},
+        onVisibilitySfx:{type:"string"}
     },
     init() {
         this.forceVisibility = this.forceVisibility.bind(this);
@@ -18,6 +19,12 @@ AFRAME.registerComponent('scripted-invisibility', {
             this.forceInvisibility()
         else this.forceVisibility()
         this.tick = AFRAME.utils.throttleTick(this.tick, this.data.timestamp ? 500:50000, this);
+        const {onVisibilitySfx} = this.data
+        if(onVisibilitySfx.sfxSrc){
+            this.sfx = document.querySelector(onVisibilitySfx.sfxSrc)
+            if(this.sfx)
+                this.sfx.volume = onVisibilitySfx.volume
+        }
     },
     tick() {
         const {el} = this
@@ -70,6 +77,8 @@ AFRAME.registerComponent('scripted-invisibility', {
                 to: targetPosition
             })
             el.emit('visibleanimate')
+            if(this.sfx)
+                this.sfx.play()
         }
     }
 });

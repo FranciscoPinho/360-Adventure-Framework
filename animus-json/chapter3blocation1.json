@@ -4,12 +4,12 @@
         "src": "#chapter3blocation1",
         "video-player":{
           "cutscene":true,
-          "endTime":15
+          "endTime":15.5
         },
         "subtitles":{
             "filepath":"assets/subtitles/chapter3blocation1.srt",
             "mediaHook":"#chapter3blocation1",
-            "position":"-5 0 1"
+            "position":"-5 0 -1.5"
         },
         "music-change-emitter": {
             "newsource": "#music",

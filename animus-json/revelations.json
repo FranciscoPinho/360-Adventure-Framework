@@ -93,6 +93,7 @@
                 },
                 "zDistance":-8,
                 "width":6,
+                "nolook":true,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
                 "position":"-3 1 -9",
@@ -221,10 +222,5 @@
             ],
             "newURL":"animuslibercredits.html"
         }
-    ],
-    "addToInventory":[{
-        "iconID":"antonioIcon",
-        "iconSrc":"#antonioIconSrc",
-        "iconDesc":"Antonio, a FEUP professor. Looks like John Clare."
-    }]
+    ]
 }

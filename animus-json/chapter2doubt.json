@@ -24,7 +24,11 @@
                 "onVisibilityAnimation":{
                   "sourcePosition":"-13 3 -9",
                   "targetPosition":"-13 -20 -9",
-                  "duration":3
+                  "duration":2
+                },
+                "onVisibilitySfx":{
+                  "sfxSrc":"#newspaperfallingSfx",
+                  "volume":0.5
                 }
               },
               "gltf-model": "#newspaper",

@@ -9,7 +9,7 @@
       "subtitles":{
         "filepath":"assets/subtitles/despairjohnclare.srt",
         "mediaHook":"#despairjohnclare",
-        "position":"-5 0 0.5"
+        "position":"-5 0 -1"
       },
       "music-change-emitter": {
         "newsource": "#music",
@@ -63,10 +63,10 @@
           "a-sphere": {
             "id":"sphere2",
             "class": "inter",
-            "position": "12.2 -2 7.5",
+            "position": "12.2 -2 4",
             "geometry": {
               "primitive": "sphere",
-              "radius": "0.4"
+              "radius": "0.6"
             }
           }
         }
