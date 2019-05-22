@@ -14,7 +14,8 @@ AFRAME.registerComponent('transitions-manager', {
         const {appState,alreadyMadeTransitions,makeTransition}=this
         if(appState.pickAnimationPlaying || appState.inventoryOpen || 
             appState.cutscenePlaying || appState.exclusivePlaying || 
-            appState.dialogueOn || !appState.transitions.length || appState.codePuzzleActive)
+            appState.dialogueOn || !appState.transitions.length || appState.codePuzzleActive
+            || !this.el.sceneEl.is('vr-mode'))
             return
         
         for(let i=0,len=appState.transitions.length;i<len;i++){
@@ -168,18 +169,20 @@ AFRAME.registerComponent('transitions-manager', {
         let activeBackground = document.querySelector("#"+appState.activeBackgroundID)
         if(activeBackground){
             let flatvideo = document.createElement("a-video")
+ 
             for(const key in videoInfo){
                 if(key==="zDistance")
                     continue
                 if(key==="position"){
-                    let zDistance
                     let newMat = new THREE.Matrix4();
                     let position = videoInfo[key]
+                    flatvideo.setAttribute('look-at', "[camera]")
                     if(position==="look"){
-                        flatvideo.setAttribute('look-at', "[camera]")
-                        flatvideo.setAttribute('visible',false)
+                        let zDistance
                         zDistance = videoInfo["zDistance"] ? videoInfo["zDistance"] : -8
                         flatvideo.setAttribute("guide-widget",{zDistance:zDistance})
+                        
+                        flatvideo.setAttribute('visible',false)
                         let dummyNode = document.createElement("a-entity")
                         dummyNode.setAttribute("visible", false)
                         dummyNode.object3D.position.set(0,0,zDistance)
@@ -195,10 +198,11 @@ AFRAME.registerComponent('transitions-manager', {
                     else {
                         flatvideo.setAttribute(key,videoInfo[key])
                         zDistance = position.split(' ')[2]
+                        
                         let numericZ = parseInt(zDistance)
                         if(numericZ)
                             flatvideo.setAttribute("guide-widget",{zDistance:numericZ})
-                        activeBackground.appendChild(flatvideo)
+                        el.sceneEl.appendChild(flatvideo)
                     }
                     continue
                 }

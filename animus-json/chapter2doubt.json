@@ -15,6 +15,30 @@
             "volume": 0.1,
             "cacheDuration": "true"
         }
-    }
-  
+    },
+    "transitions":[
+        {
+            "transitionID":"lockeFirstAppearance",
+            "on":[
+              {
+                "simulatorguiltc":"seen"
+              }
+            ],
+            "delaySeconds":5,
+            "injectFlatVideo":{
+                "id":"chap2doubt2d",
+                "src":"#chap2doubtpart1",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":8,
+                "height":4.5,
+                "scale":"1.5 1.5 1.5",
+                "position":"13 1 -9",
+                "rotation":"0 -58 0"
+            }
+          }
+    ]
 }

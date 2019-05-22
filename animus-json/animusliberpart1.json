@@ -1,6 +1,6 @@
 {
     "a-videosphere": {
-        "id": "liber1",
+        "id": "tutorialscene1",
         "src": "#tutorialpart1",
         "video-player":{
           "cutscene":false,

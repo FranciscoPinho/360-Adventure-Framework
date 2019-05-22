@@ -9,7 +9,7 @@
       "subtitles":{
         "filepath":"assets/subtitles/simulatorguiltc.srt",
         "mediaHook":"#simguiltc",
-        "position":"-5 -2 1.3"
+        "position":"-5 -2 1.1"
       },
       "music-change-emitter": {
         "newsource": "#music",

@@ -1,7 +1,3 @@
-LAST FEATURES
-- subtitles
-- bug inventory descriptions
-- stop videos earlier
 //for cutscenes try hiding the controller perhaps
 USEFUL INFO
 TRANSITIONS on flags:
