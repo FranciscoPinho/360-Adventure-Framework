@@ -1,0 +1,21 @@
+{
+    "a-videosphere": {
+        "id": "chapter3bscene",
+        "src": "#chapter3b",
+        "video-player":{
+          "cutscene":true,
+          "endTime":18.5
+        },
+        "subtitles":{
+            "filepath":"assets/subtitles/chapter3b.srt",
+            "mediaHook":"#chapter3b",
+            "position":"-5 1 2.2"
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        }
+    } 
+}

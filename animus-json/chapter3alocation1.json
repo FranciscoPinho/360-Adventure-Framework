@@ -1,14 +1,14 @@
 {
     "a-videosphere": {
         "id": "chapter3alocation1scene",
-        "src": "#chap3alocation1",
+        "src": "#chapter3alocation1",
         "video-player":{
           "cutscene":true,
-          "endTime":18.5
+          "endTime":19
         },
         "subtitles":{
             "filepath":"assets/subtitles/chapter3alocation1.srt",
-            "mediaHook":"#chap3alocation1",
+            "mediaHook":"#chapter3alocation1",
             "position":"-5 1 2.2"
         },
         "music-change-emitter": {
