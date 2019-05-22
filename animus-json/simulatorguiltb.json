@@ -6,6 +6,11 @@
           "cutscene":true,
           "endTime":41
       },
+      "subtitles":{
+        "filepath":"assets/subtitles/simulatorguiltb.srt",
+        "mediaHook":"#simguiltb",
+        "position":"-5 -2 1.3"
+      },
       "music-change-emitter": {
         "newsource": "#music",
         "volume":0.2,

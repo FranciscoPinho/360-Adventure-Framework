@@ -3,7 +3,13 @@
       "id": "simulatorguilt",
       "src": "#simguilt",
       "video-player": {
-          "cutscene":true
+          "cutscene":true,
+          "endTime":35.5
+      },
+      "subtitles":{
+        "filepath":"assets/subtitles/simulatorguilt.srt",
+        "mediaHook":"#simguilt",
+        "position":"-5 -2 1.3"
       },
       "music-change-emitter": {
         "newsource": "#music",

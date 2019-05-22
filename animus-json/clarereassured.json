@@ -3,7 +3,13 @@
       "id": "clarereassuredscene",
       "src": "#clarereassured",
       "video-player": {
-          "cutscene":true
+          "cutscene":true,
+          "endTime":18
+      },
+      "subtitles":{
+        "filepath":"assets/subtitles/clarereassured.srt",
+        "mediaHook":"#clarereassured",
+        "position":"-5 -2 1.3"
       },
       "music-change-emitter": {
         "newsource": "#music",
