@@ -40,7 +40,7 @@
                         "sfxSrc": "#hover",
                         "volume": 1
                       },
-                    "feedback": "color",
+                    "feedback": "color"
                   }
                 }
             }

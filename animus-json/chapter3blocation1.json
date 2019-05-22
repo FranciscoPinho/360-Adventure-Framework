@@ -9,7 +9,7 @@
         "subtitles":{
             "filepath":"assets/subtitles/chapter3blocation1.srt",
             "mediaHook":"#chapter3blocation1",
-            "position":"-5 1 2.2"
+            "position":"-5 -1 -1"
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -69,7 +69,7 @@
                   "navigation-event-emitter": {
                     "destination": "animus-json/chapter3b.json"
                   },
-                  "position": "12.2 -2 5",
+                  "position": "12.2 -2 4",
                   "geometry": {
                     "primitive": "sphere",
                     "radius": "0.6"
@@ -79,7 +79,7 @@
                         "sfxSrc": "#hover",
                         "volume": 1
                       },
-                    "feedback": "color",
+                    "feedback": "color"
                   }
                 }
             }
