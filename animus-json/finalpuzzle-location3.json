@@ -18,9 +18,9 @@
                     "id": "safe3D",
                     "class": "inter",
                     "gltf-model": "#safe",
-                    "position": "117.5 -5.2 90",
+                    "position": "145 -7 107",
                     "rotation":"0 -130 0",
-                    "scale": "60 60 60",
+                    "scale": "100 100 100",
                     "codepuzzle":{
                         "solution":"1117",
                         "nrSolutionSpaces":4,
@@ -54,9 +54,9 @@
                     "id":"notebook3D",
                     "class":"inter",
                     "gltf-model": "#notebook",
-                    "position": "185 0 86",
-                    "rotation":"90 30 0",
-                    "scale": "130 130 130",
+                    "position": "-58.4 -65 86",
+                    "rotation":"90 0 0",
+                    "scale": "150 150 150",
                     "hoverable":{
                         "sfx":{
                             "sfxSrc": "#hover",
@@ -73,7 +73,7 @@
                         "inventoryData": {
                           "iconSrc": "#notebookIconSrc",
                           "iconID": "notebookIcon",
-                          "iconDesc":"Notebook: The cover shows some light fading"
+                          "iconDesc":"Notebook: The cover material is peeling out, there are hidden layers underneath"
                         }
                     }
                 }

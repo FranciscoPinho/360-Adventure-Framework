@@ -274,7 +274,7 @@ AFRAME.registerComponent('inventory', {
                 }
                 if(!infoBox.components.geometry.data.height)
                     return
-                infoBox.object3D.position.set(0,-appState.inventoryHeight,0)
+                infoBox.object3D.position.set(0,-appState.inventoryHeight-infoBox.components.geometry.data.height,0)
                 infoBox.setAttribute("visible",true)    
                 
                 clearTimeout(checkForHeightData)

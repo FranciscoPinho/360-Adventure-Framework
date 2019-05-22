@@ -4,7 +4,7 @@
         "src": "#location1",
         "video-player":{
           "cutscene":false,
-          "endTime":3
+          "endTime":2
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -37,24 +37,24 @@
                         },
                         "examinableObject":true,
                         "examinedIcon":"#examinedIcon"
-                      }
-                    },
-                    "hoverable":{
+                      },
+                      "hoverable":{
                         "sfx":{
                             "sfxSrc": "#hover",
                             "volume": 1
                         },
-                        "feedback": "color",
                         "hoverIcon":"#examineIcon"
+                       }   
                     }
+                    
             },
             {
                 "a-entity": {
                     "id":"sandpaper",
                     "class":"inter",
                     "gltf-model": "#sandpaper",
-                    "position": "5.871 -83.5 140",
-                    "rotation":"180 0 90",
+                    "position": "-14.4 -70 145",
+                    "rotation":"-90 0 0",
                     "scale": "100 100 100",
                     "hoverable":{
                         "sfx":{
