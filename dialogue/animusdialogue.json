@@ -35,5 +35,15 @@
                 { "choiceID":"dontbelieve","text": "Bullshit"}
             ]
         }
+    ],
+    "examineperiodictable":[
+        { "text":"A periodic table. It features all the elements known to man" },
+        { "text":"H - hydrogen - 1 proton, He - Helium - 2 protons" },
+        { "text":"..." },
+        { "text":"Na - Sodium - 11 protons, Mg - Magnesium - 12 protons" },
+        { "text":"..." },
+        { "text":"Cl - Chloride - 17 protons, Ar - Argon - 18 protons" },
+        { "text":"Who the hell remembers all this? That's right, no one! I'll write it down in a note" },
+        { "text":"Note added to inventory" }
     ]
 }

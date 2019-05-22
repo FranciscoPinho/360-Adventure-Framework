@@ -4,7 +4,7 @@
         "src": "#chapter3a",
         "video-player":{
           "cutscene":true,
-          "endTime":5
+          "endTime":218
         },
         "subtitles":{
             "filepath":"assets/subtitles/chapter3a.srt",
@@ -49,12 +49,21 @@
                   "removeEntityOnEnd":true
                 },
                 "zDistance":-8,
-                "width":8,
-                "height":4.5,
+                "width":6,
+                "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"13 1 -9",
+                "position":"-3 1 -9",
                 "rotation":"0 -58 0"
             }
-          }
+        },
+        {
+            "transitionID":"convergence",
+            "on":[
+              {
+                "chap3a2dvid":"seen"
+              }
+            ],
+            "newURL":"animusliberpart5.html"
+        }
     ]
 }

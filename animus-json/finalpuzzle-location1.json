@@ -1,0 +1,116 @@
+{
+    "a-videosphere": {
+        "id": "finalpuzzlelocation1",
+        "src": "#location1",
+        "video-player":{
+          "cutscene":false,
+          "endTime":3
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        },
+        "children":[
+            {
+                "a-entity": {
+                    "id": "periodictable3D",
+                    "class": "inter",
+                    "gltf-model": "#periodictable",
+                    "position": "100 -7 30",
+                    "rotation":"0 -90 0",
+                    "scale": "-130 130 130",
+                    "dialogue":{
+                        "dialogueTreeURL":"dialogue/animusdialogue.json",
+                        "dialogueTreeName":"examineperiodictable",
+                        "spawn":{
+                          "location":"look",
+                          "zDistance":"-5",
+                          "opacity":0.6
+                        },
+                        "sfx":{
+                          "advanceSfx":"#hover",
+                          "advanceVolume":1,
+                          "spawnSfx":"#hover",
+                          "spawnVolume":1
+                        },
+                        "examinableObject":true,
+                        "examinedIcon":"#examinedIcon"
+                      }
+                    },
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                        },
+                        "feedback": "color",
+                        "hoverIcon":"#examineIcon"
+                    }
+            },
+            {
+                "a-entity": {
+                    "id":"sandpaper",
+                    "class":"inter",
+                    "gltf-model": "#sandpaper",
+                    "position": "5.871 -83.5 140",
+                    "rotation":"180 0 90",
+                    "scale": "100 100 100",
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                        },
+                        "feedback": "color",
+                        "hoverIcon":"#pickIcon"
+                    },
+                    "pickable": {
+                        "sfx":{
+                          "sfxSrc": "#pickup",
+                          "volume": 1
+                        },
+                        "inventoryData": {
+                          "iconSrc": "#sandpaperIconSrc",
+                          "iconID": "sandpaperIcon",
+                          "iconDesc":"Sandpaper: A mighty sandpaper than can scrub your whole life away"
+                        }
+                    }
+                }
+            },
+            {
+                "a-sphere": {
+                  "id":"sphere4",
+                  "class": "inter",
+                  "navigation-event-emitter": {
+                    "destination": "animus-json/finalpuzzle-location3.json"
+                  },
+                  "position": "12.2 -2 -13",
+                  "geometry": {
+                    "primitive": "sphere",
+                    "radius": "0.6"
+                  },
+                  "hoverable":{
+                    "sfx":{
+                        "sfxSrc": "#hover",
+                        "volume": 1
+                      },
+                    "feedback": "color"
+                  }
+                }
+            }
+        ]
+    },
+    "transitions":[
+        {
+            "transitionID":"readtable",
+            "on":[
+              {
+                "periodictable3D":"examined"
+              }
+            ],
+            "addToInventory":[
+              {"iconID": "periodicnoteIcon", "iconSrc": "#periodicnoteIconSrc", "iconDesc":"Note: H - hydrogen - 1 proton, He - Helium - 2 protons... Na - Sodium - 11 protons, Mg - Magnesium - 12 protons... Cl - Chloride - 17 protons, Ar - Argon - 18 protons"}
+            ]
+        }
+    ]
+}

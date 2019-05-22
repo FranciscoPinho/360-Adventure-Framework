@@ -1,0 +1,123 @@
+{
+    "a-videosphere": {
+        "id": "finalpuzzlelocation3",
+        "src": "#clareparalyzed",
+        "video-player":{
+          "cutscene":false,
+          "endTime":3
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        },
+        "children":[
+            {
+                "a-entity": {
+                    "id": "safe3D",
+                    "class": "inter",
+                    "gltf-model": "#safe",
+                    "position": "117.5 -5.2 90",
+                    "rotation":"0 -130 0",
+                    "scale": "60 60 60",
+                    "codepuzzle":{
+                        "solution":"1117",
+                        "nrSolutionSpaces":4,
+                        "buttons":["7","8","9",
+                                "4","5","6",
+                                "1","2","3"],
+                        "sfx":{
+                            "correctSfx":"#correct",
+                            "correctVolume":0.1,
+                            "wrongSfx":"#wrong",
+                            "wrongVolume":0.1,
+                            "hoverButtonSfx":"#hover",
+                            "hoverButtonVolume":1,
+                            "buttonSfx":"#buttonSfx",
+                            "buttonVolume":0.1
+                        },
+                        "solvedIcon":"#unlockedIcon"
+                    },
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                        },
+                        "feedback": "color",
+                        "hoverIcon":"#lockedIcon"
+                    }
+                }
+            },
+            {
+                "a-entity": {
+                    "id":"notebook3D",
+                    "class":"inter",
+                    "gltf-model": "#notebook",
+                    "position": "185 0 86",
+                    "rotation":"90 30 0",
+                    "scale": "130 130 130",
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                        },
+                        "feedback": "color",
+                        "hoverIcon":"#pickIcon"
+                    },
+                    "pickable": {
+                        "sfx":{
+                          "sfxSrc": "#pickup",
+                          "volume": 1
+                        },
+                        "inventoryData": {
+                          "iconSrc": "#notebookIconSrc",
+                          "iconID": "notebookIcon",
+                          "iconDesc":"Notebook: The cover shows some light fading"
+                        }
+                    }
+                }
+            },
+            {
+                "a-sphere": {
+                  "id":"sphere3",
+                  "class": "inter",
+                  "navigation-event-emitter": {
+                    "destination": "animus-json/finalpuzzle-location1.json"
+                  },
+                  "position": "12.2 -2 -11.5",
+                  "geometry": {
+                    "primitive": "sphere",
+                    "radius": "0.6"
+                  },
+                  "hoverable":{
+                    "sfx":{
+                        "sfxSrc": "#hover",
+                        "volume": 1
+                      },
+                    "feedback": "color"
+                  }
+                }
+            }
+        ]
+    },
+    "combinations": [
+        {
+          "mix":["notebookIcon","sandpaperIcon"],
+          "result":{
+             "iconSrc":"#scratchednotebookIconSrc",
+             "iconID":"scratchednotebookIcon",
+             "iconDesc":"Scratched Notebook: It is said that evil people love the taste of tears, they even cry themselves to sleep on purpose just to taste more tears, the answer to the safe lies in this fact"
+          }
+        }
+    ],
+    "transitions":[
+        {
+            "transitionID":"puzzleSolved",
+            "on":[
+                {"safe3D":"solved"}
+            ],
+            "newURL":"animusliberend.html"
+        }
+    ]
+}

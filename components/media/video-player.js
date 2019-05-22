@@ -43,7 +43,7 @@ AFRAME.registerComponent('video-player', {
         el.removeAttribute('video-player')
         return
       }
-      video.currentTime=0
+      video.currentTime = 0
       video.volume=videoVolume
       if(el.sceneEl.is('vr-mode')){
         el.emit('set-image-fade-in')
