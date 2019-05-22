@@ -1,6 +1,3 @@
-LAST FEATURES
-- opacity fading when inventoyr not opening
-- subtitles
 //for cutscenes try hiding the controller perhaps
 USEFUL INFO
 TRANSITIONS on flags:

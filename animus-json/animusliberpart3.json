@@ -3,7 +3,13 @@
         "id": "tutorialscene3",
         "src": "#tutorialpart3",
         "video-player":{
-          "cutscene":false
+          "cutscene":false,
+          "endTime":20.4
+        },
+        "subtitles":{
+            "filepath":"assets/subtitles/tutorialpart3.srt",
+            "mediaHook":"#tutorialpart3",
+            "position":"-5 1 2.2"
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -22,12 +28,19 @@
                       "changeVisibilityTo":true
                   },
                   "navigation-event-emitter": {
-                    "destination": "animus-json/simulatorguilt.json"
+                    "newURL": "animusliberpart2"
                   },
-                  "position": "8 -2 4.7",
+                  "position": "12.2 -2 7.5",
                   "geometry": {
                     "primitive": "sphere",
                     "radius": "0.4"
+                  },
+                  "hoverable":{
+                    "sfx":{
+                        "sfxSrc": "#hover",
+                        "volume": 1
+                      },
+                    "feedback": "color"
                   }
                 }
             }

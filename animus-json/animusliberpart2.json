@@ -3,7 +3,13 @@
         "id": "tutorialscene2",
         "src": "#tutorialpart2",
         "video-player":{
-          "cutscene":false
+          "cutscene":false,
+          "endTime":30
+        },
+        "subtitles":{
+          "filepath":"assets/subtitles/tutorialpart2.srt",
+          "mediaHook":"#tutorialpart2",
+          "position":"-5 0 2.2"
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -19,7 +25,7 @@
                   "geometry": {
                     "primitive": "plane"
                   },
-                  "position": "1.4 -2 -10",
+                  "position": "0.3 -3 -10",
                   "rotation": "0 0 0",
                   "scale": "3.5 3 1.5",
                   "invisible-in-vr":"",

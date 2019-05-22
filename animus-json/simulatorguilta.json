@@ -3,7 +3,13 @@
       "id": "simulatorguilta",
       "src": "#simguilta",
       "video-player": {
-          "cutscene":true
+          "cutscene":true,
+          "endTime":31
+      },
+      "subtitles":{
+        "filepath":"assets/subtitles/simulatorguilta.srt",
+        "mediaHook":"#simguilta",
+        "position":"-5 0 0.5"
       },
       "music-change-emitter": {
         "newsource": "#music",
@@ -16,9 +22,13 @@
             "transitionID":"askJohnClareA",
             "on":[
               {
-                "simguilta":"seen"
+                "simulatorguilta":"seen"
               }
             ],
+            "ifnot":{
+              "simulatorguiltc":"seen",
+              "simulatorguiltb":"seen"
+            },
             "goToDialogue":{
               "dialogueTreeURL":"dialogue/animusdialogue.json",
               "dialogueTreeName":"askJohnClare",

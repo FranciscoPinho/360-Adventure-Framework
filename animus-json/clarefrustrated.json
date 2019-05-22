@@ -1,0 +1,31 @@
+{
+    "a-videosphere": {
+      "id": "clarefrustratedscene",
+      "src": "#clarefrustrated",
+      "video-player": {
+          "cutscene":true,
+          "endTime":19
+      },
+      "subtitles":{
+        "filepath":"assets/subtitles/clarefrustrated.srt",
+        "mediaHook":"#clarefrustrated",
+        "position":"-5 0 0.5"
+      },
+      "music-change-emitter": {
+        "newsource": "#music",
+        "volume":0.2,
+        "cacheDuration":"true"
+      }
+    },
+    "transitions": [
+      {
+        "transitionID": "frustrated",
+        "on": [
+            {
+                "clarefrustratedscene": "seen"
+            }
+        ],
+        "newURL": "animusliberpart3.html"
+      }
+    ]
+}

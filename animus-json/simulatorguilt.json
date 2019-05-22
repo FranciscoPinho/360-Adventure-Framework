@@ -3,7 +3,13 @@
       "id": "simulatorguilt",
       "src": "#simguilt",
       "video-player": {
-          "cutscene":true
+          "cutscene":true,
+          "endTime":35.5
+      },
+      "subtitles":{
+        "filepath":"assets/subtitles/simulatorguilt.srt",
+        "mediaHook":"#simguilt",
+        "position":"-5 0 0.5"
       },
       "music-change-emitter": {
         "newsource": "#music",
@@ -44,7 +50,7 @@
         "transitionID": "topicA",
         "on": [
             {
-                "topicA": "chosen"
+                "topica": "chosen"
             }
         ],
         "goToDestination": "animus-json/simulatorguilta.json"
@@ -53,7 +59,7 @@
         "transitionID": "topicB",
         "on": [
             {
-                "topicB": "chosen"
+                "topicb": "chosen"
             }
         ],
         "goToDestination": "animus-json/simulatorguiltb.json"
@@ -62,7 +68,7 @@
           "transitionID": "topicC",
           "on": [
               {
-                  "topicC": "chosen"
+                  "topicc": "chosen"
               }
           ],
           "goToDestination": "animus-json/simulatorguiltc.json"

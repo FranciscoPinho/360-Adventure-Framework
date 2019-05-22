@@ -1,6 +1,6 @@
 AFRAME.registerComponent('snapturn', {
     schema:{
-        angle:{type:"number", default:20}
+        angle:{type:"number", default:0.43}
     },
     init:  function () {  
         this.onAxisMoved = this.onAxisMoved.bind(this)

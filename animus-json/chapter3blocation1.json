@@ -1,0 +1,88 @@
+{
+    "a-videosphere": {
+        "id": "chapter3blocation1scene",
+        "src": "#chapter3blocation1",
+        "video-player":{
+          "cutscene":true,
+          "endTime":15
+        },
+        "subtitles":{
+            "filepath":"assets/subtitles/chapter3blocation1.srt",
+            "mediaHook":"#chapter3blocation1",
+            "position":"-5 0 -1"
+        },
+        "music-change-emitter": {
+            "newsource": "#music",
+            "loop": "true",
+            "volume": 0.1,
+            "cacheDuration": "true"
+        },
+        "children": [
+            {
+                "a-entity": {
+                    "id": "newspapermodel",
+                    "class": "inter",
+                    "gltf-model": "#newspaper",
+                    "position": "-13 -20 -9",
+                    "rotation":"-80 45 0",
+                    "scale": "-20 20 20",
+                    "dialogue":{
+                    "dialogueTreeURL":"dialogue/animusdialogue.json",
+                    "dialogueTreeName":"newspaper",
+                    "spawn":{
+                        "location":"look",
+                        "zDistance":"-5",
+                        "opacity":0.6
+                    },
+                    "sfx":{
+                        "advanceSfx":"#hover",
+                        "advanceVolume":1,
+                        "spawnSfx":"#hover",
+                        "spawnVolume":1,
+                        "hoverChoiceSfx":"#hover",
+                        "hoverChoiceVolume":1,
+                        "choiceSfx":"#choiceSfx",
+                        "choiceVolume":0.3
+                    },
+                    "choiceIcon":"#chooseIcon",
+                    "previouslyChosenIcon":"#previouslyChosenIcon",
+                    "examinableObject":true,
+                    "pauseBackgroundSong":true,
+                    "examinedIcon":"#examinedIcon",
+                    "removeSelfOnEnd":false,
+                    "autoplay":false
+                    },
+                    "hoverable":{
+                        "sfx":{
+                            "sfxSrc": "#hover",
+                            "volume": 1
+                          },
+                        "feedback": "color",
+                        "hoverIcon":"#examinedIcon"
+                    }
+                }
+            },
+            {
+                "a-sphere": {
+                  "id":"sphere2",
+                  "class": "inter",
+                  "navigation-event-emitter": {
+                    "destination": "animus-json/chapter3b.json"
+                  },
+                  "position": "12.2 -2 4",
+                  "geometry": {
+                    "primitive": "sphere",
+                    "radius": "0.6"
+                  },
+                  "hoverable":{
+                    "sfx":{
+                        "sfxSrc": "#hover",
+                        "volume": 1
+                      },
+                    "feedback": "color"
+                  }
+                }
+            }
+        ]
+    } 
+}

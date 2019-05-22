@@ -1,7 +1,8 @@
 AFRAME.registerComponent('navigation-event-emitter', {
     schema:{
         firstdestination: {type:'string'},
-        destination: {type:'string'}
+        destination: {type:'string'},
+        newURL: {type:'string'}
     },
     init:  function () {  
         this.clickNavigation = this.clickNavigation.bind(this)
@@ -19,7 +20,12 @@ AFRAME.registerComponent('navigation-event-emitter', {
         let appState = AFRAME.scenes[0].systems.state.state
         if (appState.inventoryOpen || appState.dialogueOn || appState.cutscenePlaying || appState.codePuzzleActive || appState.exclusivePlaying) 
             return
-        const {destination,firstdestination}=this.data;
+    
+        const {destination,firstdestination,newURL}=this.data;
+        if(newURL){
+            AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
+            return
+        }
         const eventDetail = {
             origin:this.el.parentNode,
             destinationURL:destination
