@@ -2,7 +2,9 @@
     "a-videosphere": {
         "id": "creditscene",
         "src": "#credits",
-        "video-player":"",
+        "video-player":{
+            "cutscene":true
+        },
         "children":[
             {
                 "a-text":
