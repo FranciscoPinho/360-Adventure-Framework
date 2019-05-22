@@ -3,7 +3,8 @@ AFRAME.registerComponent('scripted-invisibility', {
         initialVisibility:{type:"boolean", default:false},
         mediaHook:{type:"selector"},
         timestamp:{type:"number"},
-        changeVisibilityTo:{type:"boolean"}
+        changeVisibilityTo:{type:"boolean"},
+        onVisibilityAnimation:{type:"string"}
     },
     init() {
         this.forceVisibility = this.forceVisibility.bind(this);
@@ -59,5 +60,16 @@ AFRAME.registerComponent('scripted-invisibility', {
             el.classList.add('inter')
         el.setAttribute('visible', true)
         AFRAME.scenes[0].emit('updateVisibilityRecords',{objectID:el.id,visibility:true})
+        if(this.data.onVisibilityAnimation){
+            const {sourcePosition,targetPosition,duration} = this.data.onVisibilityAnimation
+            el.setAttribute('animation__visibility__position', {
+                property: 'position',
+                startEvents: 'visibleanimate',
+                dur: duration*1000,
+                from: sourcePosition,
+                to: targetPosition
+            })
+            el.emit('visibleanimate')
+        }
     }
 });

@@ -1,0 +1,126 @@
+{
+    "a-videosphere": {
+      "id": "despairjohnclarescene",
+      "src": "#despairjohnclare",
+      "video-player": {
+          "cutscene":true,
+          "endTime":49.5
+      },
+      "subtitles":{
+        "filepath":"assets/subtitles/despairjohnclare.srt",
+        "mediaHook":"#despairjohnclare",
+        "position":"-5 0 0.5"
+      },
+      "music-change-emitter": {
+        "newsource": "#music",
+        "volume":0.2,
+        "cacheDuration":"true"
+      },
+      "children":[
+        {
+          "a-entity": {
+            "id": "newspapermodel",
+            "class": "inter",
+            "gltf-model": "#newspaper",
+            "position": "-13 -20 -9",
+            "rotation":"-80 45 0",
+            "scale": "-20 20 20",
+            "dialogue":{
+              "dialogueTreeURL":"dialogue/animusdialogue.json",
+              "dialogueTreeName":"newspaper",
+              "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+              },
+              "sfx":{
+                "advanceSfx":"#hover",
+                "advanceVolume":1,
+                "spawnSfx":"#hover",
+                "spawnVolume":1,
+                "hoverChoiceSfx":"#hover",
+                "hoverChoiceVolume":1,
+                "choiceSfx":"#choiceSfx",
+                "choiceVolume":0.3
+              },
+              "choiceIcon":"#chooseIcon",
+              "previouslyChosenIcon":"#previouslyChosenIcon",
+              "examinableObject":true,
+              "pauseBackgroundSong":true,
+              "examinedIcon":"#examinedIcon",
+              "removeSelfOnEnd":false,
+              "autoplay":false
+            },
+            "hoverable":{
+                "sfx":{
+                    "sfxSrc": "#hover",
+                    "volume": 1
+                  },
+                "feedback": "color",
+                "hoverIcon":"#examinedIcon"
+            }
+          },
+          "a-sphere": {
+            "id":"sphere2",
+            "class": "inter",
+            "position": "12.2 -2 7.5",
+            "geometry": {
+              "primitive": "sphere",
+              "radius": "0.4"
+            }
+          }
+        }
+      ]
+    },
+    "transitions": [
+        {
+            "transitionID":"believeordont",
+            "on":[
+              {
+                "despairjohnclarescene":"seen"
+              }
+            ],
+            "goToDialogue":{
+              "dialogueTreeURL":"dialogue/animusdialogue.json",
+              "dialogueTreeName":"believeornotbelieve",
+              "spawn":{
+                "location":"look",
+                "zDistance":"-5",
+                "opacity":0.6
+              },
+              "sfx":{
+                "advanceSfx":"#hover",
+                "advanceVolume":1,
+                "spawnSfx":"#hover",
+                "spawnVolume":1,
+                "hoverChoiceSfx":"#hover",
+                "hoverChoiceVolume":1,
+                "choiceSfx":"#choiceSfx",
+                "choiceVolume":0.3
+              },
+              "removeSelfOnEnd":true,
+              "autoplay":true,
+              "choiceIcon":"#chooseIcon"
+            }
+        },
+        {
+            "transitionID":"believe",
+            "on":[
+              {
+                "believeclare":"chosen"
+              }
+            ],
+            "newURL":"animusliberpart4a.html"
+        },
+        {
+            "transitionID":"dontbelieve",
+            "on":[
+                {
+                  "dontbelieveclare":"chosen"
+                }
+            ],
+            "newURL":"animusliberpart4b.html"
+        }
+
+    ]
+  }

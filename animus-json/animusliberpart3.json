@@ -28,7 +28,7 @@
                       "changeVisibilityTo":true
                   },
                   "navigation-event-emitter": {
-                    "destination": "animus-json/simulatorguilt.json"
+                    "newURL": "animusliberpart2"
                   },
                   "position": "12.2 -2 7.5",
                   "geometry": {

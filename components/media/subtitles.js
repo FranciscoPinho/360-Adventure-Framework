@@ -8,6 +8,7 @@ AFRAME.registerComponent('subtitles', {
     async init() {
         this.createSubtitleBox = this.createSubtitleBox.bind(this)
         this.cleanupBox = this.cleanupBox.bind(this)
+        this.camera = document.querySelector("#camera")
         this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
         const response = await  await fetch(this.data.filepath)
         const textsubs = await response.text()
@@ -19,7 +20,7 @@ AFRAME.registerComponent('subtitles', {
         this.cleanupBox()
     },
     cleanupBox(){
-        const {el} = this
+        const {el,camera} = this
         if(this.subtitleBox){
             el.sceneEl.removeChild(this.subtitleBox)
             let dummyNode = document.querySelector("#dummysub")
@@ -49,7 +50,7 @@ AFRAME.registerComponent('subtitles', {
     createSubtitleBox(text) {
         this.cleanupBox()
         this.subtitleBox = document.createElement("a-entity")
-        const {subtitleBox,el} = this
+        const {subtitleBox,el,camera} = this
         subtitleBox.setAttribute("id","inventoryinfo")
         subtitleBox.setAttribute("geometry", { primitive:"plane", width: "auto", height: "auto"})
         subtitleBox.setAttribute("visible",false)

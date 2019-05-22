@@ -21,5 +21,19 @@
                 { "choiceID":"nohelp","text": "..."}
             ]
         }
+    ],
+    "newspaper":[
+        {"text":"Headline: Cult Leader John Clare Arrested"},
+        {"text":"Following an unprecedented mass suicide tragedy, cult leader John Clare was finally apprehended after a violent siege against police forces."},
+        {"text":"This is a case that has shocked the world, the convict is awaiting trial but the public is already calling for the death penalty."},
+        {"text":"We will keep you updated as the case develops"} 
+    ],
+    "believeornotbelieve":[
+        {
+            "text":"Do you believe John Clare?","choices": [
+                { "choiceID":"believe","text": "I believe you"},
+                { "choiceID":"dontbelieve","text": "Bullshit"}
+            ]
+        }
     ]
 }

@@ -14,7 +14,7 @@ jsonToEntity = (env_json)=>{
         return
     }
 
-    //if(appState.parsedSceneIDs.indexOf(sceneID)===-1){
+    if(appState.parsedSceneIDs.indexOf(sceneID)===-1){
         if('combinations' in env_json){
             AFRAME.scenes[0].emit('updateCombinations', {newCombinations:env_json['combinations']});
         }
@@ -27,7 +27,7 @@ jsonToEntity = (env_json)=>{
             }
         }
         AFRAME.scenes[0].emit('updateParsedSceneIDs', {parsedSceneID: sceneID});
-   // }
+    }
     
     let components = env_json[elementType]
     let newEntity = document.createElement(elementType)
