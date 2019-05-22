@@ -34,6 +34,13 @@
                   "geometry": {
                     "primitive": "sphere",
                     "radius": "0.4"
+                  },
+                  "hoverable":{
+                    "sfx":{
+                        "sfxSrc": "#hover",
+                        "volume": 1
+                      },
+                    "feedback": "color",
                   }
                 }
             }

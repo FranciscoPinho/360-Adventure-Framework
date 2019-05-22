@@ -69,10 +69,17 @@
                   "navigation-event-emitter": {
                     "destination": "animus-json/chapter3a.json"
                   },
-                  "position": "12.2 -2 7.5",
+                  "position": "12.2 -2 5",
                   "geometry": {
                     "primitive": "sphere",
-                    "radius": "0.4"
+                    "radius": "0.6"
+                  },
+                  "hoverable":{
+                    "sfx":{
+                        "sfxSrc": "#hover",
+                        "volume": 1
+                      },
+                    "feedback": "color",
                   }
                 }
             }
