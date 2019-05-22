@@ -107,8 +107,10 @@
           "result":{
              "iconSrc":"#scratchednotebookIconSrc",
              "iconID":"scratchednotebookIcon",
-             "iconDesc":"Scratched Notebook: It is said that evil people love the taste of tears, they even cry themselves to sleep on purpose just to taste more tears, the answer to the safe lies in this fact"
-          }
+             "iconDesc":"Scratched Notebook: It is said that evil people love the taste of tears, they even cry themselves to sleep on purpose just to taste more tears, the answer to the safe lies in this fact",
+             "sfxSrc":"#sandpaperSfx",
+             "volume":"0.5"    
+            }
         }
     ],
     "transitions":[
