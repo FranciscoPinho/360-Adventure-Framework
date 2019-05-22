@@ -4,7 +4,7 @@
         "src": "#chapter3b",
         "video-player":{
           "cutscene":true,
-          "endTime":18.5
+          "endTime":73.75
         },
         "subtitles":{
             "filepath":"assets/subtitles/chapter3b.srt",
@@ -17,5 +17,44 @@
             "volume": 0.1,
             "cacheDuration": "true"
         }
-    } 
+    },
+    "transitions":[
+        {
+            "transitionID":"3blockeparalyze",
+            "on":[
+              {
+                "chapter3bscene":"seen"
+              }
+            ],
+            "delaySeconds":14,
+            "changeBackgroundSrc":{
+              "newSrc":"#clareparalyzed",
+              "endTime":8,
+              "cutscene":"false"
+            }
+        },
+        {
+            "transitionID":"locke3bFinished",
+            "on":[
+              {
+                "chapter3bscene":"seen"
+              }
+            ],
+            "delaySeconds":2,
+            "injectFlatVideo":{
+                "id":"chap3b2dvid",
+                "src":"#chap3b2d",
+                "video-player":{
+                  "flatCutscene":true,
+                  "removeEntityOnEnd":true
+                },
+                "zDistance":-8,
+                "width":8,
+                "height":4.5,
+                "scale":"1.5 1.5 1.5",
+                "position":"13 1 -9",
+                "rotation":"0 -58 0"
+            }
+          }
+    ]
 }
