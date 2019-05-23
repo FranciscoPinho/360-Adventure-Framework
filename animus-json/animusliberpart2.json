@@ -44,7 +44,7 @@
                         "removeUsedObject":true,
                         "newFlag":"fixed",
                         "sfxSrc":"#fixProjector",
-                        "volume":"0.2",
+                        "volume":"0.7",
                         "dialogue":{
                           "dialogueTreeURL":"dialogue/animusdialogue.json",
                           "dialogueTreeName":"fixProjector",
