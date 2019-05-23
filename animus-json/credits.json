@@ -175,11 +175,33 @@
             {
                 "a-text":
                 {
-                    "id":"royalty2",
+                    "id":"royalty3",
                     "position":"7.5 -2.6 2.3",
                     "rotation":"0 -100 0",
                     "scale":"-3 3 3", 
                     "value":"Lurking Evil - Darren Curtis",            
+                    "color":"#aaa"
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty4",
+                    "position":"7.5 -4.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Moody Lounge Jazz - Vodovoz",            
+                    "color":"#aaa"
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty5",
+                    "position":"7.5 -4.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"minimalism 1 - Royalty Free World",            
                     "color":"#aaa"
                 }       
             }
