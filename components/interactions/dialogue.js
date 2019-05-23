@@ -79,6 +79,8 @@ AFRAME.registerComponent('dialogue', {
         if(!autoplay)
             for(let i=0,n=startEvents.length; i<n; i++)
                 el.removeEventListener(startEvents[i], startDialogue)
+        
+        el.classList.remove('inter')
         this.currentLine = 0;
         const response = await fetch(dialogueTreeURL)
         const dialogue = await response.json()
@@ -159,7 +161,8 @@ AFRAME.registerComponent('dialogue', {
         let currentDialogue = dialogueTree[currentLine]
         dialogueBox.setAttribute('visible',false)
         if(currentLine===dialogueTree.length || !currentDialogue){
-            AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});
+            AFRAME.scenes[0].emit('updateDialogueOn', {dialogueOn:false});      
+            el.classList.add('inter')
             if(this.voiceOver){
                 document.querySelector('a-assets').removeChild(this.voiceOver)
                 this.voiceOver = undefined

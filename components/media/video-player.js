@@ -47,7 +47,7 @@ AFRAME.registerComponent('video-player', {
       video.volume=videoVolume
       if(el.sceneEl.is('vr-mode')){
         el.emit('set-image-fade-in')
-        playVideo()
+        setTimeout(()=>playVideo(),100)
       }
       if(playOnce)
         AFRAME.scenes[0].emit('addPlayOnceSources', {source:el.getAttribute('src')});

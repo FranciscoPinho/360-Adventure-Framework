@@ -17,7 +17,7 @@
         {
             "transitionID":"unparalyzelocke",
             "on":[],
-            "delaySeconds":9,
+            "delaySeconds":7,
             "changeBackgroundSrc":{
               "newSrc":"#clarecatatonic",
               "cutscene":"false",
@@ -30,7 +30,7 @@
         {
             "transitionID":"lockerevelations",
             "on":[],
-            "delaySeconds":2,
+            "delaySeconds":0,
             "injectFlatVideo":{
                 "id":"convergence2dvid",
                 "src":"#convergence",
