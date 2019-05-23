@@ -9,7 +9,7 @@ Your aim is to successfully complete a series of challenges
 I will be showing you very quickly how to interact and you will be on your way
 4
 00:00:12,000 --> 00:00:19,000
-Firstly let’s go over the basics. Point your laser to different objects in the environment
+Firstly let's go over the basics. Point your laser to different objects in the environment
 5
 00:00:19,000 --> 00:00:24,000
 And use the trigger button to examine or pick up said objects
