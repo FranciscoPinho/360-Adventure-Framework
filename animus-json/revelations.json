@@ -30,7 +30,7 @@
         {
             "transitionID":"lockerevelations",
             "on":[],
-            "delaySeconds":0,
+            "delaySeconds":1,
             "injectFlatVideo":{
                 "id":"convergence2dvid",
                 "src":"#convergence",
@@ -38,11 +38,12 @@
                   "flatCutscene":true,
                   "removeEntityOnEnd":true
                 },
+                "material":{"shader":"flat","side":"front","color":"#fff"},
                 "zDistance":-8,
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"0 1 -9",
+                "position":"-3 1 -6",
                 "rotation":"0 -58 0"
             }
         },
@@ -221,5 +222,10 @@
             ],
             "newURL":"animuslibercredits.html"
         }
+    ],
+    "addToInventory":[
+        {"iconID":"antonioIcon",
+            "iconSrc":"#antonioIconSrc",
+            "iconDesc":"Antonio, a FEUP professor. Looks like John Clare."}
     ]
 }

@@ -9,7 +9,7 @@
         "subtitles":{
           "filepath":"assets/subtitles/tutorialpart1.srt",
           "mediaHook":"#tutorialpart1",
-          "position":"-5 0 0.5"
+          "position":"-5 0.5 0.5"
         },
         "music-change-emitter": {
             "newsource": "#music",

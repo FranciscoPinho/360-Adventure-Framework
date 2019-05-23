@@ -80,7 +80,7 @@
             },
             {
                 "a-sphere": {
-                  "id":"sphere3",
+                  "id":"sphere6",
                   "class": "inter",
                   "navigation-event-emitter": {
                     "destination": "animus-json/finalpuzzle-location1.json"

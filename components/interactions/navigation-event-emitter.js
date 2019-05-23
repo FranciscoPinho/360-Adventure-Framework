@@ -18,6 +18,7 @@ AFRAME.registerComponent('navigation-event-emitter', {
         if(!el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
+        console.log(appState)
         if (appState.inventoryOpen || appState.dialogueOn || appState.cutscenePlaying || appState.codePuzzleActive || appState.exclusivePlaying) 
             return
     

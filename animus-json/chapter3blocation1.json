@@ -9,7 +9,7 @@
         "subtitles":{
             "filepath":"assets/subtitles/chapter3blocation1.srt",
             "mediaHook":"#chapter3blocation1",
-            "position":"-5 0 -1.5"
+            "position":"-5 0.5 -1.5"
         },
         "music-change-emitter": {
             "newsource": "#music",
@@ -64,7 +64,7 @@
             },
             {
                 "a-sphere": {
-                  "id":"sphere2",
+                  "id":"sphere3",
                   "class": "inter",
                   "navigation-event-emitter": {
                     "destination": "animus-json/chapter3b.json"

@@ -9,7 +9,7 @@
       "subtitles":{
         "filepath":"assets/subtitles/clarereassured.srt",
         "mediaHook":"#clarereassured",
-        "position":"-5 0 0.5"
+        "position":"-5 0.5 0.5"
       },
       "music-change-emitter": {
         "newsource": "#music",
