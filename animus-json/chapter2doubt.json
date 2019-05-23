@@ -12,7 +12,7 @@
         "music-change-emitter": {
             "newsource": "#music",
             "loop": "true",
-            "volume": 0.1,
+            "volume": 0.3,
             "cacheDuration": "true"
         },
         "children":[
@@ -56,7 +56,6 @@
                 "choiceIcon":"#chooseIcon",
                 "previouslyChosenIcon":"#previouslyChosenIcon",
                 "examinableObject":true,
-                "pauseBackgroundSong":true,
                 "examinedIcon":"#examinedIcon",
                 "removeSelfOnEnd":false,
                 "autoplay":false
@@ -83,8 +82,7 @@
                 "src":"#chap2doubtpart1",
                 "video-player":{
                   "flatCutscene":true,
-                  "removeEntityOnEnd":true,
-                  "pauseBackgroundSong":true
+                  "removeEntityOnEnd":true
                 },
                 "nolook":true,
                 "zDistance":-8,
@@ -117,8 +115,7 @@
                 "src":"#chap2doubtpart2",
                 "video-player":{
                   "flatCutscene":true,
-                  "removeEntityOnEnd":true,
-                  "pauseBackgroundSong":true
+                  "removeEntityOnEnd":true
                 },
                 "nolook":true,
                 "zDistance":-8,

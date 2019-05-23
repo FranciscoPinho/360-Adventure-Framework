@@ -13,7 +13,7 @@
       },
       "music-change-emitter": {
         "newsource": "#music",
-        "volume":0.2,
+        "volume":0.3,
         "cacheDuration":"true"
       },
       "children":[

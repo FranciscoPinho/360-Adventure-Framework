@@ -93,7 +93,7 @@
                 "a-text":
                 {
                     "id":"special",
-                    "position":"7.5 3.6 2.3",
+                    "position":"7.5 4.6 2.3",
                     "rotation":"0 -100 0",
                     "scale":"-3 3 3", 
                     "value":"Special Thanks",
@@ -105,11 +105,11 @@
                 "a-text":
                 {
                     "id":"pigga",
-                    "position":"7.5 1.6 2.3",
+                    "position":"7.5 3.6 2.3",
                     "rotation":"0 -100 0",
                     "scale":"-3 3 3", 
                     "value":"Maria de Abreu",
-                    "color":"#ddd"
+                    "color":"#222"
 
                 }
             },
@@ -117,13 +117,71 @@
                 "a-text":
                 {
                     "id":"gig",
-                    "position":"7.5 0.6 2.3",
+                    "position":"7.5 2.6 2.3",
                     "rotation":"0 -100 0",
                     "scale":"-3 3 3", 
                     "value":"People of GIG",
-                    "color":"#ddd"
+                    "color":"#222"
 
                 }
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty",
+                    "position":"7.5 1.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Royalty Free Music",
+                    "color":"#aaa"
+
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty0",
+                    "position":"7.5 0.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Lounge - bensound.com",
+                    "color":"#aaa"
+
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty1",
+                    "position":"7.5 -0.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Blood Money - FesliyanStudios",
+                    "color":"#aaa"
+
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty2",
+                    "position":"7.5 -1.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Background Dark Music - Mattia Cupelli",            
+                    "color":"#aaa"
+                }       
+            },
+            {
+                "a-text":
+                {
+                    "id":"royalty2",
+                    "position":"7.5 -2.6 2.3",
+                    "rotation":"0 -100 0",
+                    "scale":"-3 3 3", 
+                    "value":"Lurking Evil - Darren Curtis",            
+                    "color":"#aaa"
+                }       
             }
         ]
     },
