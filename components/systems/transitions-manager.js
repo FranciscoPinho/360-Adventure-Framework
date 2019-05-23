@@ -184,7 +184,8 @@ AFRAME.registerComponent('transitions-manager', {
                 if(key==="position"){
                     let newMat = new THREE.Matrix4();
                     let position = videoInfo[key]
-                    flatvideo.setAttribute('look-at', "[camera]")
+                    if(!videoInfo.nolook)
+                        flatvideo.setAttribute('look-at', "[camera]")
                     if(position==="look"){
                         let zDistance
                         zDistance = videoInfo["zDistance"] ? videoInfo["zDistance"] : -8
