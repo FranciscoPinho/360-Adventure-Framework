@@ -9,7 +9,7 @@
         "music-change-emitter": {
             "newsource": "#music",
             "loop": "true",
-            "volume": 0.1,
+            "volume": 0.08,
             "cacheDuration": "true"
         },
         "children":[
