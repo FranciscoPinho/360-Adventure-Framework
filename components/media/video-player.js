@@ -13,11 +13,24 @@ AFRAME.registerComponent('video-player', {
       this.playVideoNextTick = this.playVideoNextTick.bind(this);
       this.pauseVideo = this.pauseVideo.bind(this)
       this.appState = AFRAME.scenes[0].systems.state.state
+      this.sceneCamera = this.el.sceneEl.camera
+      this.frustum = new THREE.Frustum();
       this.video = document.querySelector(this.el.getAttribute('src'))
-      this.tick = AFRAME.utils.throttleTick(this.tick, this.data.endTime ? 250:50000, this);
+      this.tick = AFRAME.utils.throttleTick(this.tick, 250, this);
       this.alreadyPlayed=false
     },
     tick(){
+      if(this.data.flatCutscene && !this.alreadyPlayed){
+        const {el,frustum,sceneCamera,playVideo} = this
+        frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(sceneCamera.projectionMatrix, 
+        sceneCamera.matrixWorldInverse));  
+        let pos = el.getAttribute('position');
+        if (frustum.containsPoint(pos)){
+          playVideo()
+          this.alreadyPlayed = true
+        }
+        return
+      }
       if(!this.data.endTime)
         return
       const {cutscene,flatCutscene,endTime,removeEntityOnEnd,pauseBackgroundSong} = this.data
@@ -45,9 +58,9 @@ AFRAME.registerComponent('video-player', {
       }
       video.currentTime = 0
       video.volume=videoVolume
-      if(el.sceneEl.is('vr-mode')){
+      if(el.sceneEl.is('vr-mode') && !flatCutscene){
         el.emit('set-image-fade-in')
-        setTimeout(()=>playVideo(),100)
+        playVideo()
       }
       if(playOnce)
         AFRAME.scenes[0].emit('addPlayOnceSources', {source:el.getAttribute('src')});

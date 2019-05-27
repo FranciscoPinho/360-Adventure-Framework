@@ -63,18 +63,18 @@ AFRAME.registerComponent('codepuzzle', {
      const {el, onActivatePuzzle, appState} = this
      const {startEvents,newFlag} = this.data
      for(let i=0,n=startEvents.length; i<n; i++)
-        el.addEventListener(startEvents[i], onActivatePuzzle, {once:true})
+        el.addEventListener(startEvents[i], onActivatePuzzle)
      if(appState.flags[el.id]===newFlag)
         el.setAttribute('hoverable',{feedback:"nofeedback"})
     },
     onActivatePuzzle(evt){
       
       const {el,appState, createPad, createPadButtons, createSolutionSpaces} = this
-      const {inventoryOpen, cutscenePlaying, dialogueOn, examinedObjects, flags} = appState
+      const {inventoryOpen, cutscenePlaying, dialogueOn, examinedObjects, flags, codePuzzleActive} = appState
       const {buttons, padMaxWidth, maxPadObjectsPerRow,rowHeight, columnWidth, newFlag} = this.data
   
       let nrPadButtons = buttons.length
-      if (nrPadButtons === 0  || inventoryOpen || cutscenePlaying || dialogueOn || flags[el.id]===newFlag || !el.sceneEl.is('vr-mode'))
+      if (nrPadButtons === 0  || codePuzzleActive || inventoryOpen || cutscenePlaying || dialogueOn || flags[el.id]===newFlag || !el.sceneEl.is('vr-mode'))
           return
       el.emit('mouseleave')
       let padWidth, padHeight, horizontalOffset, verticalOffset
@@ -84,7 +84,7 @@ AFRAME.registerComponent('codepuzzle', {
 
       horizontalOffset = nrPadButtons >= maxPadObjectsPerRow ? -0.4 : (nrPadButtons - 1) * -0.2
       verticalOffset = 0.15 * (padHeight / rowHeight - 1)
-
+      AFRAME.scenes[0].emit('updateCodePuzzleActive', { codePuzzleActive:true })
       let padNode = createPad(padWidth,padHeight)
       createPadButtons(padNode,horizontalOffset,verticalOffset)
       createSolutionSpaces(padNode,horizontalOffset)
@@ -124,7 +124,7 @@ AFRAME.registerComponent('codepuzzle', {
               console.error("Invalid pad position type")
               return
       }
-      AFRAME.scenes[0].emit('updateCodePuzzleActive', { codePuzzleActive:true })
+     
       return padNode
     },
     createPadButtons(padNode,horizontalOffset,verticalOffset){
@@ -227,7 +227,7 @@ AFRAME.registerComponent('codepuzzle', {
       const {el,camera,appState,closePad,onActivatePuzzle} = this
       const {activeBackgroundID,hoveringID,hoveringObject} = appState
       const {positionType, startEvents} = this.data
-      AFRAME.scenes[0].emit('updateCodePuzzleActive', { codePuzzleActive:false })
+
       switch (positionType) {
           case "look":
               el.sceneEl.removeChild(document.querySelector("#puzzlepad"))
@@ -251,9 +251,10 @@ AFRAME.registerComponent('codepuzzle', {
           else AFRAME.scenes[0].emit('updateHoveringObject', { hoveringObject: false})
       }
       this.userSolution = ""
-      this.solutionSpaces = []
-      if(!solved)
+      this.solutionSpaces.length = 0
+      AFRAME.scenes[0].emit('updateCodePuzzleActive', { codePuzzleActive:false })
+      if(solved)
         for(let i=0,n=startEvents.length; i<n; i++)
-          el.addEventListener(startEvents[i], onActivatePuzzle,{once:true})
+          el.removeEventListener(startEvents[i], onActivatePuzzle)
   },
   });

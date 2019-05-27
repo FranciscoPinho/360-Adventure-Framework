@@ -8,7 +8,7 @@ AFRAME.registerComponent('navigation-event-emitter', {
         this.clickNavigation = this.clickNavigation.bind(this)
     },
     play() {
-        this.el.addEventListener('click',this.clickNavigation,{once:true})
+        this.el.addEventListener('click',this.clickNavigation)
     },
     pause() {
         this.el.removeEventListener('click',this.clickNavigation)
@@ -18,27 +18,30 @@ AFRAME.registerComponent('navigation-event-emitter', {
         if(!el.sceneEl.is('vr-mode'))
             return;
         let appState = AFRAME.scenes[0].systems.state.state
-        console.log(appState)
-        if (appState.inventoryOpen || appState.dialogueOn || appState.cutscenePlaying || appState.codePuzzleActive || appState.exclusivePlaying) 
+        if (appState.inventoryOpen || appState.dialogueOn || appState.cutscenePlaying || appState.codePuzzleActive || appState.exclusivePlaying)
             return
-    
+        
+        el.removeEventListener('click',this.clickNavigation)
         const {destination,firstdestination,newURL}=this.data;
         if(newURL){
-            AFRAME.scenes[0].emit('changeURL',{newURL:newURL})
+            el.removeEventListener('click',this.clickNavigation)
+            AFRAME.scenes[0].emit('changeURL',{newURL:newURL}) 
             return
         }
+
         const eventDetail = {
             origin:this.el.parentNode,
             destinationURL:destination
         }
         
-        if(firstdestination){
+        if(firstdestination)
             if(!appState.flags[el.id]){
                 AFRAME.scenes[0].emit('addFlag', {flagKey: el.id, flagValue:"visited"});
                 eventDetail.destinationURL = firstdestination
                 AFRAME.scenes[0].emit('updateCutscenePlaying', {cutscenePlaying: true});
             }
-        }
+
         el.sceneEl.emit('clickNavigation',eventDetail,true)
+       
     }
   });
