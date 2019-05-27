@@ -53,9 +53,9 @@
                     "id":"sandpaper",
                     "class":"inter",
                     "gltf-model": "#sandpaper",
-                    "position": "-14.4 -70 145",
+                    "position": "0 -74 148",
                     "rotation":"-90 0 0",
-                    "scale": "100 100 100",
+                    "scale": "200 200 130",
                     "hoverable":{
                         "sfx":{
                             "sfxSrc": "#hover",
