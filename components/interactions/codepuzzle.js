@@ -221,7 +221,7 @@ AFRAME.registerComponent('codepuzzle', {
           solutionSpaces[i].setAttribute('text',{value:""})
       else
         for(let i=0,n=userSolution.length;i<n;i++)
-          solutionSpaces[solutionLen-1-i].setAttribute('text',{value:userSolution.charAt(userSolution.length-1-i),color:"#fff",width:4, xOffset:1.93})
+          solutionSpaces[solutionLen-1-i].setAttribute('text',{value:userSolution.charAt(userSolution.length-1-i),color:"#fff",width:4, xOffset:1.93, zOffset:0.1})
     },
     closePad(evt,solved=false) {
       const {el,camera,appState,closePad,onActivatePuzzle} = this

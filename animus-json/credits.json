@@ -46,8 +46,8 @@
                     "id":"actingname",
                     "position":"0 2 8",
                     "rotation":"180 0 0",
-                    "scale":"3 -3 3",  
-                    "value":"Antonio Baia",
+                    "scale":"2 -3 3",  
+                    "value":"Antonio Baia Reis",
                     "color":"#ddd"
 
                 }
@@ -191,7 +191,7 @@
                     "rotation":"0 -100 0",
                     "scale":"-3 3 3", 
                     "value":"Moody Lounge Jazz - Vodovoz",            
-                    "color":"#aaa"
+                    "color":"#000"
                 }       
             },
             {
@@ -202,7 +202,7 @@
                     "rotation":"0 -100 0",
                     "scale":"-3 3 3", 
                     "value":"minimalism 1 - Royalty Free World",            
-                    "color":"#aaa"
+                    "color":"#000"
                 }       
             }
         ]
