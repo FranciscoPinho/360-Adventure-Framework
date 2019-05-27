@@ -17,7 +17,7 @@
         {
             "transitionID":"unparalyzelocke",
             "on":[],
-            "delaySeconds":7,
+            "delaySeconds":9,
             "changeBackgroundSrc":{
               "newSrc":"#clarecatatonic",
               "cutscene":"false",

@@ -40,7 +40,7 @@
                 "chapter3bscene":"seen"
               }
             ],
-            "delaySeconds":2,
+            "delaySeconds":1,
             "injectFlatVideo":{
                 "id":"chap3b2dvid",
                 "src":"#chap3b2d",

@@ -25,10 +25,8 @@ AFRAME.registerComponent('video-player', {
         frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(sceneCamera.projectionMatrix, 
         sceneCamera.matrixWorldInverse));  
         let pos = el.getAttribute('position');
-        if (frustum.containsPoint(pos)){
+        if (frustum.containsPoint(pos))
           playVideo()
-          this.alreadyPlayed = true
-        }
         return
       }
       if(!this.data.endTime)
