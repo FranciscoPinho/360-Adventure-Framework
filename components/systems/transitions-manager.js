@@ -156,7 +156,7 @@ AFRAME.registerComponent('transitions-manager', {
             if(isVideo)
                 activeBackground.setAttribute('video-player',{cutscene:newBackground.cutscene,pauseBackgroundSong:newBackground.pauseBackgroundSong,playOnce:newBackground.playOnce,endTime:newBackground.endTime})
             let looping = newBackground["video-looper"]
-            if(looping)
+            if("video-looper" in newBackground)
                 activeBackground.setAttribute('video-looper',looping)
             AFRAME.scenes[0].emit('updateActiveBackground', {activeBackgroundSrc:newBackground.newSrc});
         }

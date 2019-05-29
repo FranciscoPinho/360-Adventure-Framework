@@ -1,6 +1,6 @@
 {
     "examineProjector":[
-        { "text": "This projector ain't working. It's missing the lens"}
+        { "text": "This projector ain't working. It's missing a part"}
     ],
     "fixProjector":[
         { "text": "It fits the projector like a glove" }

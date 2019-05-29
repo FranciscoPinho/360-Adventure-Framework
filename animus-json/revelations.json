@@ -20,11 +20,17 @@
             "delaySeconds":9,
             "changeBackgroundSrc":{
               "newSrc":"#clarecatatonic",
+              "cutscene":"false"
+            }
+        },
+        {
+            "transitionID":"loopclare",
+            "on":[],
+            "delaySeconds":64,
+            "changeBackgroundSrc":{
+              "newSrc":"#clarecatatonicloop",
               "cutscene":"false",
-              "video-looper":{
-                  "loopBegin":51,
-                  "loopEnd":58
-              }
+              "video-looper":""
             }
         },
         {
@@ -43,8 +49,8 @@
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"-3 1 -6",
-                "rotation":"0 -58 0"
+                "position":"14.155 1 -0.3",
+                "rotation":"0 -90 0"
             }
         },
         {
@@ -96,8 +102,8 @@
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"-3 1 -9",
-                "rotation":"0 -58 0"
+                "position":"14.155 1 -0.3",
+                "rotation":"0 -90 0"
             }
         },
         {
@@ -139,8 +145,8 @@
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"-3 1 -9",
-                "rotation":"0 -58 0"
+                "position":"14.155 1 -0.3",
+                "rotation":"0 -90 0"
             }
         },
         {
@@ -162,8 +168,8 @@
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"-3 1 -9",
-                "rotation":"0 -58 0"
+                "position":"14.155 1 -0.3",
+                "rotation":"0 -90 0"
             }
         },
         {
@@ -185,8 +191,8 @@
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"-3 1 -9",
-                "rotation":"0 -58 0"
+                "position":"14.155 1 -0.3",
+                "rotation":"0 -90 0"
             }
         },
         {
@@ -208,8 +214,8 @@
                 "width":6,
                 "height":3,
                 "scale":"1.5 1.5 1.5",
-                "position":"-3 1 -9",
-                "rotation":"0 -58 0"
+                "position":"14.155 1 -0.3",
+                "rotation":"0 -90 0"
             }
         },
         {
